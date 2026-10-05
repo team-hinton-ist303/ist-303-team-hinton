@@ -24,7 +24,7 @@ instance/
 .DS_Store
 
 #Proposal / Documentaion
-/proposal
+/proposal/*.docx
 
 #Project Guidelines
 /project-guidelines
