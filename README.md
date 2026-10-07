@@ -14,7 +14,7 @@ Noted! is a Flask web app for writing music one note at a time. You start a piec
 | BG | Beijia Gu |
 | RM | Ryan Miller |
 
-Each of us has about 10 hours a week for this project.
+Daniel, Varuzhan, Yalei, and Beijia each have about 10 hours a week for this project. Ryan has about 5 hours a week.
 
 ## Project Schedule
 
@@ -26,7 +26,7 @@ Each of us has about 10 hours a week for this project.
 
 | Iteration | Dates | Length |
 |---|---|---|
-| Iteration 1 | Thu Oct 1 – Wed Oct 14, 2026 | 2 weeks |
+| Iteration 1 | Tue Oct 6 – Wed Oct 14, 2026 | 9 days |
 | Iteration 2 | Thu Oct 15 – Wed Nov 11, 2026 | 4 weeks |
 | Milestone 1.0 demo | Thu Nov 12, 2026 | |
 
@@ -46,7 +46,7 @@ Our concept is in the [proposal](proposal/proposal.md). The short version: notat
 | Hobbyists and songwriters | Main users. They want to get a melody down quickly and come back to it later. |
 | Music teachers | Secondary users. Printing, sharing, and practice feedback (stretch goals) are mostly for them. |
 | Course instructor | Our "customer." Sets the requirements and grades each part of the project. |
-| Our team | We build it, and the plan has to fit about 10 hours a week each. |
+| Our team | We build it, and the plan has to fit our time: about 10 hours a week each (5 for Ryan). |
 | Classmates | The audience for our Milestone 1.0 demo. |
 | Library maintainers (Flask, music21, pytest, etc.) | We depend on their code, so changes or bugs on their end can affect us. |
 
@@ -63,8 +63,8 @@ Estimates are in ideal hours, meaning focused work time. Each story's estimate i
 | E-01 | [NTT-1](https://teamhinton.atlassian.net/browse/NTT-1) | Project foundation | Must | 16 | 1 |
 | US-01 | [NTT-3](https://teamhinton.atlassian.net/browse/NTT-3) | Register an account | Must | 8 | 1 |
 | US-02 | [NTT-4](https://teamhinton.atlassian.net/browse/NTT-4) | Log in and log out | Must | 9 | 1 |
-| US-03 | [NTT-5](https://teamhinton.atlassian.net/browse/NTT-5) | Create a composition | Must | 10 | 1 |
-| US-04 | [NTT-6](https://teamhinton.atlassian.net/browse/NTT-6) | Add notes one at a time | Must | 18 | 1 |
+| US-03 | [NTT-5](https://teamhinton.atlassian.net/browse/NTT-5) | Create a composition | Must | 10 | 2 (planned) |
+| US-04 | [NTT-6](https://teamhinton.atlassian.net/browse/NTT-6) | Add notes one at a time | Must | 18 | 2 (planned) |
 | US-05 | [NTT-8](https://teamhinton.atlassian.net/browse/NTT-8) | Add rests | Must | 5 | 2 (planned) |
 | SP-01 | [NTT-7](https://teamhinton.atlassian.net/browse/NTT-7) | Rendering spike | Must | 4 | 1 |
 | US-06 | [NTT-9](https://teamhinton.atlassian.net/browse/NTT-9) | See the sheet music | Must | 17 | 2 (planned) |
@@ -76,8 +76,8 @@ Estimates are in ideal hours, meaning focused work time. Each story's estimate i
 | US-12 | [NTT-15](https://teamhinton.atlassian.net/browse/NTT-15) | Keep my compositions private | Must | 6 | 2 (planned) |
 | US-13 | [NTT-16](https://teamhinton.atlassian.net/browse/NTT-16) | Play back my composition | Stretch | 14 | 2 (planned) |
 | US-14 | [NTT-17](https://teamhinton.atlassian.net/browse/NTT-17) | Export to PDF | Stretch | 10 | 2 (planned) |
-| US-15 | [NTT-18](https://teamhinton.atlassian.net/browse/NTT-18) | Use other clefs | Stretch | 14 | 2 (planned) |
-| US-16 | [NTT-19](https://teamhinton.atlassian.net/browse/NTT-19) | Share a composition | Stretch | 12 | 2 (planned) |
+| US-15 | [NTT-18](https://teamhinton.atlassian.net/browse/NTT-18) | Use other clefs | Stretch | 14 | Backlog |
+| US-16 | [NTT-19](https://teamhinton.atlassian.net/browse/NTT-19) | Share a composition | Stretch | 12 | Backlog |
 | US-17 | [NTT-20](https://teamhinton.atlassian.net/browse/NTT-20) | Transcribe a recording | Stretch | 40 | Backlog |
 | US-18 | [NTT-21](https://teamhinton.atlassian.net/browse/NTT-21) | Practice mode | Stretch | 36 | Backlog |
 
@@ -338,7 +338,7 @@ We split every story into tasks. Only iteration 1 tasks have owners for now. We 
 
 | Task | Description | Est. (hrs) | Owner |
 |---|---|---|---|
-| E-01-T1 | Set up GitHub repo, branch protection, Jira board, README skeleton | 2 | DA |
+| E-01-T1 | Set up GitHub repo, branch protection, Jira board, README skeleton | 2 | VS |
 | E-01-T2 | Create Flask app factory, config, and blueprints (auth, compositions, library) | 3 | DA |
 | E-01-T3 | Define SQLAlchemy models `User`, `Composition`, `Note` and an `init-db` command | 5 | YX |
 | E-01-T4 | Configure pytest + pytest-cov with fixtures (test client, in-memory DB, logged-in user) | 3 | YX |
@@ -348,9 +348,9 @@ We split every story into tasks. Only iteration 1 tasks have owners for now. We 
 
 | Task | Description | Est. (hrs) | Owner |
 |---|---|---|---|
-| US-01-T1 | Registration form template | 2 | RM |
-| US-01-T2 | Register route with validation (unique username/email, password rules) | 2 | DA |
-| US-01-T3 | Hash passwords with Werkzeug and save the user | 1 | DA |
+| US-01-T1 | Registration form template | 2 | BG |
+| US-01-T2 | Register route with validation (unique username/email, password rules) | 2 | BG |
+| US-01-T3 | Hash passwords with Werkzeug and save the user | 1 | BG |
 | US-01-T4 | Tests: success, duplicate user, bad input, password is hashed | 3 | RM |
 
 ### US-02: Log in and log out (9 hours)
@@ -361,27 +361,27 @@ We split every story into tasks. Only iteration 1 tasks have owners for now. We 
 | US-02-T2 | Login form and route with error message | 2 | DA |
 | US-02-T3 | Logout route and nav bar that changes when logged in | 1 | DA |
 | US-02-T4 | Apply `@login_required` to all composition and library routes | 1 | DA |
-| US-02-T5 | Tests: good login, bad login, logout, protected-page redirect | 3 | RM |
+| US-02-T5 | Tests: good login, bad login, logout, protected-page redirect | 3 | BG |
 
 ### US-03: Create a composition (10 hours)
 
 | Task | Description | Est. (hrs) | Owner |
 |---|---|---|---|
-| US-03-T1 | New-composition form (title, key, time signature, tempo) | 3 | BG |
-| US-03-T2 | Create route: validate and save the composition with the current user as owner | 2 | YX |
-| US-03-T3 | Composition editor page shell (header, staff area, note-entry area) | 3 | VS |
-| US-03-T4 | Tests: valid create, missing title, tempo out of range, owner is set | 2 | RM |
+| US-03-T1 | New-composition form (title, key, time signature, tempo) | 3 | TBD |
+| US-03-T2 | Create route: validate and save the composition with the current user as owner | 2 | TBD |
+| US-03-T3 | Composition editor page shell (header, staff area, note-entry area) | 3 | TBD |
+| US-03-T4 | Tests: valid create, missing title, tempo out of range, owner is set | 2 | TBD |
 
 ### US-04: Add notes one at a time (18 hours)
 
 | Task | Description | Est. (hrs) | Owner |
 |---|---|---|---|
-| US-04-T1 | Note ordering and storage logic (position index per composition) | 3 | BG |
-| US-04-T2 | Note-entry palette UI: pitch, octave, duration, accidental buttons | 5 | VS |
-| US-04-T3 | Add-note route that appends to the composition | 2 | YX |
-| US-04-T4 | Treble-clef range validation (A3–C6) | 2 | RM |
-| US-04-T5 | Service that converts a composition to a music21 Stream | 3 | BG |
-| US-04-T6 | Tests: add note, order kept, out-of-range rejected, music21 conversion | 3 | BG |
+| US-04-T1 | Note ordering and storage logic (position index per composition) | 3 | TBD |
+| US-04-T2 | Note-entry palette UI: pitch, octave, duration, accidental buttons | 5 | TBD |
+| US-04-T3 | Add-note route that appends to the composition | 2 | TBD |
+| US-04-T4 | Treble-clef range validation (A3–C6) | 2 | TBD |
+| US-04-T5 | Service that converts a composition to a music21 Stream | 3 | TBD |
+| US-04-T6 | Tests: add note, order kept, out-of-range rejected, music21 conversion | 3 | TBD |
 
 ### US-05: Add rests (5 hours)
 
@@ -397,7 +397,7 @@ We split every story into tasks. Only iteration 1 tasks have owners for now. We 
 | Task | Description | Est. (hrs) | Owner |
 |---|---|---|---|
 | SP-01-T1 | Try music21 with LilyPond/MuseScore SVG export | 2 | VS |
-| SP-01-T2 | Prototype a custom SVG staff with a few notes in Python | 1 | RM |
+| SP-01-T2 | Prototype a custom SVG staff with a few notes in Python | 1 | BG |
 | SP-01-T3 | Write up the decision and install steps in docs/rendering-spike.md | 1 | VS |
 
 ### US-06: See the sheet music (17 hours)
@@ -526,24 +526,24 @@ We split every story into tasks. Only iteration 1 tasks have owners for now. We 
 
 ## 5. Iteration 1 Plan
 
-Iteration 1 runs Oct 1 to Oct 14 (2 weeks) and ends at the Part B deadline. Iteration 2 runs Oct 15 to Nov 11 (4 weeks). We demo Milestone 1.0 on Nov 12.
+Iteration 1 runs Oct 6 to Oct 14 (9 days) and ends at the Part B deadline. Iteration 2 runs Oct 15 to Nov 11 (4 weeks). We demo Milestone 1.0 on Nov 12.
 
 ### Velocity and capacity
 
 | | |
 |---|---|
 | Team members | 5 |
-| Hours per member per week | 10 |
-| Weeks per iteration | 2 |
-| Available hours (5 × 10 × 2) | 100 |
+| Hours per week | 10 each (Ryan: 5) = 45 total |
+| Length of iteration 1 | 9 days (about 1.3 weeks) |
+| Available hours (45 × 9/7) | 58 |
 | Velocity (first iteration, no history yet) | 0.7 |
-| Capacity (100 × 0.7) | 70 ideal hours |
-| Planned for iteration 1 | 65 ideal hours |
-| Buffer | 5 hours |
+| Capacity (58 × 0.7) | 40 ideal hours |
+| Planned for iteration 1 | 37 ideal hours |
+| Buffer | 3 hours |
 
-This is our first iteration, so we do not have a measured velocity yet. We are using 0.7, which assumes about 30% of our time goes to meetings, code reviews, setup issues, and learning Flask and music21. That gives us 70 hours of task work for the two weeks.
+This is our first iteration, so we do not have a measured velocity yet. We are using 0.7, which assumes about 30% of our time goes to meetings, code reviews, setup issues, and learning Flask and music21. That gives us 40 hours of task work for the 9 days.
 
-US-06 (drawing the sheet music) is our riskiest story, but at 17 hours it did not fit alongside the basics. So we added a small 4-hour spike (SP-01) to try out rendering options now, and moved My Library (US-10) to iteration 2 to make room. That way we can start US-06 right away in iteration 2. When iteration 1 is done, we will work out our actual velocity and use it to plan iteration 2.
+We first planned a two-week sprint starting Oct 1, but we started on Oct 6, which leaves 9 days before the Part B deadline. Our 6 planned stories came to 65 hours, so we kept the project setup (E-01), register (US-01), log in (US-02), and the rendering spike (SP-01), and moved create a composition (US-03) and add notes (US-04) to iteration 2. We kept SP-01 because US-06 (drawing the sheet music) is our riskiest story, and the spike lets us start it in iteration 2 with an approach we have already tested. That brings iteration 1 to 37 hours, with 3 hours of buffer. When iteration 1 is done, we will work out our actual velocity and use it to plan iteration 2.
 
 ### Stories in iteration 1
 
@@ -552,17 +552,17 @@ US-06 (drawing the sheet music) is our riskiest story, but at 17 hours it did no
 | E-01 | Project foundation | 16 |
 | US-01 | Register an account | 8 |
 | US-02 | Log in and log out | 9 |
-| US-03 | Create a composition | 10 |
-| US-04 | Add notes one at a time | 18 |
 | SP-01 | Rendering spike | 4 |
-| | Total | 65 |
+| | Total | 37 |
 
-Goal for iteration 1: a user can register, log in, create a piece, and add notes to it. We also want to have decided how we will draw the sheet music. That gives us working code and tests to show for Part B.
+Goal for iteration 1: the project skeleton and tests are set up, a user can register and log in, and we have decided how we will draw the sheet music. That gives us working code and tests to show for Part B.
 
 ### Draft iteration 2 plan (we will revise this in Part B)
 
 | ID | Story | Priority | Estimate (hrs) |
 |---|---|---|---|
+| US-03 | Create a composition | Must | 10 |
+| US-04 | Add notes one at a time | Must | 18 |
 | US-05 | Add rests | Must | 5 |
 | US-06 | See the sheet music | Must | 17 |
 | US-10 | My Library: list and open | Must | 8 |
@@ -573,68 +573,56 @@ Goal for iteration 1: a user can register, log in, create a piece, and add notes
 | US-12 | Keep my compositions private | Must | 6 |
 | US-13 | Play back my composition | Stretch | 14 |
 | US-14 | Export to PDF | Stretch | 10 |
-| US-15 | Use other clefs | Stretch | 14 |
-| US-16 | Share a composition | Stretch | 12 |
-| | Total | | 112 |
+| | Total | | 114 |
 
-Iteration 2 is four weeks, so we have 200 hours, or 140 at a velocity of 0.7. This draft uses 112, which leaves some room for anything left over from iteration 1 and for getting the presentation ready. US-06 comes first since the demo depends on it. If we are slower than expected, the stretch stories get cut first. Transcription (US-17) and practice mode (US-18) are saved for a possible Milestone 2.0.
+Iteration 2 is four weeks, so we have 180 hours, or 126 at a velocity of 0.7. This draft uses 114, which leaves about 12 hours for anything left over from iteration 1 and for getting the presentation ready. US-03, US-04, and US-06 come first because the demo depends on them. To make room for the stories moved from iteration 1, we moved two stretch stories, other clefs (US-15) and sharing (US-16), to the backlog. If we are slower than expected, playback (US-13) and PDF export (US-14) get cut next. US-15 through US-18 are saved for a possible Milestone 2.0.
 
 ## 6. Iteration 1 Task Allocation
 
-With 70 hours of capacity, that comes to about 14 hours each.
+With 40 hours of capacity, that comes to about 9 hours each for Daniel, Varuzhan, Yalei, and Beijia, and 4 for Ryan. Varuzhan took over the repo setup task (E-01-T1), but Daniel still has to change the repo settings because the repo is under his account.
 
 | Member | Focus | Tasks | Total (hrs) |
 |---|---|---|---|
-| Daniel Abalusi (DA) | Repo setup, Flask skeleton, accounts and login | E-01-T1, E-01-T2, US-01-T2, US-01-T3, US-02-T1, US-02-T2, US-02-T3, US-02-T4 | 14 |
-| Varuzhan Shahidzadeh (VS) | Base layout, editor page, note palette, rendering spike (music21 test, write-up) | E-01-T5, US-03-T3, US-04-T2, SP-01-T1, SP-01-T3 | 14 |
-| Yalei Xu (YX) | Database models, test setup, data routes | E-01-T3, E-01-T4, US-03-T2, US-04-T3 | 12 |
-| Beijia Gu (BG) | Composition form, note storage, music21 conversion | US-03-T1, US-04-T1, US-04-T5, US-04-T6 | 12 |
-| Ryan Miller (RM) | Test lead: registration form, story tests, note-range validation, SVG staff prototype | US-01-T1, US-01-T4, US-02-T5, US-03-T4, US-04-T4, SP-01-T2 | 13 |
-| Total | | | 65 |
+| Daniel Abalusi (DA) | Flask skeleton, log in and log out | E-01-T2, US-02-T1, US-02-T2, US-02-T3, US-02-T4 | 9 |
+| Varuzhan Shahidzadeh (VS) | Repo and Jira setup, base layout, rendering spike (music21 test, write-up) | E-01-T1, E-01-T5, SP-01-T1, SP-01-T3 | 8 |
+| Yalei Xu (YX) | Database models, test setup | E-01-T3, E-01-T4 | 8 |
+| Beijia Gu (BG) | Registration form and route, login tests, SVG staff prototype | US-01-T1, US-01-T2, US-01-T3, US-02-T5, SP-01-T2 | 9 |
+| Ryan Miller (RM) | Registration tests | US-01-T4 | 3 |
+| Total | | | 37 |
 
 ### Detailed allocation
 
-**Daniel Abalusi (DA): 14 hours**
+**Daniel Abalusi (DA): 9 hours**
 
-- E-01-T1: Set up GitHub repo, branch protection, Jira board, README skeleton (2 hours)
 - E-01-T2: Create Flask app factory, config, and blueprints (auth, compositions, library) (3 hours)
-- US-01-T2: Register route with validation (unique username/email, password rules) (2 hours)
-- US-01-T3: Hash passwords with Werkzeug and save the user (1 hours)
 - US-02-T1: Integrate Flask-Login and the user loader (2 hours)
 - US-02-T2: Login form and route with error message (2 hours)
 - US-02-T3: Logout route and nav bar that changes when logged in (1 hours)
 - US-02-T4: Apply `@login_required` to all composition and library routes (1 hours)
 
-**Varuzhan Shahidzadeh (VS): 14 hours**
+**Varuzhan Shahidzadeh (VS): 8 hours**
 
+- E-01-T1: Set up GitHub repo, branch protection, Jira board, README skeleton (2 hours)
 - E-01-T5: Build base Jinja layout: nav bar, flash messages, CSS (3 hours)
-- US-03-T3: Composition editor page shell (header, staff area, note-entry area) (3 hours)
-- US-04-T2: Note-entry palette UI: pitch, octave, duration, accidental buttons (5 hours)
 - SP-01-T1: Try music21 with LilyPond/MuseScore SVG export (2 hours)
 - SP-01-T3: Write up the decision and install steps in docs/rendering-spike.md (1 hours)
 
-**Yalei Xu (YX): 12 hours**
+**Yalei Xu (YX): 8 hours**
 
 - E-01-T3: Define SQLAlchemy models `User`, `Composition`, `Note` and an `init-db` command (5 hours)
 - E-01-T4: Configure pytest + pytest-cov with fixtures (test client, in-memory DB, logged-in user) (3 hours)
-- US-03-T2: Create route: validate and save the composition with the current user as owner (2 hours)
-- US-04-T3: Add-note route that appends to the composition (2 hours)
 
-**Beijia Gu (BG): 12 hours**
-
-- US-03-T1: New-composition form (title, key, time signature, tempo) (3 hours)
-- US-04-T1: Note ordering and storage logic (position index per composition) (3 hours)
-- US-04-T5: Service that converts a composition to a music21 Stream (3 hours)
-- US-04-T6: Tests: add note, order kept, out-of-range rejected, music21 conversion (3 hours)
-
-**Ryan Miller (RM): 13 hours**
+**Beijia Gu (BG): 9 hours**
 
 - US-01-T1: Registration form template (2 hours)
-- US-01-T4: Tests: success, duplicate user, bad input, password is hashed (3 hours)
+- US-01-T2: Register route with validation (unique username/email, password rules) (2 hours)
+- US-01-T3: Hash passwords with Werkzeug and save the user (1 hours)
 - US-02-T5: Tests: good login, bad login, logout, protected-page redirect (3 hours)
-- US-03-T4: Tests: valid create, missing title, tempo out of range, owner is set (2 hours)
-- US-04-T4: Treble-clef range validation (A3–C6) (2 hours)
 - SP-01-T2: Prototype a custom SVG staff with a few notes in Python (1 hours)
+
+**Ryan Miller (RM): 3 hours**
+
+- US-01-T4: Tests: success, duplicate user, bad input, password is hashed (3 hours)
 
 ### How we will work
 
