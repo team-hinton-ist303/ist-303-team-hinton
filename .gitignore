@@ -28,3 +28,9 @@ instance/
 
 #Project Guidelines
 /project-guidelines
+
+# Pytest coverage reports
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
