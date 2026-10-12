@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Noted!{% endblock %}{% if self.title() != "Noted!" %} · Noted!{% endif %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  {#- Flask-Login is set up in US-02-T1 (NTT-30). Until then current_user
+      doesn't exist, so treat everyone as logged out. -#}
+  {% set logged_in = current_user is defined and current_user.is_authenticated %}
+
+  <header class="site-header">
+    <nav class="nav container" aria-label="Main">
+      <a class="brand" href="/">Noted<span class="brand-mark">!</span></a>
+
+      {#- Plain paths for now. Switch to url_for() once each route exists. -#}
+      <ul class="nav-links">
+        {% if logged_in %}
+          <li><a href="/library/" {% if request.path.startswith('/library') %}aria-current="page"{% endif %}>My Library</a></li>
+          <li><a href="/compositions/new" {% if request.path.startswith('/compositions') %}aria-current="page"{% endif %}>New piece</a></li>
+        {% endif %}
+      </ul>
+
+      <ul class="nav-links nav-account">
+        {% if logged_in %}
+          <li class="nav-user">{{ current_user.username }}</li>
+          <li><a href="/auth/logout">Log out</a></li>
+        {% else %}
+          <li><a href="/auth/login" {% if request.path == '/auth/login' %}aria-current="page"{% endif %}>Log in</a></li>
+          <li><a class="btn btn-primary btn-small" href="/auth/register">Register</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flashes">
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}" role="alert">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">Noted! · IST 303 Team Hinton</div>
+  </footer>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>
