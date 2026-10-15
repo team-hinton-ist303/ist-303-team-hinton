@@ -1,8 +1,10 @@
 
 import re
 
-from flask import Blueprint, render_template, request
-from models import User
+from flask import Blueprint, render_template, request,redirect
+from flask_login import login_user
+from models import User, db
+from werkzeug.security import generate_password_hash
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
@@ -32,8 +34,17 @@ def register():
     if error:
         return render_template("auth/register.html", error=error), 200
 
-    # NTT-28 will save the user and log them in.
-    return render_template(
-        "auth/register.html",
-        error="Registration is not finished yet."
-    ), 200
+    
+    hashed_password = generate_password_hash(password)
+
+    new_user = User(
+        username=username,
+        email=email,
+        password_hash=hashed_password
+    )
+
+    db.session.add(new_user)
+    db.session.commit()
+    login_user(new_user)
+   
+    return redirect("/")

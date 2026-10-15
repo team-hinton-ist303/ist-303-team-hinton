@@ -1,5 +1,6 @@
 import os
-
+from flask_login import LoginManager
+from models import User
 from flask import Flask
 from config import Config
 from models import db
@@ -15,8 +16,18 @@ def create_app(test_config=None):
 
     os.makedirs(app.instance_path, exist_ok=True)
 
+   
     db.init_app(app)
+
+    login_manager = LoginManager()
+    login_manager.init_app(app)
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return db.session.get(User, int(user_id))
+
     register_db_commands(app)
+
 
     from auth import bp as auth_bp
     from compositions import bp as compositions_bp
