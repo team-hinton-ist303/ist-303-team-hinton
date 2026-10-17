@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}{{ composition.title }}{% endblock %}
+
+{% block content %}
+<div class="editor">
+
+  {% if preview %}
+    <p class="preview-banner">Preview with sample data. Saving notes arrives with NTT-41.</p>
+  {% endif %}
+
+  {# ---- Header ------------------------------------------------------- #}
+  <header class="editor-header">
+    <div>
+      <h1 class="editor-title">{{ composition.title }}</h1>
+      <ul class="editor-meta">
+        <li>{{ composition.key_signature }}</li>
+        <li>{{ composition.time_signature }}</li>
+        <li>&#9833; = {{ composition.tempo }}</li>
+      </ul>
+    </div>
+    <a class="btn btn-small" href="#" aria-disabled="true">Edit details</a>
+  </header>
+
+  {# ---- Staff area: Verovio SVG goes here in US-06 ------------------ #}
+  <section class="staff-area card" id="staff-area" aria-label="Sheet music">
+    {% if composition.notes %}
+      <div class="staff-placeholder"><span>Sheet music appears here (US-06).</span></div>
+      <ol class="note-list" aria-label="Notes in order">
+        {% for n in composition.notes %}
+          <li class="note-chip">
+            {%- if n.is_rest -%}
+              Rest
+            {%- else -%}
+              {{ n.pitch }}{% if n.accidental == 'sharp' %}&#9839;{% elif n.accidental == 'flat' %}&#9837;{% endif %}{{ n.octave }}
+            {%- endif %}
+            <span class="note-chip-duration">{{ n.duration }}</span>
+          </li>
+        {% endfor %}
+      </ol>
+    {% else %}
+      <div class="staff-empty">
+        <p><strong>No notes yet.</strong></p>
+        <p>Pick a pitch, octave and length below, then press <em>Add note</em>.</p>
+      </div>
+    {% endif %}
+  </section>
+
+  {# ---- Note entry: layout only; NTT-40 adds behaviour, NTT-41 saves -- #}
+  <section class="note-entry card" aria-label="Add a note">
+    {# action will point at the add-note route from NTT-41 #}
+    <form class="note-form" method="post" action="">
+
+      <fieldset class="choice-group">
+        <legend>Pitch</legend>
+        {% for p in pitches %}
+          <input class="choice-input" type="radio" name="pitch" id="pitch-{{ p }}" value="{{ p }}" {% if loop.first %}checked{% endif %}>
+          <label class="choice" for="pitch-{{ p }}">{{ p }}</label>
+        {% endfor %}
+      </fieldset>
+
+      <fieldset class="choice-group">
+        <legend>Octave</legend>
+        {% for o in octaves %}
+          <input class="choice-input" type="radio" name="octave" id="octave-{{ o }}" value="{{ o }}" {% if o == 4 %}checked{% endif %}>
+          <label class="choice" for="octave-{{ o }}">{{ o }}</label>
+        {% endfor %}
+      </fieldset>
+
+      <fieldset class="choice-group">
+        <legend>Length</legend>
+        {% for value, label in durations %}
+          <input class="choice-input" type="radio" name="duration" id="duration-{{ value }}" value="{{ value }}" {% if value == 'quarter' %}checked{% endif %}>
+          <label class="choice" for="duration-{{ value }}">{{ label }}</label>
+        {% endfor %}
+      </fieldset>
+
+      <fieldset class="choice-group">
+        <legend>Accidental</legend>
+        {% for value, symbol, label in accidentals %}
+          <input class="choice-input" type="radio" name="accidental" id="accidental-{{ label|lower }}" value="{{ value }}" {% if loop.first %}checked{% endif %}>
+          <label class="choice choice-symbol" for="accidental-{{ label|lower }}" title="{{ label }}" aria-label="{{ label }}">{{ symbol }}</label>
+        {% endfor %}
+      </fieldset>
+
+      <div class="note-form-actions">
+        <label class="rest-toggle">
+          <input type="checkbox" name="is_rest" value="1"> Rest instead of a note
+        </label>
+        <button class="btn btn-primary" type="submit" {% if preview %}disabled title="Saving notes arrives with NTT-41"{% endif %}>Add note</button>
+      </div>
+    </form>
+  </section>
+
+</div>
+{% endblock %}
