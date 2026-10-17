@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, render_template
 from config import Config
 from models import db
 from db_cli import register_db_commands
@@ -25,6 +25,10 @@ def create_app(test_config=None):
     app.register_blueprint(auth_bp)
     app.register_blueprint(compositions_bp)
     app.register_blueprint(library_bp)
+
+    @app.get("/")
+    def index():
+        return render_template("index.html")
 
     @app.get("/health")
     def health():
