@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="hero">
+    <h1>Write music one note at a time.</h1>
+    <p class="lead">Pick a pitch and a length, add it to your piece, and watch the sheet music build as you go.</p>
+
+    {% if current_user is defined and current_user.is_authenticated %}
+      <a class="btn btn-primary" href="/library/">Go to My Library</a>
+    {% else %}
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="/auth/register">Create an account</a>
+        <a class="btn" href="/auth/login">Log in</a>
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}
