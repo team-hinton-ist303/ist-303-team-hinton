@@ -18,7 +18,8 @@ def create_app(test_config=None):
     db.init_app(app)
     register_db_commands(app)
 
-    from auth import bp as auth_bp
+    from auth import bp as auth_bp, login_manager
+    login_manager.init_app(app)
     from compositions import bp as compositions_bp
     from library import bp as library_bp
 

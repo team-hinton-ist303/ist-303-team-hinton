@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}My Library{% endblock %}
+
+{% block content %}
+<h1>My Library</h1>
+
+{% for composition in compositions %}
+<article class="card">
+    <h2>{{ composition.title }}</h2>
+    <p>
+        Key: {{ composition.key_signature }}
+        · Time: {{ composition.time_signature }}
+        · Tempo: {{ composition.tempo }} BPM
+    </p>
+</article>
+{% else %}
+<p>You have no compositions yet.</p>
+{% endfor %}
+{% endblock %}
