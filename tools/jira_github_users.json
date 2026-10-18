@@ -1,0 +1,8 @@
+{
+  "_comment": "Jira accountId -> GitHub username. Used by tools/sync_jira_reviewer.py. Add a line when someone joins.",
+  "712020:d9371eb3-c6f2-4f17-8fef-fd053f2422a4": "dabalus",
+  "712020:3b2cc388-114e-4847-9b0e-db668a0541ca": "AaronXu2026",
+  "712020:5c7acec3-e03a-4ea9-8508-50f1c48166b8": "bjkf908-bit",
+  "712020:6d9ed214-d49e-42c0-87f3-9e29f03fff7f": "Ry-Mill66",
+  "5d154ddbb4aa340bcfea74ec": "VShahidzadeh"
+}

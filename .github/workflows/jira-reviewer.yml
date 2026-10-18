@@ -1,0 +1,28 @@
+# When a PR is opened (or marked ready for review), request the person in the
+# Jira task's "Reviewer" field as the GitHub reviewer. See tools/sync_jira_reviewer.py.
+name: Jira reviewer sync
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  request-reviewer:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Request Jira reviewer on GitHub
+        env:
+          JIRA_BASE_URL: https://teamhinton.atlassian.net
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python tools/sync_jira_reviewer.py
