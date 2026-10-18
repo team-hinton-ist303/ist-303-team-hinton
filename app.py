@@ -1,7 +1,6 @@
 import os
-from flask_login import LoginManager
-from models import User
-from flask import Flask
+
+from flask import Flask, render_template
 from config import Config
 from models import db
 from db_cli import register_db_commands
@@ -16,26 +15,21 @@ def create_app(test_config=None):
 
     os.makedirs(app.instance_path, exist_ok=True)
 
-   
     db.init_app(app)
-
-    login_manager = LoginManager()
-    login_manager.init_app(app)
-
-    @login_manager.user_loader
-    def load_user(user_id):
-        return db.session.get(User, int(user_id))
-
     register_db_commands(app)
 
-
-    from auth import bp as auth_bp
+    from auth import bp as auth_bp, login_manager
+    login_manager.init_app(app)
     from compositions import bp as compositions_bp
     from library import bp as library_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(compositions_bp)
     app.register_blueprint(library_bp)
+
+    @app.get("/")
+    def index():
+        return render_template("index.html")
 
     @app.get("/health")
     def health():
