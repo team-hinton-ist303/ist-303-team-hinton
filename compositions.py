@@ -1,6 +1,7 @@
 from types import SimpleNamespace
 
 from flask import Blueprint, render_template
+from flask_login import login_required
 
 bp = Blueprint("compositions", __name__, url_prefix="/compositions")
 
@@ -34,5 +35,6 @@ def render_editor(composition, preview=False):
 
 # TEMPORARY (NTT-37): Remove once /compositions/<id> exists (NTT-36) and point it at render_editor().
 @bp.get("/preview")
+@login_required
 def editor_preview():
     return render_editor(sample_composition(), preview=True)
