@@ -1,6 +1,12 @@
+
+import re
+
 from flask import Blueprint, redirect, render_template, request, session, url_for
-from flask_login import LoginManager, current_user, login_user
-from werkzeug.security import check_password_hash
+
+from flask_login import (
+    LoginManager, current_user, login_required, login_user, logout_user
+)
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from models import User, db
 
@@ -19,6 +25,8 @@ def load_user(user_id):
 
     return db.session.get(User, user_id)
 
+
+# Login route (from main)
 
 @bp.route("/login", methods=["GET", "POST"])
 def login():
@@ -50,3 +58,53 @@ def login():
         error=error,
         username=username,
     )
+
+
+# Registration route (NTT-27 and NTT-28)
+
+@bp.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "GET":
+        return render_template("auth/register.html")
+
+    username = request.form.get("username", "").strip()
+    email = request.form.get("email", "").strip()
+    password = request.form.get("password", "")
+
+    error = None
+
+    if not username or not email or not password:
+        error = "All fields are required."
+    elif not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email):
+        error = "Please enter a valid email address."
+    elif len(password) < 8:
+        error = "Password must be at least 8 characters."
+    elif User.query.filter_by(username=username).first():
+        error = "Username already exists."
+    elif User.query.filter_by(email=email).first():
+        error = "Email already exists."
+
+    if error:
+        return render_template("auth/register.html", error=error), 200
+
+    hashed_password = generate_password_hash(password)
+
+    new_user = User(
+        username=username,
+        email=email,
+        password_hash=hashed_password
+    )
+
+    db.session.add(new_user)
+    db.session.commit()
+
+    login_user(new_user)
+
+    return redirect("/")
+
+@bp.post("/logout")
+@login_required
+def logout():
+    logout_user()
+    session.clear()
+    return redirect("/")
