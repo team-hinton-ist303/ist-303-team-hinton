@@ -182,5 +182,6 @@ def render_editor(composition, preview=False):
 
 # Keep the sample preview available for existing editor tests.
 @bp.get("/preview")
+@login_required
 def editor_preview():
     return render_editor(sample_composition(), preview=True)

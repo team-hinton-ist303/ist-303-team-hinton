@@ -2,21 +2,41 @@
 from types import SimpleNamespace
 
 import pytest
+from werkzeug.security import generate_password_hash
 
 from compositions import render_editor, sample_composition
+from models import User, db
 
 PREVIEW_URL = "/compositions/preview"
 
 
 @pytest.fixture
-def html(client):
-    response = client.get(PREVIEW_URL)
+def logged_in_client(client):
+    """The preview page requires login (NTT-33). A client logged in as user "tester". Can switch to the shared fixture once NTT-111 lands."""
+    db.session.add(User(
+        username="tester",
+        email="tester@example.com",
+        password_hash=generate_password_hash("test-password"),
+    ))
+    db.session.commit()
+
+    response = client.post(
+        "/auth/login",
+        data={"username": "tester", "password": "test-password"},
+    )
+    assert response.status_code == 302
+    return client
+
+
+@pytest.fixture
+def html(logged_in_client):
+    response = logged_in_client.get(PREVIEW_URL)
     assert response.status_code == 200
     return response.get_data(as_text=True)
 
 
-def test_preview_page_loads(client):
-    assert client.get(PREVIEW_URL).status_code == 200
+def test_preview_page_loads(logged_in_client):
+    assert logged_in_client.get(PREVIEW_URL).status_code == 200
 
 
 def test_editor_uses_base_layout(html):
