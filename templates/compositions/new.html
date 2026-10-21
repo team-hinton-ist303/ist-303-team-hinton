@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}New piece{% endblock %}
+
+{% block content %}
+<div class="new-piece">
+  <h1>Start a new piece</h1>
+  <p class="lead">Choose a title, key, time signature and tempo. You can add notes next.</p>
+
+  {% if errors %}
+    <div class="flash flash-error" role="alert">Please fix the highlighted fields below.</div>
+  {% endif %}
+
+  <form class="form form-wide" method="post" action="{{ url_for('compositions.new') }}" novalidate>
+
+    <div class="form-field{% if errors.title %} has-error{% endif %}">
+      <label for="title">Title</label>
+      <input id="title" name="title" type="text" value="{{ values.title }}"
+             maxlength="{{ title_max }}" required autofocus
+             placeholder="Noted Bee Bop"
+             {% if errors.title %}aria-invalid="true" aria-describedby="title-error"{% endif %}>
+      {% if errors.title %}<p class="field-error" id="title-error">{{ errors.title }}</p>{% endif %}
+    </div>
+
+    <div class="form-field{% if errors.key_signature %} has-error{% endif %}">
+      <label for="key_signature">Key</label>
+      <select id="key_signature" name="key_signature"
+              {% if errors.key_signature %}aria-invalid="true" aria-describedby="key-error"{% endif %}>
+        {% for value, label in key_signatures %}
+          <option value="{{ value }}" {% if value == values.key_signature %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+      {% if errors.key_signature %}<p class="field-error" id="key-error">{{ errors.key_signature }}</p>{% endif %}
+    </div>
+
+    <fieldset class="form-field choice-group choice-group-stacked{% if errors.time_signature %} has-error{% endif %}">
+      <legend>Time signature</legend>
+      {% for ts in time_signatures %}
+        {% set ts_id = 'ts-' ~ ts|replace('/', '-') %}
+        <input class="choice-input" type="radio" name="time_signature" id="{{ ts_id }}" value="{{ ts }}"
+               {% if ts == values.time_signature %}checked{% endif %}>
+        <label class="choice" for="{{ ts_id }}">{{ ts }}</label>
+      {% endfor %}
+      {% if errors.time_signature %}<p class="field-error">{{ errors.time_signature }}</p>{% endif %}
+    </fieldset>
+
+    <div class="form-field{% if errors.tempo %} has-error{% endif %}">
+      <label for="tempo">Tempo <span class="field-hint">(beats per minute, {{ tempo_min }}–{{ tempo_max }})</span></label>
+      <input id="tempo" name="tempo" type="number" inputmode="numeric"
+             min="{{ tempo_min }}" max="{{ tempo_max }}" step="1" value="{{ values.tempo }}" required
+             {% if errors.tempo %}aria-invalid="true" aria-describedby="tempo-error"{% endif %}>
+      {% if errors.tempo %}<p class="field-error" id="tempo-error">{{ errors.tempo }}</p>{% endif %}
+    </div>
+
+    <div class="form-actions">
+      <a class="btn" href="/library/">Cancel</a>
+      <button class="btn btn-primary" type="submit">Create piece</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
