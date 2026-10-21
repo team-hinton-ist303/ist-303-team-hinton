@@ -36,7 +36,7 @@ Daniel, Varuzhan, Yalei, and Beijia each have about 10 hours a week for this pro
 
 ## 1. Concept
 
-Our concept is in the [proposal](proposal/proposal.md). The short version: notation programs like Sibelius and Finale cost a lot and take time to learn, and the quick options (staff paper, voice memos, letter names typed into a notes app) are hard to edit or share. Noted! lets you enter music note by note and see it as sheet music. For Milestone 1.0 we are sticking to a single treble-clef staff. Playback, PDF export, other clefs, sharing, audio transcription, and a practice mode are stretch goals.
+Our concept is in the [proposal](proposal/proposal.md). The short version: notation programs like Sibelius and Finale cost a lot and take time to learn, and the quick options (staff paper, voice memos, letter names typed into a notes app) are hard to edit or share. Noted! lets you enter music note by note and see it as sheet music. For **Milestone 1.0** we are sticking to a single treble-clef staff. Playback, PDF export, other clefs, sharing, audio transcription, and a practice mode are **stretch goals**.
 
 ## 2. Stakeholders
 
@@ -46,7 +46,7 @@ Our concept is in the [proposal](proposal/proposal.md). The short version: notat
 | Hobbyists and songwriters | Main users. They want to get a melody down quickly and come back to it later. |
 | Music teachers | Secondary users. Printing, sharing, and practice feedback (stretch goals) are mostly for them. |
 | Course instructor | Our "customer." Sets the requirements and grades each part of the project. |
-| Our team | We build it, and the plan has to fit our time: about 10 hours a week each (5 for Ryan). |
+| Our team | We build it, and the plan has to fit our time: about 10 hours a week each (5 for Ryan in Part A, 10 from Oct 19). |
 | Classmates | The audience for our Milestone 1.0 demo. |
 | Library maintainers (Flask, music21, pytest, etc.) | We depend on their code, so changes or bugs on their end can affect us. |
 
@@ -58,30 +58,30 @@ Estimates are in ideal hours, meaning focused work time. Each story's estimate i
 
 ### Summary
 
-| ID | Jira | Story | Priority | Estimate (hrs) | Iteration |
+| ID | Jira | Story | Priority | Estimate (hrs) | Sprint |
 |---|---|---|---|---|---|
 | E-01 | [NTT-1](https://teamhinton.atlassian.net/browse/NTT-1) | Project foundation | Must | 16 | 1 |
 | US-01 | [NTT-3](https://teamhinton.atlassian.net/browse/NTT-3) | Register an account | Must | 8 | 1 |
 | US-02 | [NTT-4](https://teamhinton.atlassian.net/browse/NTT-4) | Log in and log out | Must | 9 | 1 |
-| US-03 | [NTT-5](https://teamhinton.atlassian.net/browse/NTT-5) | Create a composition | Must | 10 | 2 (planned) |
-| US-04 | [NTT-6](https://teamhinton.atlassian.net/browse/NTT-6) | Add notes one at a time | Must | 18 | 2 (planned) |
-| US-05 | [NTT-8](https://teamhinton.atlassian.net/browse/NTT-8) | Add rests | Must | 5 | 2 (planned) |
+| US-03 | [NTT-5](https://teamhinton.atlassian.net/browse/NTT-5) | Create a composition | Must | 10 | 1 |
+| US-04 | [NTT-6](https://teamhinton.atlassian.net/browse/NTT-6) | Add notes one at a time | Must | 18 | 2 (moved from 1) |
+| US-05 | [NTT-8](https://teamhinton.atlassian.net/browse/NTT-8) | Add rests | Must | 5 | 2 |
 | SP-01 | [NTT-7](https://teamhinton.atlassian.net/browse/NTT-7) | Rendering spike | Must | 4 | 1 |
-| US-06 | [NTT-9](https://teamhinton.atlassian.net/browse/NTT-9) | See the sheet music | Must | 17 | 2 (planned) |
-| US-10 | [NTT-10](https://teamhinton.atlassian.net/browse/NTT-10) | My Library: list and open | Must | 8 | 2 (planned) |
-| US-07 | [NTT-11](https://teamhinton.atlassian.net/browse/NTT-11) | Edit a note | Must | 8 | 2 (planned) |
-| US-08 | [NTT-12](https://teamhinton.atlassian.net/browse/NTT-12) | Delete a note | Must | 5 | 2 (planned) |
-| US-09 | [NTT-13](https://teamhinton.atlassian.net/browse/NTT-13) | Rename or delete a composition | Must | 7 | 2 (planned) |
-| US-11 | [NTT-14](https://teamhinton.atlassian.net/browse/NTT-14) | Search my library | Should | 6 | 2 (planned) |
-| US-12 | [NTT-15](https://teamhinton.atlassian.net/browse/NTT-15) | Keep my compositions private | Must | 6 | 2 (planned) |
-| US-13 | [NTT-16](https://teamhinton.atlassian.net/browse/NTT-16) | Play back my composition | Stretch | 14 | 2 (planned) |
-| US-14 | [NTT-17](https://teamhinton.atlassian.net/browse/NTT-17) | Export to PDF | Stretch | 10 | 2 (planned) |
+| US-06 | [NTT-9](https://teamhinton.atlassian.net/browse/NTT-9) | See the sheet music | Must | 17 (10 in Sprint 2) | 2 |
+| US-10 | [NTT-10](https://teamhinton.atlassian.net/browse/NTT-10) | My Library: list and open | Must | 8 (4 in Sprint 2) | 2 |
+| US-07 | [NTT-11](https://teamhinton.atlassian.net/browse/NTT-11) | Edit a note | Must | 8 | 2 |
+| US-08 | [NTT-12](https://teamhinton.atlassian.net/browse/NTT-12) | Delete a note | Must | 5 | 2 |
+| US-09 | [NTT-13](https://teamhinton.atlassian.net/browse/NTT-13) | Rename or delete a composition | Must | 7 | 2 (if time) |
+| US-11 | [NTT-14](https://teamhinton.atlassian.net/browse/NTT-14) | Search my library | Should | 6 | 2 (if time) |
+| US-12 | [NTT-15](https://teamhinton.atlassian.net/browse/NTT-15) | Keep my compositions private | Must | 6 (4 in Sprint 2) | 2 |
+| US-13 | [NTT-16](https://teamhinton.atlassian.net/browse/NTT-16) | Play back my composition | Stretch | 14 | Backlog |
+| US-14 | [NTT-17](https://teamhinton.atlassian.net/browse/NTT-17) | Export to PDF | Stretch | 10 | Backlog |
 | US-15 | [NTT-18](https://teamhinton.atlassian.net/browse/NTT-18) | Use other clefs | Stretch | 14 | Backlog |
 | US-16 | [NTT-19](https://teamhinton.atlassian.net/browse/NTT-19) | Share a composition | Stretch | 12 | Backlog |
 | US-17 | [NTT-20](https://teamhinton.atlassian.net/browse/NTT-20) | Transcribe a recording | Stretch | 40 | Backlog |
 | US-18 | [NTT-21](https://teamhinton.atlassian.net/browse/NTT-21) | Practice mode | Stretch | 36 | Backlog |
 
-Total for all stories: 253 hours.
+Total for all stories: 253 hours. Sprint columns reflect the plan as of Part B. The three re-estimates for Sprint 2 are explained in [section 10](#10-iteration-2-plan).
 
 ### Stories and acceptance criteria
 
