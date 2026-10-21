@@ -1,6 +1,3 @@
-/* Noted! base styles (E-01-T5 / NTT-25)
-   Colors and spacing live in the variables below so pages stay consistent. */
-
 :root {
   --ink: #1d2433;          /* text, staff lines */
   --ink-soft: #5b6475;     /* secondary text */
@@ -34,7 +31,6 @@ body {
   background: var(--paper);
 }
 
-/* main.container, not main: .container's padding would otherwise cancel this out */
 main.container { flex: 1; padding-top: calc(var(--space) * 2); padding-bottom: calc(var(--space) * 3); }
 
 .container {
@@ -231,7 +227,6 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 calc(var(--space) * .75); }
   border-radius: 6px;
   color: var(--ink-soft);
   text-align: center;
-  /* five faint staff lines as a background hint */
   background:
     repeating-linear-gradient(to bottom, transparent 0 15px, var(--line) 15px 16px) center / 100% 80px no-repeat,
     #fff;
@@ -269,13 +264,12 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 calc(var(--space) * .75); }
   border: 0;
 }
 .choice-group legend {
-  float: left;           /* puts the legend on the same line as the buttons */
+  float: left;
   width: 6.5rem;
   font-weight: 600;
   color: var(--ink-soft);
 }
 
-/* Radio buttons styled as toggle buttons; the real input stays accessible */
 .choice-input { position: absolute; opacity: 0; width: 1px; height: 1px; }
 
 .choice {
@@ -309,3 +303,37 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 calc(var(--space) * .75); }
 @media (max-width: 600px) {
   .choice-group legend { float: none; width: 100%; margin-bottom: .2rem; }
 }
+
+/* ---- New-composition ---------------------------------- */
+
+.new-piece { max-width: 560px; }
+.new-piece .lead { margin-bottom: calc(var(--space) * 1.25); }
+
+.form-wide { max-width: none; }
+
+.field-hint { font-weight: 400; color: var(--ink-soft); font-size: .9rem; }
+
+.form-field.has-error input,
+.form-field.has-error select { border-color: var(--error); }
+
+
+.choice-group-stacked legend {
+  float: none;
+  width: 100%;
+  margin-bottom: .3rem;
+  color: var(--ink);
+}
+
+.form-field select { appearance: auto; }
+.form-field input[type="number"] { max-width: 9rem; }
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: .6rem;
+  padding-top: var(--space);
+  border-top: 1px solid var(--line);
+}
+.form-field .choice { display: inline-block; margin-bottom: 0; }
+.form-field.choice-group { margin-bottom: var(--space); }
+.new-piece > .flash { margin-bottom: var(--space); }
