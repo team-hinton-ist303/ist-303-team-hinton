@@ -7,7 +7,7 @@
 
 {% for composition in compositions %}
 <article class="card">
-    <h2>{{ composition.title }}</h2>
+    <h2><a href="{{ url_for('compositions.editor', composition_id=composition.id) }}">{{ composition.title }}</a></h2>
     <p>
         Key: {{ composition.key_signature }}
         · Time: {{ composition.time_signature }}
