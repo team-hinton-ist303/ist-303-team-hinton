@@ -98,7 +98,7 @@ def sample_composition():
         for i, p in enumerate(melody, start=1)
     ]
     return SimpleNamespace(
-        id=None, title="Ode to Joy", key_signature="C major",
+        id=None, title="Ode to Joy (opening)", key_signature="C major",
         time_signature="4/4", tempo=100, notes=notes,
     )
 
