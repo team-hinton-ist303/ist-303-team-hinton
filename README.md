@@ -14,20 +14,20 @@ Noted! is a Flask web app for writing music one note at a time. You start a piec
 | BG | Beijia Gu |
 | RM | Ryan Miller |
 
-Daniel, Varuzhan, Yalei, and Beijia each have about 10 hours a week for this project. Ryan has about 5 hours a week.
+Daniel, Varuzhan, Yalei, and Beijia each have about 10 hours a week for this project. Ryan had about 5 hours a week in Part A and has had 10 since Oct 19.
 
 ## Project Schedule
 
 | Part | Due | Points | What's due |
 |---|---|---|---|
 | A | Thu Oct 1, 2026 | 60 | GitHub repo with README: team members, user stories (estimates and acceptance criteria), tasks, who does what, iteration 1 plan |
-| B | Thu Oct 15, 2026 (Week 6) | 80 | End of iteration 1: burndown chart, stand-up evidence, working code and tests, retrospective, iteration 2 plan |
+| B | Thu Oct 22, 2026 (moved from Oct 15) | 80 | End of iteration 1: burndown chart, stand-up evidence, working code and tests, retrospective, iteration 2 plan |
 | C | Thu Nov 12, 2026 (Week 10) | 180 | Milestone 1.0: class presentation with live demo and evidence of agile process; final codebase |
 
 | Iteration | Dates | Length |
 |---|---|---|
-| Iteration 1 | Tue Oct 6 – Wed Oct 14, 2026 | 9 days |
-| Iteration 2 | Thu Oct 15 – Wed Nov 11, 2026 | 4 weeks |
+| Iteration 1 (Sprint 1) | Tue Oct 6 – Wed Oct 21, 2026 | 16 days |
+| Iteration 2 (Sprint 2) | Thu Oct 22 – Wed Nov 11, 2026 | 3 weeks |
 | Milestone 1.0 demo | Thu Nov 12, 2026 | |
 
 ---
@@ -526,6 +526,8 @@ We split every story into tasks. Only iteration 1 tasks have owners for now. We 
 
 ## 5. Iteration 1 Plan
 
+> This is the plan as submitted for Part A on Oct 1. After the Part B deadline moved to Oct 22, the plan changed; see [section 7](#7-what-changed-after-part-a) and [section 10](#10-iteration-2-plan).
+
 Iteration 1 runs Oct 6 to Oct 14 (9 days) and ends at the Part B deadline. Iteration 2 runs Oct 15 to Nov 11 (4 weeks). We demo Milestone 1.0 on Nov 12.
 
 ### Velocity and capacity
@@ -630,3 +632,186 @@ With 40 hours of capacity, that comes to about 9 hours each for Daniel, Varuzhan
 - Every story and task is tracked on our [Jira board](https://teamhinton.atlassian.net/jira/software/projects/NTT/boards/1). Stories are Jira stories, and tasks are sub-tasks with the owner and estimate.
 - Everyone works on their own branch and opens a pull request. Someone else reviews it, and the tests have to pass before it gets merged into `main`.
 - We track the hours left on each task so we can make the burndown chart for Part B.
+
+---
+
+# Part B
+
+Part B covers iteration 1 (Sprint 1, Oct 6 – Oct 21) and our plan for iteration 2 (Sprint 2, Oct 22 – Nov 11). Everything here comes from our [Jira board](https://teamhinton.atlassian.net/jira/software/projects/NTT/boards/1) and the pull requests on GitHub.
+
+## 7. What changed after Part A
+
+Our Part A plan (section 5) was a 9-day iteration ending Oct 14 with 37 hours of work. Three things changed after that:
+
+1. **The Part B deadline moved to Oct 22.** That gave us 16 days instead of 9, so we ran Sprint 1 until Oct 21 and pulled create a composition (US-03) and add notes (US-04) back in. Sprint 1 became 65 hours.
+2. **We moved US-04 (18 hours) to Sprint 2 on Oct 19.** At our Friday check-in on Oct 16, login still wasn't merged, and US-03 and US-04 both depend on it. At the Oct 14 stand-up we had set that Friday as the check-in: if login wasn't in by then, the note-adding work would probably have to move. We waited until the login PR was merged on Oct 18 and then moved US-04 on Oct 19. That brought Sprint 1 to 47 hours.
+3. **People moved between tasks.**
+   - Ryan went from 5 to 10 hours a week (Oct 19).
+   - Ryan took `@login_required` (NTT-33) and Varuzhan took the new-composition form (NTT-35) from Daniel, so the login and create-route work wasn't all on one person.
+   - Varuzhan took the hand-drawn SVG prototype (NTT-46) from Beijia so she could focus on the register route.
+
+Two smaller estimate changes: the logged-in test fixture was split out of the pytest setup task into its own task under US-02 (NTT-111, 1 hour), and the pytest setup task went from 3 to 2 hours. The total didn't change.
+
+## 8. Iteration 1 Results
+
+> **Status as of Oct 21, morning.** Five tasks (9 hours) are still in review or in progress and should merge tonight: NTT-33, NTT-34, NTT-36, NTT-38, NTT-111. Final numbers will be filled in before submission.
+
+### Stories
+
+| ID | Story | Estimate (hrs) | Done (hrs) | Status |
+|---|---|---|---|---|
+| E-01 | Project foundation | 15 | 15 | ✅ Done |
+| SP-01 | Rendering spike | 4 | 4 | ✅ Done (decision: music21 + Verovio, see [docs/rendering-spike.md](docs/rendering-spike.md)) |
+| US-01 | Register an account | 8 | 8 | ✅ Done |
+| US-02 | Log in and log out | 10 | 6 | 🔄 Login and logout merged; `@login_required`, login tests and the logged-in fixture still open |
+| US-03 | Create a composition | 10 | 6 | 🔄 Form and editor page merged; create route and its tests in review |
+| | **Total** | **47** | **38** | **81%** |
+| US-04 | Add notes one at a time | 18 | – | ➡️ Moved to Sprint 2 on Oct 19 |
+
+### Burndown
+
+![Sprint 1 burndown](docs/sprint1-burndown.png)
+
+Hours remaining at the end of each day. A task's hours count as done on the day it was moved to Done in Jira, which is the day its PR was merged.
+
+| Date | Oct 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Hours left | 65 | 65 | 65 | 57 | 53 | 53 | 51 | 48 | 45 | 45 | 41 | 41 | 37 | 13 | 12 | 9 |
+
+What the chart shows:
+
+- **Nothing was finished for the first three days.** Everyone was setting up: the repo, Jira, Python environments, and learning the PR workflow.
+- **From Oct 9 to Oct 18 we finished about 3 hours a day,** but stayed well above the ideal line. Many tasks were coded but waited a few days for review or for another PR to merge first. For example, the base layout (NTT-25) was done on Oct 12 but wasn't merged until Oct 18.
+- **The big drop on Oct 19 is mostly the scope change** (US-04 moving out), not 24 hours of work in one day.
+- Work is still being merged on the last day, so the line doesn't reach zero.
+
+### Velocity
+
+| | |
+|---|---|
+| Hours available (45 h/week × 16 days, plus Ryan's extra 5 h/week from Oct 19) | about 105 |
+| Velocity we planned with | 0.7 |
+| Ideal hours finished (as of Oct 21 morning) | 38 |
+| **Measured velocity** (38 ÷ 105) | **0.36** |
+| Measured velocity if all 9 open hours merge tonight (47 ÷ 105) | 0.45 |
+
+Our real velocity was about half of what we planned with. The estimates for individual tasks were mostly fine. What we didn't plan for was the time between "code done" and "merged": waiting for reviews, PRs that depended on other unmerged PRs, merge conflicts, and setup problems (virtual environments, Git logins).
+
+### Working code and tests
+
+Merged to `main` in Sprint 1:
+
+- Flask app factory, config, blueprints, SQLite models (`User`, `Composition`, `Note`) and `flask init-db`
+- Base layout with a nav bar that changes when you log in, flash messages, and shared CSS
+- Register (with validation and hashed passwords), log in, and log out
+- New-composition form (15 keys, 4 time signatures, tempo 40–240 with field errors) and the composition editor page
+- pytest setup with shared fixtures; **87 tests passing on `main`** (final count after tonight's merges: _TBD_)
+- A GitHub Action that requests the Jira task's Reviewer on each new PR
+
+To run it:
+
+```bash
+pip install -r requirements.txt
+flask --app app init-db
+flask --app app run
+pytest --cov=. --cov-report=term
+```
+
+### Stand-up evidence
+
+- **[Oct 6 kickoff](meetings/2026-10-06-standup.md):** first stand-up. We went over the plan, Jira and the PR workflow.
+- **[Oct 14 stand-up](meetings/2026-10-14-standup.md):** mid-sprint stand-up, covering sprint status by person, the two blockers (login and the register route), the rendering spike results, and the sprint risk. The agenda spreadsheet we used is also in `meetings/`.
+- **[Sprint 1 team log](meetings/sprint-1-team-log.md):** between meetings we post updates in our group chat. This log lists the dated decisions from the chat.
+- Jira comments on each task record handoffs and blockers. For example, NTT-28 and NTT-30 have the conflict between the two Flask-Login setups and how we resolved it.
+
+## 9. Retrospective
+
+> **Draft.** Team members, please add your own points before we submit.
+
+**What went well**
+
+- **The PR workflow worked.** Every change went through a pull request with a reviewer and passing tests. We merged 13 PRs in Sprint 1, and `main` stayed working except for one short break (see below).
+- **The spike paid off early.** We picked music21 + Verovio by Oct 16. That makes US-06 (drawing the sheet music) much smaller than planned. The original estimate assumed we would draw the staff ourselves.
+- **People picked up each other's work** when someone was blocked or busy (NTT-33, NTT-35, NTT-46).
+- **Tests came first in places.** Ryan wrote the register tests before the route existed, so they ran as soon as it merged.
+- **Setting a check-in date in advance** (Friday Oct 16) made the US-04 decision quick, because we already knew what we would look at.
+
+**What didn't go well**
+
+- **Waiting on reviews and merges.** Some finished work sat in review for days. The base layout (NTT-25) was done on Oct 12 and merged on Oct 18. Several PRs were waiting on it.
+- **Branches built on unmerged branches** caused merge conflicts and duplicate work. Two people set up Flask-Login separately (NTT-28 and NTT-30), and someone had to reconcile them.
+- **Too much of the critical path was on one person** (login, create route, reviews) at a busy time for them.
+- **One merge broke `main`.** PR #14 was merged before a follow-up fix was pushed, so two editor tests failed on `main` until PR #19.
+- **Setup friction:** virtual environments, Git and SourceTree logins, and Dropbox syncing `.venv` cost several hours across the team.
+
+**What we'll change in Sprint 2**
+
+1. **Review within 24 hours.** If you're requested as a reviewer, review or say you can't within a day so someone else can.
+2. **Branch from `main`, not from someone else's open branch.** If you need unmerged work, say so in the PR and agree on the merge order first.
+3. **Run tests automatically on every PR** with a GitHub Action, so nothing that breaks `main` can merge.
+4. **Plan with the velocity we measured (0.45), not 0.7.**
+5. **Spread the critical path:** no one person owns every task that blocks others.
+
+## 10. Iteration 2 Plan
+
+Sprint 2 runs **Oct 22 – Nov 11 (3 weeks)**, and we demo Milestone 1.0 on **Nov 12**.
+
+### Capacity
+
+| | |
+|---|---|
+| Team hours per week | 50 (10 each; Ryan is now at 10) |
+| Hours available (50 × 3 weeks) | 150 |
+| Velocity | 0.45 (measured in Sprint 1, see section 8) |
+| **Capacity** | **about 67 ideal hours** |
+
+### Stories
+
+Thanks to the rendering spike and work already merged, three stories are smaller than their Part A estimates:
+
+- **US-06 drops from 17 to 10 hours.** Verovio draws the staff, notes and bar lines, so we no longer write that ourselves.
+- **US-10 drops from 8 to 4 hours.** The library list exists, and the link to the editor is part of PR #15.
+- **US-12 drops from 6 to 4 hours.** The editor already returns 404 for other users' pieces.
+
+| ID | Story | Priority | Estimate (hrs) | |
+|---|---|---|---|---|
+| — | Carried over from Sprint 1 (NTT-33, 34, 36, 38, 111) | Must | 0–9 | whatever doesn't merge by Oct 21 |
+| US-04 | Add notes one at a time | Must | 18 | moved from Sprint 1 |
+| US-06 | See the sheet music | Must | 10 | was 17 |
+| US-05 | Add rests | Must | 5 | |
+| US-10 | My Library: list and open | Must | 4 | was 8 |
+| US-07 | Edit a note | Must | 8 | |
+| US-08 | Delete a note | Must | 5 | |
+| US-12 | Keep my compositions private | Must | 4 | was 6 |
+| — | Demo and presentation prep | | 4 | |
+| | **Committed** | | **58–67** | |
+| US-09 | Rename or delete a composition | Must | 7 | first in line if we're ahead |
+| US-11 | Search my library | Should | 6 | if time allows |
+| US-13, US-14 | Playback, PDF export | Stretch | 24 | moved to the backlog |
+
+US-09 is a Must in Part A, but it doesn't fit at our real velocity once US-04 and carry-over are in. It's the first story we'll pull in if we finish early. The demo still works without it: you can create, write, see, edit and reopen a piece.
+
+**Order:** US-04 first, then US-06 (both are needed for the demo), then US-05, US-07, US-08, US-10, US-12.
+
+**Sprint 2 goal:** a user can write a piece note by note, see it as real sheet music, fix mistakes, and reopen it from their library, with every page private to its owner.
+
+### Task allocation (proposed; to confirm at Sprint 2 planning)
+
+| Member | Tasks | Hours | + carry-over |
+|---|---|---|---|
+| Varuzhan (VS) | US-04-T2 note palette UI (5), US-06-T3 show the SVG in the editor and refresh it (1), US-06-T4 empty-piece placeholder (1), US-07-T1 selectable notes (2), US-07-T2 edit form (2), US-10-T4 empty-library message (1) | 12 | – |
+| Beijia (BG) | US-04-T5 composition → music21 Stream (3), US-04-T6 tests (3), US-06-T1 Verovio render service (3), US-05-T3 rests in conversion (1) | 10 | NTT-34 (3) |
+| Yalei (YX) | US-04-T1 note ordering and storage (3), US-04-T3 add-note route (2), US-05-T1/T2 rest option and storage (2), US-07-T3 update route (2), US-08-T2 delete route and re-index (2) | 11 | NTT-111 (1) |
+| Daniel (DA) | US-06-T2 map Verovio note IDs to notes (2), US-07-T4 tests (2), US-08-T1 delete control (1), US-10-T1 sort by last modified (1), US-10-T5 tests (2), US-12-T1 ownership helper on every route (2) | 10 | NTT-36 (2) |
+| Ryan (RM) | US-04-T4 range validation A3–C6 (2), US-05-T4 tests (2), US-06-T5 SVG tests (3), US-08-T3 tests (2), US-12-T3 cross-user tests (2) | 11 | NTT-33, NTT-38 (3) |
+| **Total** | | **54** | **up to 9** |
+
+The rewritten US-06 tasks for the Verovio approach replace the original ones in section 4:
+
+| Task | Description | Hours |
+|---|---|---|
+| US-06-T1 | Render service: composition → music21 Stream → MusicXML → Verovio SVG | 3 |
+| US-06-T2 | Map each Verovio note element to its `Note.id` so notes can be selected | 2 |
+| US-06-T3 | Show the SVG in the editor and refresh it after each change | 1 |
+| US-06-T4 | Placeholder staff for a piece with no notes | 1 |
+| US-06-T5 | Tests: one SVG note element per note, rests, key and time signature | 3 |
