@@ -2,7 +2,10 @@
 import re
 
 from flask import Blueprint, redirect, render_template, request, session, url_for
-from flask_login import LoginManager, current_user, login_user
+
+from flask_login import (
+    LoginManager, current_user, login_required, login_user, logout_user
+)
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from models import User, db
@@ -97,4 +100,11 @@ def register():
 
     login_user(new_user)
 
+    return redirect("/")
+
+@bp.post("/logout")
+@login_required
+def logout():
+    logout_user()
+    session.clear()
     return redirect("/")
