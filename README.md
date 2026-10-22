@@ -721,15 +721,17 @@ pytest --cov=. --cov-report=term
 
 - **[Oct 6 kickoff](meetings/2026-10-06-standup.md):** first stand-up. We went over the plan, Jira and the PR workflow.
 - **[Oct 14 stand-up](meetings/2026-10-14-standup.md):** mid-sprint stand-up, covering sprint status by person, the two blockers (login and the register route), the rendering spike results, and the sprint risk. The agenda spreadsheet we used is also in `meetings/`.
+- **[Oct 21 end-of-sprint stand-up](meetings/2026-10-21-standup.md):** Sprint 1 review (44 of 47 hours done, two test tasks left), the rendering decision for US-04, the demo plan, and the retrospective questions. Recorded with Otter.ai; minutes written from the transcript.
 - **[Sprint 1 team log](meetings/sprint-1-team-log.md):** between meetings we post updates in our group chat. This log lists the dated decisions from the chat.
 - Jira comments on each task record handoffs and blockers. For example, NTT-28 and NTT-30 have the conflict between the two Flask-Login setups and how we resolved it.
 
 ## 9. Retrospective
 
-> **Draft.** Team members, please add your own points before we submit.
+> We asked three questions at the [Oct 21 stand-up](meetings/2026-10-21-standup.md): what went well, what didn't, and what to change. Each person's answers are in [meetings/sprint-1-retro-responses.md](meetings/sprint-1-retro-responses.md). This section combines them with what we saw in Jira and GitHub.
 
 **What went well**
 
+- **Teamwork and communication.** Everyone answered in the group chat, reviewers ran the tests themselves before approving, and urgent items got done quickly.
 - **The PR workflow worked.** Every change went through a pull request with a reviewer and passing tests. We merged 13 PRs in Sprint 1, and `main` stayed working except for one short break (see below).
 - **The spike paid off early.** We picked music21 + Verovio by Oct 16. That makes US-06 (drawing the sheet music) much smaller than planned. The original estimate assumed we would draw the staff ourselves.
 - **People picked up each other's work** when someone was blocked or busy (NTT-33, NTT-35, NTT-46).
@@ -738,16 +740,16 @@ pytest --cov=. --cov-report=term
 
 **What didn't go well**
 
-- **Waiting on reviews and merges.** Some finished work sat in review for days. The base layout (NTT-25) was done on Oct 12 and merged on Oct 18. Several PRs were waiting on it.
-- **Branches built on unmerged branches** caused merge conflicts and duplicate work. Two people set up Flask-Login separately (NTT-28 and NTT-30), and someone had to reconcile them.
+- **Waiting on reviews and merges.** Some PRs went unreviewed and unmerged for days. The base layout (NTT-25) was done on Oct 12 and merged on Oct 18. Several PRs were waiting on it.
+- **Dependencies between tasks weren't clear.** Branches were built on other unmerged branches, which caused merge conflicts and overlapping work, and it got worse as the sprint went on. Two people set up Flask-Login separately (NTT-28 and NTT-30), and someone had to reconcile them. Reviewers also found it confusing to test a feature that depended on unfinished work.
 - **Too much of the critical path was on one person** (login, create route, reviews) at a busy time for them.
-- **One merge broke `main`.** PR #14 was merged before a follow-up fix was pushed, so two editor tests failed on `main` until PR #19.
+- **One merge broke `main`.** PR #14 was merged before a follow-up fix was pushed, so two editor tests failed on `main` until PR #15 merged.
 - **Setup friction:** virtual environments, Git and SourceTree logins, and Dropbox syncing `.venv` cost several hours across the team.
 
 **What we'll change in Sprint 2**
 
 1. **Review within 24 hours.** If you're requested as a reviewer, review or say you can't within a day so someone else can.
-2. **Branch from `main`, not from someone else's open branch.** If you need unmerged work, say so in the PR and agree on the merge order first.
+2. **Make dependencies visible.** Link dependent tasks in Jira ("blocks / is blocked by"). Every PR says what it depends on and gives step-by-step testing instructions. Branch from `main`, not from someone else's open branch. If you need unmerged work, say so in the PR and agree on the merge order first.
 3. **Run tests automatically on every PR** with a GitHub Action, so nothing that breaks `main` can merge.
 4. **Plan with the velocity we measured (0.45), not 0.7.**
 5. **Spread the critical path:** no one person owns every task that blocks others.
