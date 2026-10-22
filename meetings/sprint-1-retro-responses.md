@@ -20,12 +20,16 @@ Answers to the three retro questions asked at the [Oct 21 stand-up](2026-10-21-s
 
 ## Daniel Abalusi
 
-*No response by the deadline (Oct 22, 2 pm, before Sprint 1 closed).*
+*No response yet.*
 
-## Beijia Gu (Jae)
+## Beijia Gu (Jae), Oct 22 (after the 2 pm cut-off, before class)
 
-*No response by the deadline (Oct 22, 2 pm, before Sprint 1 closed).*
+1. **Went well:** Good teamwork and support.
+2. **Didn't go well:** Unclear dependencies caused merge conflicts and delayed PR reviews.
+3. **Improve:** Communicate earlier and review PRs faster.
 
-## Ryan Miller
+## Ryan Miller, Oct 22 (after the 2 pm cut-off, before class)
 
-*No response by the deadline (Oct 22, 2 pm, before Sprint 1 closed).*
+1. **Went well:** We helped each other integrate features and resolve issues through testing.
+2. **Didn't go well:** Branch dependencies made some PRs confusing, and reviews took longer than expected.
+3. **Improve:** Document dependencies when opening PRs and aim to review them within 24 hours.

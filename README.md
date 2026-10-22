@@ -733,7 +733,7 @@ pytest --cov=. --cov-report=term
 - **Teamwork and communication.** Everyone answered in the group chat, reviewers ran the tests themselves before approving, and urgent items got done quickly.
 - **The PR workflow worked.** Every change went through a pull request with a reviewer and passing tests. We merged 16 PRs in Sprint 1, and `main` stayed working except for one short break (see below).
 - **The spike paid off early.** We picked music21 + Verovio by Oct 16. That makes US-06 (drawing the sheet music) much smaller than planned. The original estimate assumed we would draw the staff ourselves.
-- **People picked up each other's work** when someone was blocked or busy (NTT-33, NTT-35, NTT-46).
+- **People picked up each other's work** when someone was blocked or busy (NTT-33, NTT-35, NTT-46), and helped each other integrate features and track down issues through testing.
 - **Tests came first in places.** Ryan wrote the register tests before the route existed, so they ran as soon as it merged.
 - **Setting a check-in date in advance** (Friday Oct 16) made the US-04 decision quick, because we already knew what we would look at.
 
@@ -746,6 +746,8 @@ pytest --cov=. --cov-report=term
 - **Setup friction:** virtual environments, Git and SourceTree logins, and Dropbox syncing `.venv` cost several hours across the team.
 
 **What we'll change in Sprint 2**
+
+Four of the five of us independently named the same two problems: unclear dependencies between tasks, and PRs waiting too long for review. Changes 1 and 2 address them.
 
 1. **Review within 24 hours.** If you're requested as a reviewer, review or say you can't within a day so someone else can.
 2. **Make dependencies visible.** Link dependent tasks in Jira ("blocks / is blocked by"). Every PR says what it depends on and gives step-by-step testing instructions. Branch from `main`, not from someone else's open branch. If you need unmerged work, say so in the PR and agree on the merge order first.
