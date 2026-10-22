@@ -20,12 +20,12 @@ Answers to the three retro questions asked at the [Oct 21 stand-up](2026-10-21-s
 
 ## Daniel Abalusi
 
-*(pending)*
+*No response by the deadline (Oct 22, 2 pm, before Sprint 1 closed).*
 
 ## Beijia Gu (Jae)
 
-*(pending)*
+*No response by the deadline (Oct 22, 2 pm, before Sprint 1 closed).*
 
 ## Ryan Miller
 
-*(pending)*
+*No response by the deadline (Oct 22, 2 pm, before Sprint 1 closed).*

@@ -654,7 +654,7 @@ Two smaller estimate changes: the logged-in test fixture was split out of the py
 
 ## 8. Iteration 1 Results
 
-> **Status as of Oct 21, morning.** Five tasks (9 hours) are still in review or in progress and should merge tonight: NTT-33, NTT-34, NTT-36, NTT-38, NTT-111. Final numbers will be filled in before submission.
+> **Final, Sprint 1 closed Oct 22.** 44 of 47 hours done. Two test tasks (3 hours) didn't start in time and carry over to Sprint 2: NTT-38 (create-route tests) and NTT-111 (logged-in test fixture). That leaves US-02 and US-03 one task short of Done.
 
 ### Stories
 
@@ -663,9 +663,9 @@ Two smaller estimate changes: the logged-in test fixture was split out of the py
 | E-01 | Project foundation | 15 | 15 | ✅ Done |
 | SP-01 | Rendering spike | 4 | 4 | ✅ Done (decision: music21 + Verovio, see [docs/rendering-spike.md](docs/rendering-spike.md)) |
 | US-01 | Register an account | 8 | 8 | ✅ Done |
-| US-02 | Log in and log out | 10 | 6 | 🔄 Login and logout merged; `@login_required`, login tests and the logged-in fixture still open |
-| US-03 | Create a composition | 10 | 6 | 🔄 Form and editor page merged; create route and its tests in review |
-| | **Total** | **47** | **38** | **81%** |
+| US-02 | Log in and log out | 10 | 9 | 🔄 Login, logout, `@login_required` and login tests merged; logged-in fixture (NTT-111, 1 h) carries over |
+| US-03 | Create a composition | 10 | 8 | 🔄 Form, create route and editor page merged; tests (NTT-38, 2 h) carry over |
+| | **Total** | **47** | **44** | **94%** |
 | US-04 | Add notes one at a time | 18 | – | ➡️ Moved to Sprint 2 on Oct 19 |
 
 ### Burndown
@@ -676,14 +676,14 @@ Hours remaining at the end of each day. A task's hours count as done on the day 
 
 | Date | Oct 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Hours left | 65 | 65 | 65 | 57 | 53 | 53 | 51 | 48 | 45 | 45 | 41 | 41 | 37 | 13 | 12 | 9 |
+| Hours left | 65 | 65 | 65 | 57 | 53 | 53 | 51 | 48 | 45 | 45 | 41 | 41 | 37 | 13 | 12 | 3 |
 
 What the chart shows:
 
 - **Nothing was finished for the first three days.** Everyone was setting up: the repo, Jira, Python environments, and learning the PR workflow.
 - **From Oct 9 to Oct 18 we finished about 3 hours a day,** but stayed well above the ideal line. Many tasks were coded but waited a few days for review or for another PR to merge first. For example, the base layout (NTT-25) was done on Oct 12 but wasn't merged until Oct 18.
 - **The big drop on Oct 19 is mostly the scope change** (US-04 moving out), not 24 hours of work in one day.
-- Work is still being merged on the last day, so the line doesn't reach zero.
+- **Six hours merged on the last day** (the create route, login tests and `@login_required`). The line ends at 3 hours: the two test tasks that carry over.
 
 ### Velocity
 
@@ -691,11 +691,10 @@ What the chart shows:
 |---|---|
 | Hours available (45 h/week × 16 days, plus Ryan's extra 5 h/week from Oct 19) | about 105 |
 | Velocity we planned with | 0.7 |
-| Ideal hours finished (as of Oct 21 morning) | 38 |
-| **Measured velocity** (38 ÷ 105) | **0.36** |
-| Measured velocity if all 9 open hours merge tonight (47 ÷ 105) | 0.45 |
+| Ideal hours finished | 44 |
+| **Measured velocity** (44 ÷ 105) | **0.42** |
 
-Our real velocity was about half of what we planned with. The estimates for individual tasks were mostly fine. What we didn't plan for was the time between "code done" and "merged": waiting for reviews, PRs that depended on other unmerged PRs, merge conflicts, and setup problems (virtual environments, Git logins).
+Our real velocity was a bit more than half of what we planned with. The estimates for individual tasks were mostly fine. What we didn't plan for was the time between "code done" and "merged": waiting for reviews, PRs that depended on other unmerged PRs, merge conflicts, and setup problems (virtual environments, Git logins).
 
 ### Working code and tests
 
@@ -705,7 +704,7 @@ Merged to `main` in Sprint 1:
 - Base layout with a nav bar that changes when you log in, flash messages, and shared CSS
 - Register (with validation and hashed passwords), log in, and log out
 - New-composition form (15 keys, 4 time signatures, tempo 40–240 with field errors) and the composition editor page
-- pytest setup with shared fixtures; **87 tests passing on `main`** (final count after tonight's merges: _TBD_)
+- pytest setup with shared fixtures; **110 tests passing on `main`**
 - A GitHub Action that requests the Jira task's Reviewer on each new PR
 
 To run it:
@@ -732,7 +731,7 @@ pytest --cov=. --cov-report=term
 **What went well**
 
 - **Teamwork and communication.** Everyone answered in the group chat, reviewers ran the tests themselves before approving, and urgent items got done quickly.
-- **The PR workflow worked.** Every change went through a pull request with a reviewer and passing tests. We merged 13 PRs in Sprint 1, and `main` stayed working except for one short break (see below).
+- **The PR workflow worked.** Every change went through a pull request with a reviewer and passing tests. We merged 16 PRs in Sprint 1, and `main` stayed working except for one short break (see below).
 - **The spike paid off early.** We picked music21 + Verovio by Oct 16. That makes US-06 (drawing the sheet music) much smaller than planned. The original estimate assumed we would draw the staff ourselves.
 - **People picked up each other's work** when someone was blocked or busy (NTT-33, NTT-35, NTT-46).
 - **Tests came first in places.** Ryan wrote the register tests before the route existed, so they ran as soon as it merged.
@@ -751,7 +750,7 @@ pytest --cov=. --cov-report=term
 1. **Review within 24 hours.** If you're requested as a reviewer, review or say you can't within a day so someone else can.
 2. **Make dependencies visible.** Link dependent tasks in Jira ("blocks / is blocked by"). Every PR says what it depends on and gives step-by-step testing instructions. Branch from `main`, not from someone else's open branch. If you need unmerged work, say so in the PR and agree on the merge order first.
 3. **Run tests automatically on every PR** with a GitHub Action, so nothing that breaks `main` can merge.
-4. **Plan with the velocity we measured (0.45), not 0.7.**
+4. **Plan with the velocity we measured (0.42), not 0.7.**
 5. **Spread the critical path:** no one person owns every task that blocks others.
 
 ## 10. Iteration 2 Plan
@@ -764,8 +763,8 @@ Sprint 2 runs **Oct 22 – Nov 11 (3 weeks)**, and we demo Milestone 1.0 on **No
 |---|---|
 | Team hours per week | 50 (10 each; Ryan is now at 10) |
 | Hours available (50 × 3 weeks) | 150 |
-| Velocity | 0.45 (measured in Sprint 1, see section 8) |
-| **Capacity** | **about 67 ideal hours** |
+| Velocity | 0.42 (measured in Sprint 1, see section 8) |
+| **Capacity** | **about 63 ideal hours** |
 
 ### Stories
 
@@ -777,7 +776,7 @@ Thanks to the rendering spike and work already merged, three stories are smaller
 
 | ID | Story | Priority | Estimate (hrs) | |
 |---|---|---|---|---|
-| — | Carried over from Sprint 1 (NTT-33, 34, 36, 38, 111) | Must | 0–9 | whatever doesn't merge by Oct 21 |
+| — | Carried over from Sprint 1 (NTT-38, NTT-111) | Must | 3 | finishes US-02 and US-03 |
 | US-04 | Add notes one at a time | Must | 18 | moved from Sprint 1 |
 | US-06 | See the sheet music | Must | 10 | was 17 |
 | US-05 | Add rests | Must | 5 | |
@@ -786,7 +785,7 @@ Thanks to the rendering spike and work already merged, three stories are smaller
 | US-08 | Delete a note | Must | 5 | |
 | US-12 | Keep my compositions private | Must | 4 | was 6 |
 | — | Demo and presentation prep | | 4 | |
-| | **Committed** | | **58–67** | |
+| | **Committed** | | **61** | |
 | US-09 | Rename or delete a composition | Must | 7 | first in line if we're ahead |
 | US-11 | Search my library | Should | 6 | if time allows |
 | US-13, US-14 | Playback, PDF export | Stretch | 24 | moved to the backlog |
@@ -802,11 +801,11 @@ US-09 is a Must in Part A, but it doesn't fit at our real velocity once US-04 an
 | Member | Tasks | Hours | + carry-over |
 |---|---|---|---|
 | Varuzhan (VS) | US-04-T2 note palette UI (5), US-06-T3 show the SVG in the editor and refresh it (1), US-06-T4 empty-piece placeholder (1), US-07-T1 selectable notes (2), US-07-T2 edit form (2), US-10-T4 empty-library message (1) | 12 | – |
-| Beijia (BG) | US-04-T5 composition → music21 Stream (3), US-04-T6 tests (3), US-06-T1 Verovio render service (3), US-05-T3 rests in conversion (1) | 10 | NTT-34 (3) |
+| Beijia (BG) | US-04-T5 composition → music21 Stream (3), US-04-T6 tests (3), US-06-T1 Verovio render service (3), US-05-T3 rests in conversion (1) | 10 | – |
 | Yalei (YX) | US-04-T1 note ordering and storage (3), US-04-T3 add-note route (2), US-05-T1/T2 rest option and storage (2), US-07-T3 update route (2), US-08-T2 delete route and re-index (2) | 11 | NTT-111 (1) |
-| Daniel (DA) | US-06-T2 map Verovio note IDs to notes (2), US-07-T4 tests (2), US-08-T1 delete control (1), US-10-T1 sort by last modified (1), US-10-T5 tests (2), US-12-T1 ownership helper on every route (2) | 10 | NTT-36 (2) |
-| Ryan (RM) | US-04-T4 range validation A3–C6 (2), US-05-T4 tests (2), US-06-T5 SVG tests (3), US-08-T3 tests (2), US-12-T3 cross-user tests (2) | 11 | NTT-33, NTT-38 (3) |
-| **Total** | | **54** | **up to 9** |
+| Daniel (DA) | US-06-T2 map Verovio note IDs to notes (2), US-07-T4 tests (2), US-08-T1 delete control (1), US-10-T1 sort by last modified (1), US-10-T5 tests (2), US-12-T1 ownership helper on every route (2) | 10 | – |
+| Ryan (RM) | US-04-T4 range validation A3–C6 (2), US-05-T4 tests (2), US-06-T5 SVG tests (3), US-08-T3 tests (2), US-12-T3 cross-user tests (2) | 11 | NTT-38 (2) |
+| **Total** | | **54** | **3** |
 
 The rewritten US-06 tasks for the Verovio approach replace the original ones in section 4:
 
