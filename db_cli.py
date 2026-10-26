@@ -27,12 +27,12 @@ DEMO_PIECES = [
         ("E", 4, "quarter"), ("E", 4, "quarter"), ("F", 4, "quarter"), ("G", 4, "quarter"),
         ("G", 4, "quarter"), ("F", 4, "quarter"), ("E", 4, "quarter"), ("D", 4, "quarter"),
         ("C", 4, "quarter"), ("C", 4, "quarter"), ("D", 4, "quarter"), ("E", 4, "quarter"),
-        ("E", 4, "quarter"), ("D", 4, "eighth"), ("D", 4, "half"),
+        ("E", 4, "quarter"), ("D", 4, "quarter"), ("D", 4, "half"),
     ]),
     ("Twinkle, Twinkle", "C major", "4/4", 90, [
         ("C", 4, "quarter"), ("C", 4, "quarter"), ("G", 4, "quarter"), ("G", 4, "quarter"),
         ("A", 4, "quarter"), ("A", 4, "quarter"), ("G", 4, "half"),
-        (None, None, "quarter"),
+        (None, None, "whole"),
     ]),
     ("Waltz sketch", "F major", "3/4", 120, []),
 ]

@@ -55,3 +55,15 @@ def test_demo_library_lists_seeded_pieces(runner, client):
     html = client.get("/library/").get_data(as_text=True)
     for title, *_ in DEMO_PIECES:
         assert title in html
+
+
+BEATS = {"whole": 4, "half": 2, "quarter": 1, "eighth": 0.5}
+
+
+def test_demo_pieces_fill_complete_bars():
+    """Every demo piece should end on a full bar so the drawn music (US-06) looks right."""
+    for title, _key, time_sig, _tempo, notes in DEMO_PIECES:
+        top, bottom = (int(x) for x in time_sig.split("/"))
+        beats_per_bar = top * 4 / bottom  # in quarter notes
+        total = sum(BEATS[duration] for *_rest, duration in notes)
+        assert total % beats_per_bar == 0, f"{title}: {total} beats doesn't fill bars of {beats_per_bar}"
