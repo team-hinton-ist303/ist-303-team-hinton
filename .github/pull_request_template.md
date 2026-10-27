@@ -5,9 +5,15 @@ Jira: https://teamhinton.atlassian.net/browse/NTT-___
 ### What this does
 - 
 
+### Depends on
+- (PRs or Jira tasks that must merge first, or "none")
+
 ### How to test
 pip install -r requirements.txt
 pytest -ra
+
+Manual check (steps a reviewer can click through, or "none"):
+1. 
 
 ### Results
 - 
