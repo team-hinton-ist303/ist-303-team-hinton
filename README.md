@@ -798,7 +798,9 @@ US-09 is a Must in Part A, but it doesn't fit at our real velocity once US-04 an
 
 **Sprint 2 goal:** a user can write a piece note by note, see it as real sheet music, fix mistakes, and reopen it from their library, with every page private to its owner.
 
-### Task allocation (proposed; to confirm at Sprint 2 planning)
+### Task allocation (confirmed by the whole team, Oct 27)
+
+Every task below is assigned to its owner in Jira, Sprint 2.
 
 | Member | Tasks | Hours | + carry-over |
 |---|---|---|---|
