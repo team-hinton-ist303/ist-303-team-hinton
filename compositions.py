@@ -2,6 +2,7 @@ from types import SimpleNamespace
 
 from flask import Blueprint, abort, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
+from werkzeug.routing import BuildError
 
 from models import Composition, db
 
@@ -14,7 +15,14 @@ DURATIONS = [
     ("half", "Half"),
     ("quarter", "Quarter"),
     ("eighth", "Eighth"),
+    ("16th", "Sixteenth"),
 ]
+# Treble-clef range (US-04): lowest and highest note the palette offers.
+# The palette greys out pitches outside it; the add-note route (NTT-41/42)
+# still validates on the server.
+RANGE_LOW = ("A", 3)
+RANGE_HIGH = ("C", 6)
+
 ACCIDENTALS = [
     ("", "♮", "Natural"),
     ("sharp", "♯", "Sharp"),
@@ -168,6 +176,20 @@ def sample_composition():
     )
 
 
+def add_note_url(composition):
+    """URL the palette posts to, or None until the add-note route (NTT-41) exists.
+
+    The route is expected at endpoint ``compositions.add_note`` taking
+    ``composition_id``. Until it is registered, the Add note button stays disabled.
+    """
+    if getattr(composition, "id", None) is None:
+        return None
+    try:
+        return url_for("compositions.add_note", composition_id=composition.id)
+    except BuildError:
+        return None
+
+
 def render_editor(composition, preview=False):
     return render_template(
         "compositions/editor.html",
@@ -176,6 +198,9 @@ def render_editor(composition, preview=False):
         octaves=OCTAVES,
         durations=DURATIONS,
         accidentals=ACCIDENTALS,
+        range_low=RANGE_LOW,
+        range_high=RANGE_HIGH,
+        add_note_url=None if preview else add_note_url(composition),
         preview=preview,
     )
 
