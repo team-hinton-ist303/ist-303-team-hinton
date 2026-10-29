@@ -2,7 +2,8 @@
 //
 // - Greys out pitches outside the treble-clef range (A3 to C6) for the chosen octave.
 // - At the range edges, greys out the accidental that would step outside it
-//   (no A-flat 3, no C-sharp 6).
+//   (no A-flat 3, no C-sharp 6), including when the key signature would add it.
+// - "Key" (no accidental) follows the key signature: F in G major is F-sharp.
 // - "Rest instead of a note" disables pitch, octave and accidental.
 // - Shows a live preview of the note that Add note will create.
 //
@@ -14,7 +15,7 @@
   if (!form) return;
 
   var LETTERS = ["C", "D", "E", "F", "G", "A", "B"];
-  var SYMBOLS = { "": "", sharp: "♯", flat: "♭" };
+  var SYMBOLS = { "": "", natural: "♮", sharp: "♯", flat: "♭" };
 
   function parseNote(text) {
     return { pitch: text.charAt(0), octave: parseInt(text.slice(1), 10) };
@@ -26,6 +27,7 @@
 
   var low = parseNote(form.dataset.rangeLow);
   var high = parseNote(form.dataset.rangeHigh);
+  var keyAcc = JSON.parse(form.dataset.keyAccidentals || "{}");
   var lowStep = step(low.pitch, low.octave);
   var highStep = step(high.pitch, high.octave);
 
@@ -44,6 +46,11 @@
   function labelFor(input) {
     var label = form.querySelector('label[for="' + input.id + '"]');
     return label ? label.textContent.trim() : input.value;
+  }
+
+  // The accidental a note actually gets: the one chosen, or else the key signature's.
+  function effective(pitch, chosen) {
+    return chosen || keyAcc[pitch] || "";
   }
 
   function update() {
@@ -66,16 +73,18 @@
     // Octaves: only disabled for rests.
     inputs("octave").forEach(function (input) { input.disabled = isRest; });
 
-    // Accidentals: no flat on the lowest note, no sharp on the highest.
+    // Accidentals: no flat on the lowest note, no sharp on the highest,
+    // whether chosen directly or coming from the key signature.
     var s = step(pitch, octave);
     inputs("accidental").forEach(function (input) {
+      var acc = effective(pitch, input.value);
       input.disabled = isRest ||
-        (s === lowStep && input.value === "flat") ||
-        (s === highStep && input.value === "sharp");
+        (s === lowStep && acc === "flat") ||
+        (s === highStep && acc === "sharp");
     });
     var selectedAcc = form.querySelector('input[name="accidental"]:checked');
     if (!isRest && selectedAcc && selectedAcc.disabled) {
-      var natural = form.querySelector('input[name="accidental"][value=""]');
+      var natural = form.querySelector('input[name="accidental"][value="natural"]');
       if (natural) natural.checked = true;
     }
 
@@ -85,7 +94,7 @@
     if (previewText) {
       previewText.textContent = isRest
         ? duration + " rest"
-        : pitch + SYMBOLS[checked("accidental") || ""] + octave + " " + duration;
+        : pitch + SYMBOLS[effective(pitch, checked("accidental") || "")] + octave + " " + duration;
     }
   }
 

@@ -23,11 +23,35 @@ DURATIONS = [
 RANGE_LOW = ("A", 3)
 RANGE_HIGH = ("C", 6)
 
+# Accidental choices in the palette: (value saved on the Note, button text, label).
+# "" means "no accidental": the note follows the key signature (F in G major is F-sharp).
+# "natural" is an explicit natural sign that cancels the key signature.
 ACCIDENTALS = [
-    ("", "♮", "Natural"),
+    ("", "Key", "Key signature"),
+    ("natural", "♮", "Natural"),
     ("sharp", "♯", "Sharp"),
     ("flat", "♭", "Flat"),
 ]
+
+# Order in which sharps and flats are added to major-key signatures.
+SHARP_ORDER = "FCGDAEB"
+FLAT_ORDER = "BEADGCF"
+SHARP_KEYS = ["C major", "G major", "D major", "A major", "E major", "B major", "F# major", "C# major"]
+FLAT_KEYS = ["C major", "F major", "Bb major", "Eb major", "Ab major", "Db major", "Gb major", "Cb major"]
+
+
+def key_accidentals(key_signature):
+    """Which letters a major key sharpens or flattens, e.g. "G major" -> {"F": "sharp"}."""
+    if key_signature in SHARP_KEYS:
+        return {letter: "sharp" for letter in SHARP_ORDER[:SHARP_KEYS.index(key_signature)]}
+    if key_signature in FLAT_KEYS:
+        return {letter: "flat" for letter in FLAT_ORDER[:FLAT_KEYS.index(key_signature)]}
+    return {}
+
+
+def effective_accidental(pitch, accidental, key_signature):
+    """The accidental a note actually sounds with: its own, or else the key signature's."""
+    return accidental or key_accidentals(key_signature).get(pitch, "")
 
 KEY_SIGNATURES = [
     ("C major", "C major"),
@@ -198,6 +222,7 @@ def render_editor(composition, preview=False):
         octaves=OCTAVES,
         durations=DURATIONS,
         accidentals=ACCIDENTALS,
+        key_acc=key_accidentals(getattr(composition, "key_signature", None)),
         range_low=RANGE_LOW,
         range_high=RANGE_HIGH,
         add_note_url=None if preview else add_note_url(composition),

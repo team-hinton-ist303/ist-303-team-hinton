@@ -81,3 +81,53 @@ def test_preview_page_never_enables_add(app):
     )
     html = render(app, piece(), preview=True)
     assert "disabled" in add_button(html)
+
+
+# --- "Key" accidental: notes follow the key signature (decided Oct 28) -------
+
+from compositions import ACCIDENTALS, effective_accidental, key_accidentals
+
+
+@pytest.mark.parametrize("key, expected", [
+    ("C major", {}),
+    ("G major", {"F": "sharp"}),
+    ("D major", {"F": "sharp", "C": "sharp"}),
+    ("F major", {"B": "flat"}),
+    ("Bb major", {"B": "flat", "E": "flat"}),
+    ("C# major", {k: "sharp" for k in "FCGDAEB"}),
+    ("Cb major", {k: "flat" for k in "BEADGCF"}),
+    (None, {}),
+])
+def test_key_accidentals(key, expected):
+    assert key_accidentals(key) == expected
+
+
+def test_effective_accidental():
+    assert effective_accidental("F", "", "G major") == "sharp"      # follows the key
+    assert effective_accidental("F", "natural", "G major") == "natural"  # cancels it
+    assert effective_accidental("G", "", "G major") == ""           # not in the key
+    assert effective_accidental("F", "flat", "G major") == "flat"   # explicit wins
+
+
+def test_palette_offers_key_button_as_default(app):
+    assert [v for v, _, _ in ACCIDENTALS] == ["", "natural", "sharp", "flat"]
+    html = render(app, piece())
+    assert 'id="accidental-key" value="" checked' in html
+    assert 'id="accidental-natural" value="natural"' in html
+
+
+def test_palette_receives_key_signature(app):
+    g_major = SimpleNamespace(**{**vars(piece()), "key_signature": "G major"})
+    html = render(app, g_major)
+    assert "data-key-accidentals='{\"F\": \"sharp\"}'" in html
+
+
+def test_note_list_shows_sounding_accidental(app):
+    notes = [
+        SimpleNamespace(position=1, pitch="F", octave=4, duration="quarter", accidental="", is_rest=False),
+        SimpleNamespace(position=2, pitch="F", octave=4, duration="quarter", accidental="natural", is_rest=False),
+    ]
+    g_major = SimpleNamespace(**{**vars(piece()), "key_signature": "G major", "notes": notes})
+    chips = render(app, g_major).split('class="note-list"')[1].split("</ol>")[0]
+    assert "F&#9839;4" in chips   # F follows the key: F-sharp
+    assert "F&#9838;4" in chips   # explicit natural

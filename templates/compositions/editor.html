@@ -32,7 +32,8 @@
             {%- if n.is_rest -%}
               Rest
             {%- else -%}
-              {{ n.pitch }}{% if n.accidental == 'sharp' %}&#9839;{% elif n.accidental == 'flat' %}&#9837;{% endif %}{{ n.octave }}
+              {%- set acc = n.accidental or key_acc.get(n.pitch, '') -%}
+              {{ n.pitch }}{% if acc == 'sharp' %}&#9839;{% elif acc == 'flat' %}&#9837;{% elif acc == 'natural' %}&#9838;{% endif %}{{ n.octave }}
             {%- endif %}
             <span class="note-chip-duration">{{ n.duration }}</span>
           </li>
@@ -50,7 +51,8 @@
   <section class="note-entry card" aria-label="Add a note">
     <form class="note-form" id="note-form" method="post" action="{{ add_note_url or '' }}"
           data-range-low="{{ range_low[0] }}{{ range_low[1] }}"
-          data-range-high="{{ range_high[0] }}{{ range_high[1] }}">
+          data-range-high="{{ range_high[0] }}{{ range_high[1] }}"
+          data-key-accidentals='{{ key_acc|tojson }}'>
 
       <fieldset class="choice-group" id="pitch-group">
         <legend>Pitch</legend>
@@ -79,12 +81,12 @@
       <fieldset class="choice-group" id="accidental-group">
         <legend>Accidental</legend>
         {% for value, symbol, label in accidentals %}
-          <input class="choice-input" type="radio" name="accidental" id="accidental-{{ label|lower }}" value="{{ value }}" {% if loop.first %}checked{% endif %}>
-          <label class="choice choice-symbol" for="accidental-{{ label|lower }}" title="{{ label }}" aria-label="{{ label }}">{{ symbol }}</label>
+          <input class="choice-input" type="radio" name="accidental" id="accidental-{{ value or 'key' }}" value="{{ value }}" {% if loop.first %}checked{% endif %}>
+          <label class="choice{% if value %} choice-symbol{% endif %}" for="accidental-{{ value or 'key' }}" title="{{ label }}" aria-label="{{ label }}">{{ symbol }}</label>
         {% endfor %}
       </fieldset>
 
-      <p class="range-hint">Treble clef range: {{ range_low[0] }}{{ range_low[1] }} to {{ range_high[0] }}{{ range_high[1] }}. Pitches outside it are greyed out.</p>
+      <p class="range-hint">Treble clef range: {{ range_low[0] }}{{ range_low[1] }} to {{ range_high[0] }}{{ range_high[1] }}. Pitches outside it are greyed out. <strong>Key</strong> follows the key signature; ♮ cancels it.</p>
 
       <div class="note-form-actions">
         <label class="rest-toggle">
