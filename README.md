@@ -747,7 +747,7 @@ pytest --cov=. --cov-report=term
 
 **What we'll change in Sprint 2**
 
-Four of the five of us independently named the same two problems: unclear dependencies between tasks, and PRs waiting too long for review. Changes 1 and 2 address them.
+All five of us agreed on the same two problems: unclear dependencies between tasks, and PRs waiting too long for review. Changes 1 and 2 address them.
 
 1. **Review within 24 hours.** If you're requested as a reviewer, review or say you can't within a day so someone else can.
 2. **Make dependencies visible.** Link dependent tasks in Jira ("blocks / is blocked by"). Every PR says what it depends on and gives step-by-step testing instructions. Branch from `main`, not from someone else's open branch. If you need unmerged work, say so in the PR and agree on the merge order first.
