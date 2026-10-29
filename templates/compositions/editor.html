@@ -32,7 +32,8 @@
             {%- if n.is_rest -%}
               Rest
             {%- else -%}
-              {{ n.pitch }}{% if n.accidental == 'sharp' %}&#9839;{% elif n.accidental == 'flat' %}&#9837;{% endif %}{{ n.octave }}
+              {%- set acc = n.accidental or key_acc.get(n.pitch, '') -%}
+              {{ n.pitch }}{% if acc == 'sharp' %}&#9839;{% elif acc == 'flat' %}&#9837;{% elif acc == 'natural' %}&#9838;{% endif %}{{ n.octave }}
             {%- endif %}
             <span class="note-chip-duration">{{ n.duration }}</span>
           </li>
@@ -46,12 +47,14 @@
     {% endif %}
   </section>
 
-  {# ---- Note entry: layout only; NTT-40 adds behaviour, NTT-41 saves -- #}
+  {# ---- Note entry: palette (NTT-40); the add-note route (NTT-41) saves -- #}
   <section class="note-entry card" aria-label="Add a note">
-    {# action will point at the add-note route from NTT-41 #}
-    <form class="note-form" method="post" action="">
+    <form class="note-form" id="note-form" method="post" action="{{ add_note_url or '' }}"
+          data-range-low="{{ range_low[0] }}{{ range_low[1] }}"
+          data-range-high="{{ range_high[0] }}{{ range_high[1] }}"
+          data-key-accidentals='{{ key_acc|tojson }}'>
 
-      <fieldset class="choice-group">
+      <fieldset class="choice-group" id="pitch-group">
         <legend>Pitch</legend>
         {% for p in pitches %}
           <input class="choice-input" type="radio" name="pitch" id="pitch-{{ p }}" value="{{ p }}" {% if loop.first %}checked{% endif %}>
@@ -59,7 +62,7 @@
         {% endfor %}
       </fieldset>
 
-      <fieldset class="choice-group">
+      <fieldset class="choice-group" id="octave-group">
         <legend>Octave</legend>
         {% for o in octaves %}
           <input class="choice-input" type="radio" name="octave" id="octave-{{ o }}" value="{{ o }}" {% if o == 4 %}checked{% endif %}>
@@ -75,22 +78,31 @@
         {% endfor %}
       </fieldset>
 
-      <fieldset class="choice-group">
+      <fieldset class="choice-group" id="accidental-group">
         <legend>Accidental</legend>
         {% for value, symbol, label in accidentals %}
-          <input class="choice-input" type="radio" name="accidental" id="accidental-{{ label|lower }}" value="{{ value }}" {% if loop.first %}checked{% endif %}>
-          <label class="choice choice-symbol" for="accidental-{{ label|lower }}" title="{{ label }}" aria-label="{{ label }}">{{ symbol }}</label>
+          <input class="choice-input" type="radio" name="accidental" id="accidental-{{ value or 'key' }}" value="{{ value }}" {% if loop.first %}checked{% endif %}>
+          <label class="choice{% if value %} choice-symbol{% endif %}" for="accidental-{{ value or 'key' }}" title="{{ label }}" aria-label="{{ label }}">{{ symbol }}</label>
         {% endfor %}
       </fieldset>
 
+      <p class="range-hint">Treble clef range: {{ range_low[0] }}{{ range_low[1] }} to {{ range_high[0] }}{{ range_high[1] }}. Pitches outside it are greyed out. <strong>Key</strong> follows the key signature; ♮ cancels it.</p>
+
       <div class="note-form-actions">
         <label class="rest-toggle">
-          <input type="checkbox" name="is_rest" value="1"> Rest instead of a note
+          <input type="checkbox" name="is_rest" id="is-rest" value="1"> Rest instead of a note
         </label>
-        <button class="btn btn-primary" type="submit" {% if preview %}disabled title="Saving notes arrives with NTT-41"{% endif %}>Add note</button>
+        <p class="note-preview" aria-live="polite">Next: <strong id="note-preview-text">C4 quarter</strong></p>
+        <button class="btn btn-primary" type="submit"
+          {% if preview %}disabled title="Saving notes arrives with NTT-41"
+          {% elif not add_note_url %}disabled title="Adding notes arrives with the add-note route (NTT-41)"{% endif %}>Add note</button>
       </div>
     </form>
   </section>
 
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/note_palette.js') }}"></script>
 {% endblock %}

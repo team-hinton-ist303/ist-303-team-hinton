@@ -337,3 +337,9 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 calc(var(--space) * .75); }
 .form-field .choice { display: inline-block; margin-bottom: 0; }
 .form-field.choice-group { margin-bottom: var(--space); }
 .new-piece > .flash { margin-bottom: var(--space); }
+/* Note palette (NTT-40) */
+.choice-input:disabled + .choice { opacity: .3; cursor: not-allowed; background: transparent; }
+.choice-input:disabled + .choice:hover { border-color: var(--line, #ddd); }
+.range-hint { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+.note-preview { margin: 0 auto 0 0; color: var(--ink-soft); }
+.note-preview strong { color: var(--ink); }
