@@ -132,6 +132,16 @@ def new():
 @bp.get("/<int:composition_id>")
 @login_required
 def editor(composition_id):
+    composition = get_owned_composition(composition_id)
+    return render_editor(composition)
+
+
+def get_owned_composition(composition_id):
+    """Return the current user's composition, or 404 if missing/not owned.
+
+    Call this before reading or changing an existing composition.
+    Route handlers must also use @login_required.
+    """
     composition = db.session.execute(
         db.select(Composition).where(
             Composition.id == composition_id,
@@ -142,7 +152,7 @@ def editor(composition_id):
     if composition is None:
         abort(404)
 
-    return render_editor(composition)
+    return composition
 
 
 def sample_composition():
