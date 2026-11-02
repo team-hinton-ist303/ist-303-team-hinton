@@ -53,6 +53,50 @@ def effective_accidental(pitch, accidental, key_signature):
     """The accidental a note actually sounds with: its own, or else the key signature's."""
     return accidental or key_accidentals(key_signature).get(pitch, "")
 
+
+# --- Treble-clef range check (US-04-T4, NTT-42) -------------------------------
+
+# Semitones above C for each letter, and how far each accidental moves it.
+LETTER_SEMITONES = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
+ACCIDENTAL_SEMITONES = {"": 0, "natural": 0, "sharp": 1, "flat": -1}
+ACCIDENTAL_SYMBOLS = {"": "", "natural": "♮", "sharp": "♯", "flat": "♭"}
+
+
+def midi_number(pitch, octave, accidental=""):
+    """MIDI note number, e.g. C4 -> 60, A3 -> 57, A-flat 3 -> 56."""
+    return (octave + 1) * 12 + LETTER_SEMITONES[pitch] + ACCIDENTAL_SEMITONES[accidental]
+
+
+def note_range_error(pitch, octave, accidental, key_signature):
+    """Error message if the note is outside the treble-clef range (A3 to C6), else None.
+
+    Checks the note it actually becomes, so the key signature counts:
+    A3 in E-flat major is A-flat 3, which is below the range.
+    Rests have no pitch (pitch is None) and always pass.
+    """
+    if pitch is None:
+        return None
+    if pitch not in LETTER_SEMITONES:
+        return "Choose a pitch from A to G."
+    try:
+        octave = int(octave)
+    except (TypeError, ValueError):
+        return "Choose an octave."
+    if (accidental or "") not in ACCIDENTAL_SEMITONES:
+        return "Choose a valid accidental."
+
+    acc = effective_accidental(pitch, accidental or "", key_signature)
+    note = midi_number(pitch, octave, acc)
+    low = midi_number(*RANGE_LOW)
+    high = midi_number(*RANGE_HIGH)
+    if low <= note <= high:
+        return None
+
+    name = f"{pitch}{ACCIDENTAL_SYMBOLS[acc]}{octave}"
+    span = f"{RANGE_LOW[0]}{RANGE_LOW[1]} to {RANGE_HIGH[0]}{RANGE_HIGH[1]}"
+    where = "below" if note < low else "above"
+    return f"{name} is {where} the treble-clef range ({span})."
+
 KEY_SIGNATURES = [
     ("C major", "C major"),
     ("G major", "G major (1\u266f)"),
