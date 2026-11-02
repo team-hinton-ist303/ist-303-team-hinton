@@ -1,10 +1,10 @@
 from types import SimpleNamespace
 
-from flask import Blueprint, abort, redirect, render_template, request, url_for
+from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from werkzeug.routing import BuildError
 
-from models import Composition, db
+from models import Composition, Note, db
 
 bp = Blueprint("compositions", __name__, url_prefix="/compositions")
 
@@ -289,3 +289,54 @@ def render_editor(composition, preview=False):
 @login_required
 def editor_preview():
     return render_editor(sample_composition(), preview=True)
+
+@bp.post("/<int:composition_id>/notes")
+@login_required
+def add_note(composition_id):
+    composition = get_owned_composition(composition_id)
+
+    duration = request.form.get("duration", "")
+    is_rest = request.form.get("is_rest") == "1"
+    pitch = request.form.get("pitch")
+    octave = request.form.get("octave")
+    accidental = request.form.get("accidental", "")
+
+    error = None
+    if duration not in dict(DURATIONS):
+        error = "Choose a valid note duration."
+    elif not is_rest:
+        if not pitch:
+            error = "Choose a pitch from A to G."
+        else:
+            error = note_range_error(
+                pitch, octave, accidental, composition.key_signature
+            )
+
+    if error:
+        flash(error, "error")
+        return render_editor(composition), 400
+
+    last_position = db.session.execute(
+        db.select(db.func.max(Note.position)).where(
+            Note.composition_id == composition.id
+        )
+    ).scalar_one()
+
+    note = Note(
+        composition_id=composition.id,
+        position=1 if last_position is None else last_position + 1,
+        pitch=None if is_rest else pitch,
+        octave=None if is_rest else int(octave),
+        duration=duration,
+        accidental=None if is_rest else effective_accidental(
+            pitch, accidental, composition.key_signature
+        ),
+        is_rest=is_rest,
+    )
+    db.session.add(note)
+    db.session.commit()
+
+    flash("Note added", "success")
+    return redirect(
+        url_for("compositions.editor", composition_id=composition.id)
+    )

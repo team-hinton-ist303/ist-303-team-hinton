@@ -46,11 +46,10 @@ def test_palette_script_and_preview_present(app):
     assert 'id="is-rest"' in html
 
 
-def test_add_button_disabled_until_add_note_route_exists(app):
+def test_add_button_enabled_for_saved_composition(app):
     html = render(app, piece())
-    assert "disabled" in add_button(html)
-    assert "NTT-41" in add_button(html)
-    assert 'action=""' in html
+    assert "disabled" not in add_button(html)
+    assert 'action="/compositions/7/notes"' in html
 
 
 def test_no_add_note_url_for_unsaved_piece(app):
@@ -58,29 +57,27 @@ def test_no_add_note_url_for_unsaved_piece(app):
         assert add_note_url(piece(composition_id=None)) is None
 
 
-def test_palette_wires_up_once_add_note_route_exists(app):
-    # Stand-in for Aaron's route (NTT-41): endpoint compositions.add_note,
-    # POST /compositions/<id>/notes.
-    app.add_url_rule(
-        "/compositions/<int:composition_id>/notes",
-        endpoint="compositions.add_note",
-        view_func=lambda composition_id: "",
-        methods=["POST"],
-    )
-    html = render(app, piece(composition_id=7))
-    assert 'action="/compositions/7/notes"' in html
-    assert "disabled" not in add_button(html)
+def test_palette_uses_real_add_note_endpoint(app):
+    from flask import url_for
+
+    rules = [
+        rule for rule in app.url_map.iter_rules()
+        if rule.endpoint == "compositions.add_note"
+    ]
+    assert len(rules) == 1
+    assert "POST" in rules[0].methods
+    assert "GET" not in rules[0].methods
+
+    with app.test_request_context("/"):
+        assert url_for(
+            "compositions.add_note", composition_id=7
+        ) == "/compositions/7/notes"
 
 
 def test_preview_page_never_enables_add(app):
-    app.add_url_rule(
-        "/compositions/<int:composition_id>/notes",
-        endpoint="compositions.add_note",
-        view_func=lambda composition_id: "",
-        methods=["POST"],
-    )
     html = render(app, piece(), preview=True)
     assert "disabled" in add_button(html)
+    assert 'action=""' in html
 
 
 # --- "Key" accidental: notes follow the key signature (decided Oct 28) -------
