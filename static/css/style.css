@@ -347,3 +347,5 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 calc(var(--space) * .75); }
 /* Sheet music (NTT-54) */
 .staff-svg { overflow-x: auto; background: #fff; border-radius: 6px; padding: .25rem 0; }
 .staff-svg svg { display: block; max-width: 100%; height: auto; }
+/* NTT-55: under the real empty staff, the hint doesn't need the drawn lines */
+.staff-svg-empty + .staff-empty { min-height: 0; background: none; }

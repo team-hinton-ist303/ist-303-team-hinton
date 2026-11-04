@@ -2,7 +2,7 @@ import os
 
 import verovio
 
-from music21 import clef
+from music21 import clef, stream
 from music21.musicxml.m21ToXml import GeneralObjectExporter
 from music_stream import composition_to_stream
 
@@ -38,8 +38,32 @@ def composition_to_svg(composition):
     # Step 2: Add a treble clef
     melody.insert(0, clef.TrebleClef())
 
+    # Steps 3-5: MusicXML -> Verovio -> SVG
+    return render_stream(melody)
+
+
+def empty_staff_svg(composition):
+    """An empty staff for a piece with no notes yet (NTT-55).
+
+    Shows the clef, key signature, time signature and tempo the user picked,
+    in one empty bar, so a new piece already looks like sheet music.
+    """
+    settings = composition_to_stream(composition)  # no notes: only key, time and tempo
+    settings.insert(0, clef.TrebleClef())
+
+    # Put the settings in one bar. A bare stream with no notes has nothing to export.
+    bar = stream.Measure(number=1)
+    for item in list(settings.getElementsByOffset(0)):
+        bar.insert(0, item)
+
+    return render_stream(stream.Part([bar]))
+
+
+def render_stream(music):
+    """Draw a music21 Stream as SVG with Verovio."""
+
     # Step 3: Export the Stream as MusicXML
-    musicxml = GeneralObjectExporter(melody).parse().decode("utf-8")
+    musicxml = GeneralObjectExporter(music).parse().decode("utf-8")
 
     # Step 4: Load MusicXML into Verovio
     toolkit = verovio.toolkit(False)

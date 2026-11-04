@@ -45,6 +45,10 @@
         {% endfor %}
       </ol>
     {% else %}
+      {# Empty staff with the piece's clef, key, time signature and tempo (NTT-55) #}
+      {% if staff_svg %}
+        <div class="staff-svg staff-svg-empty">{{ staff_svg|safe }}</div>
+      {% endif %}
       <div class="staff-empty">
         <p><strong>No notes yet.</strong></p>
         <p>Pick a pitch, octave and length below, then press <em>Add note</em>.</p>
