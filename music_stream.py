@@ -43,6 +43,11 @@ def composition_to_stream(composition):
                     item.accidental
                 )
 
+        # Preserve database identity through MusicXML and Verovio.
+        note_id = getattr(item, "id", None)
+        if note_id is not None:
+            converted.id = f"db-note-{note_id}"
+
         converted.duration.type = item.duration
         melody.append(converted)
 
