@@ -30,6 +30,44 @@ Daniel, Varuzhan, Yalei, and Beijia each have about 10 hours a week for this pro
 | Iteration 2 (Sprint 2) | Thu Oct 22 – Wed Nov 11, 2026 | 3 weeks |
 | Milestone 1.0 demo | Thu Nov 12, 2026 | |
 
+## Developer Setup
+
+### Requirements
+
+- **Python 3.12 or newer.** Check with `python --version` while your virtual environment is active. (The code has been tested on 3.10 through 3.14; 3.12 is what the GitHub Action uses.)
+- Git, and access to the [team-hinton-ist303](https://github.com/team-hinton-ist303/ist-303-team-hinton) repo.
+
+### First-time setup
+
+```bash
+git clone https://github.com/team-hinton-ist303/ist-303-team-hinton.git
+cd ist-303-team-hinton
+python3 -m venv ~/.venvs/noted          # keep the venv outside Dropbox/OneDrive folders
+source ~/.venvs/noted/bin/activate
+pip install -r requirements.txt
+flask --app app init-db
+flask --app app seed-demo               # demo login: demo / noted-demo-2026
+pytest
+flask --app app run
+```
+
+### After pulling new code
+
+Run these every time you pull. They are safe to repeat and don't delete your own pieces.
+
+```bash
+source ~/.venvs/noted/bin/activate      # 1. turn on your venv
+git switch main && git pull             # 2. get the latest code
+pip install -r requirements.txt         # 3. install new or updated packages
+flask --app app init-db                 # 4. create any new tables (keeps your data)
+flask --app app seed-demo               # 5. optional: reset the demo user's 3 pieces
+pytest                                  # 6. everything should pass on a fresh pull
+```
+
+`init-db` creates new **tables** but can't add new **columns** to existing ones. When a PR changes an existing table, it comes with a one-time upgrade command, and the PR description says so.
+
+**If something breaks after pulling,** check in this order: the venv is active; `pip install -r requirements.txt` was run; a database upgrade command is needed.
+
 ---
 
 # Part A
