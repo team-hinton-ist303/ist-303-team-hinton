@@ -18,9 +18,11 @@ Answers to the three retro questions asked at the [Oct 21 stand-up](2026-10-21-s
 2. **Didn't go well:** Dependencies were not clear, which caused conflicts and overlapping work more often as the sprint went on. Some PRs went unreviewed and unmerged for long stretches.
 3. **Improve:** Find a better way to communicate dependencies. Turn PRs around faster, from submitted to review completed.
 
-## Daniel Abalusi
+## Daniel Abalusi (after the 2 pm cut-off)
 
-*No response yet.*
+1. **Went well:** We helped each other integrate features and resolve issues through testing.
+2. **Didn't go well:** Branch dependencies made some PRs confusing, and reviews took longer than expected.
+3. **Improve:** Document dependencies when opening PRs and aim to review them within 24 hours.
 
 ## Beijia Gu (Jae), Oct 22 (after the 2 pm cut-off, before class)
 
@@ -28,8 +30,6 @@ Answers to the three retro questions asked at the [Oct 21 stand-up](2026-10-21-s
 2. **Didn't go well:** Unclear dependencies caused merge conflicts and delayed PR reviews.
 3. **Improve:** Communicate earlier and review PRs faster.
 
-## Ryan Miller, Oct 22 (after the 2 pm cut-off, before class)
+## Ryan Miller (after the 2 pm cut-off)
 
-1. **Went well:** We helped each other integrate features and resolve issues through testing.
-2. **Didn't go well:** Branch dependencies made some PRs confusing, and reviews took longer than expected.
-3. **Improve:** Document dependencies when opening PRs and aim to review them within 24 hours.
+Agrees with the team's main points: unclear dependencies between tasks and slow PR reviews were the biggest problems, and the Sprint 2 changes (24-hour reviews, documenting dependencies in PRs and Jira) address them.
