@@ -1,10 +1,11 @@
 from types import SimpleNamespace
 
-from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
+from flask import Blueprint, abort, current_app, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from werkzeug.routing import BuildError
 
 from models import Composition, Note, db
+from render_service import composition_to_svg
 
 bp = Blueprint("compositions", __name__, url_prefix="/compositions")
 
@@ -268,10 +269,26 @@ def add_note_url(composition):
         return None
 
 
+def staff_svg_for(composition):
+    """Sheet-music SVG for the editor, or "" when there's nothing to draw.
+
+    If drawing fails, the editor still opens: it shows a short message
+    and the note list instead of an error page (NTT-54).
+    """
+    if not getattr(composition, "notes", None):
+        return ""
+    try:
+        return composition_to_svg(composition)
+    except Exception:
+        current_app.logger.exception("Could not draw composition %s", getattr(composition, "id", None))
+        return None
+
+
 def render_editor(composition, preview=False):
     return render_template(
         "compositions/editor.html",
         composition=composition,
+        staff_svg=staff_svg_for(composition),
         pitches=PITCHES,
         octaves=OCTAVES,
         durations=DURATIONS,
