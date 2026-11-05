@@ -212,3 +212,32 @@ def test_logged_out_user_cannot_add_note(client, piece):
     assert response.status_code == 302
     assert "/auth/login" in response.headers["Location"]
     assert Note.query.count() == 0
+
+
+@pytest.mark.parametrize("duration", [
+    "whole",
+    "half",
+    "quarter",
+    "eighth",
+    "16th",
+])
+def test_rest_supported_for_every_duration(client, piece, duration):
+    response = client.post(
+        f"/compositions/{piece.id}/notes",
+        data={
+            "is_rest": "1",
+            "duration": duration,
+        }
+    )
+
+    assert response.status_code == 302
+
+    saved = Note.query.filter_by(
+        composition_id=piece.id
+    ).one()
+
+    assert saved.is_rest is True
+    assert saved.duration == duration
+    assert saved.pitch is None
+    assert saved.octave is None
+    assert saved.accidental is None
