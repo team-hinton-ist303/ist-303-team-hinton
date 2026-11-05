@@ -356,3 +356,7 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 calc(var(--space) * .75); }
 .note-selected, .note-select-hint { margin: 0; font-size: .9rem; color: var(--ink-soft); }
 .staff-svg [data-note-id] { cursor: pointer; }
 .staff-svg g.is-selected, .staff-svg g.is-selected * { fill: var(--accent); }
+
+/* NTT-63: editing the selected note */
+.note-entry.is-editing { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.note-entry-title { margin: 0 0 .75rem; font-size: 1.05rem; }

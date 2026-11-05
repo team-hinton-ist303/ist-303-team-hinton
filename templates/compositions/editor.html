@@ -74,8 +74,15 @@
   </section>
 
   {# ---- Note entry: palette (NTT-40); the add-note route (NTT-41) saves -- #}
-  <section class="note-entry card" aria-label="Add a note">
-    <form class="note-form" id="note-form" method="post" action="{{ add_note_url or '' }}"
+  {# With a note selected (NTT-62) the palette edits it instead (NTT-63);  #}
+  {# the update route (NTT-64) saves the changes.                          #}
+  <section class="note-entry card{% if selected_note %} is-editing{% endif %}"
+           aria-label="{% if selected_note %}Edit note {{ selected_note.position }}{% else %}Add a note{% endif %}">
+    {% if selected_note %}
+      <h2 class="note-entry-title">Edit note {{ selected_note.position }}</h2>
+    {% endif %}
+    <form class="note-form" id="note-form" method="post"
+          action="{% if selected_note %}{{ update_note_url or '' }}{% else %}{{ add_note_url or '' }}{% endif %}"
           data-range-low="{{ range_low[0] }}{{ range_low[1] }}"
           data-range-high="{{ range_high[0] }}{{ range_high[1] }}"
           data-key-accidentals='{{ key_acc|tojson }}'>
@@ -83,7 +90,7 @@
       <fieldset class="choice-group" id="pitch-group">
         <legend>Pitch</legend>
         {% for p in pitches %}
-          <input class="choice-input" type="radio" name="pitch" id="pitch-{{ p }}" value="{{ p }}" {% if loop.first %}checked{% endif %}>
+          <input class="choice-input" type="radio" name="pitch" id="pitch-{{ p }}" value="{{ p }}" {% if p == palette.pitch %}checked{% endif %}>
           <label class="choice" for="pitch-{{ p }}">{{ p }}</label>
         {% endfor %}
       </fieldset>
@@ -91,7 +98,7 @@
       <fieldset class="choice-group" id="octave-group">
         <legend>Octave</legend>
         {% for o in octaves %}
-          <input class="choice-input" type="radio" name="octave" id="octave-{{ o }}" value="{{ o }}" {% if o == 4 %}checked{% endif %}>
+          <input class="choice-input" type="radio" name="octave" id="octave-{{ o }}" value="{{ o }}" {% if o == palette.octave %}checked{% endif %}>
           <label class="choice" for="octave-{{ o }}">{{ o }}</label>
         {% endfor %}
       </fieldset>
@@ -99,7 +106,7 @@
       <fieldset class="choice-group">
         <legend>Length</legend>
         {% for value, label in durations %}
-          <input class="choice-input" type="radio" name="duration" id="duration-{{ value }}" value="{{ value }}" {% if value == 'quarter' %}checked{% endif %}>
+          <input class="choice-input" type="radio" name="duration" id="duration-{{ value }}" value="{{ value }}" {% if value == palette.duration %}checked{% endif %}>
           <label class="choice" for="duration-{{ value }}">{{ label }}</label>
         {% endfor %}
       </fieldset>
@@ -107,7 +114,7 @@
       <fieldset class="choice-group" id="accidental-group">
         <legend>Accidental</legend>
         {% for value, symbol, label in accidentals %}
-          <input class="choice-input" type="radio" name="accidental" id="accidental-{{ value or 'key' }}" value="{{ value }}" {% if loop.first %}checked{% endif %}>
+          <input class="choice-input" type="radio" name="accidental" id="accidental-{{ value or 'key' }}" value="{{ value }}" {% if value == palette.accidental %}checked{% endif %}>
           <label class="choice{% if value %} choice-symbol{% endif %}" for="accidental-{{ value or 'key' }}" title="{{ label }}" aria-label="{{ label }}">{{ symbol }}</label>
         {% endfor %}
       </fieldset>
@@ -116,12 +123,18 @@
 
       <div class="note-form-actions">
         <label class="rest-toggle">
-          <input type="checkbox" name="is_rest" id="is-rest" value="1"> Rest instead of a note
+          <input type="checkbox" name="is_rest" id="is-rest" value="1" {% if palette.is_rest %}checked{% endif %}> Rest instead of a note
         </label>
-        <p class="note-preview" aria-live="polite">Next: <strong id="note-preview-text">C4 quarter</strong></p>
-        <button class="btn btn-primary" type="submit"
-          {% if preview %}disabled title="Saving notes arrives with NTT-41"
-          {% elif not add_note_url %}disabled title="Adding notes arrives with the add-note route (NTT-41)"{% endif %}>Add note</button>
+        <p class="note-preview" aria-live="polite">{% if selected_note %}Change to{% else %}Next{% endif %}: <strong id="note-preview-text">C4 quarter</strong></p>
+        {% if selected_note %}
+          <a class="btn" href="{{ url_for('compositions.editor', composition_id=composition.id) }}">Cancel</a>
+          <button class="btn btn-primary" type="submit"
+            {% if not update_note_url %}disabled title="Saving changes arrives with the update route (NTT-64)"{% endif %}>Save changes</button>
+        {% else %}
+          <button class="btn btn-primary" type="submit"
+            {% if preview %}disabled title="Saving notes arrives with NTT-41"
+            {% elif not add_note_url %}disabled title="Adding notes arrives with the add-note route (NTT-41)"{% endif %}>Add note</button>
+        {% endif %}
       </div>
     </form>
   </section>
