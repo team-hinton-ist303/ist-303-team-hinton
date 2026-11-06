@@ -137,7 +137,11 @@ def test_editor_lists_rests_in_order(client, piece):
 
     html = client.get(f"/compositions/{piece.id}").get_data(as_text=True)
     note_list = html.split('class="note-list"', 1)[1].split("</ol>", 1)[0]
-    chips = [chip.split("<span", 1)[0].strip() for chip in note_list.split('<li class="note-chip">')[1:]]
+    # Each chip's label, ignoring any tags around it (chips are links since NTT-62).
+    chips = [
+        re.sub(r"<[^>]+>", "", chip.split('<span class="note-chip-duration"', 1)[0].split(">", 1)[1]).strip()
+        for chip in note_list.split('<li class="note-chip')[1:]
+    ]
 
     assert chips == ["C4", "Rest", "E4"]
     assert "half" in note_list
