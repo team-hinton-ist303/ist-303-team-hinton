@@ -398,3 +398,44 @@ def update_note(composition_id, note_id):
     return redirect(
         url_for("compositions.editor", composition_id=composition.id)
     )
+
+
+@bp.post("/<int:composition_id>/notes/<int:note_id>/delete")
+@login_required
+def delete_note(composition_id, note_id):
+    composition = get_owned_composition(composition_id)
+
+    note = db.session.get(Note, note_id)
+    if note is None or note.composition_id != composition.id:
+        abort(404)
+
+    # Delete the selected note.
+    db.session.delete(note)
+    db.session.flush()
+
+    # Get remaining notes in their original order.
+    remaining = db.session.execute(
+        db.select(Note)
+        .where(Note.composition_id == composition.id)
+        .order_by(Note.position, Note.id)
+    ).scalars().all()
+
+    # Move positions to temporary values to avoid
+    # violating the unique constraint during renumbering.
+    max_position = max((n.position for n in remaining), default=0)
+
+    for index, n in enumerate(remaining, start=1):
+        n.position = max_position + index
+
+    db.session.flush()
+
+    # Renumber remaining notes starting from 1.
+    for index, n in enumerate(remaining, start=1):
+        n.position = index
+
+    db.session.commit()
+
+    flash("Note deleted", "success")
+    return redirect(
+        url_for("compositions.editor", composition_id=composition.id)
+    )
