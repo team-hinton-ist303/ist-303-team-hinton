@@ -12,7 +12,7 @@ def index():
     compositions = db.session.execute(
         db.select(Composition)
         .where(Composition.user_id == current_user.id)
-        .order_by(Composition.id.desc())
+        .order_by(Composition.updated_at.desc(), Composition.id.desc())
     ).scalars().all()
 
     return render_template(
