@@ -8,6 +8,7 @@ import re
 
 import pytest
 
+import compositions
 from compositions import palette_values
 from models import Composition, Note, db
 
@@ -128,17 +129,20 @@ def test_without_selection_palette_is_unchanged(logged_in_client, piece):
     assert "Next:" in html
 
 
-def test_save_is_disabled_until_the_update_route_exists(logged_in_client, piece):
+def test_save_is_disabled_when_the_update_route_is_missing(logged_in_client, piece, monkeypatch):
+    """Before NTT-64 merges there is no update route; simulate that either way."""
+    monkeypatch.setattr(compositions, "update_note_url", lambda composition, note: None)
     html = editor(logged_in_client, piece, note_at(piece, 1))
     assert 'action=""' in form_tag(html)
     assert "disabled" in submit_button(html)
     assert "update route (NTT-64)" in submit_button(html)
 
 
-def test_form_posts_to_the_update_route_once_it_exists(app, client, test_user):
-    """Stand-in for NTT-64's route, registered at the contract's URL and endpoint."""
-    app.add_url_rule("/compositions/<int:composition_id>/notes/<int:note_id>",
-                     endpoint="compositions.update_note", view_func=lambda **_: "", methods=["POST"])
+def test_form_posts_to_the_update_route(app, client, test_user):
+    """Uses NTT-64's route once it's merged; until then, a stand-in at the contract's URL."""
+    if "compositions.update_note" not in app.view_functions:
+        app.add_url_rule("/compositions/<int:composition_id>/notes/<int:note_id>",
+                         endpoint="compositions.update_note", view_func=lambda **_: "", methods=["POST"])
     client.post("/auth/login", data={"username": "tester", "password": "test-password"})
     piece = make_piece(test_user, notes=[("C", 4, "quarter", None)])
     note = piece.notes[0]
