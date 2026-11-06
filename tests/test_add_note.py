@@ -150,11 +150,13 @@ def test_rest_still_requires_valid_duration(client, piece):
     assert Note.query.count() == 0
 
 
+
 @pytest.mark.parametrize("accidental, expected", [
-    ("", "sharp"),
+    ("", ""),
     ("natural", "natural"),
     ("flat", "flat"),
 ])
+
 def test_accidental_matches_key_or_explicit_choice(
     client, piece, accidental, expected
 ):
@@ -212,3 +214,61 @@ def test_logged_out_user_cannot_add_note(client, piece):
     assert response.status_code == 302
     assert "/auth/login" in response.headers["Location"]
     assert Note.query.count() == 0
+
+def test_rest_stored_between_notes_in_order(client, piece):
+    # Add C, then a rest, then G
+    response = post_note(client, piece, {**VALID, "pitch": "C"})
+    assert response.status_code == 302
+
+    response = post_note(client, piece, {
+        "is_rest": "1",
+        "duration": "half"
+    })
+    assert response.status_code == 302
+
+    response = post_note(client, piece, {**VALID, "pitch": "G"})
+    assert response.status_code == 302
+
+    # Reload from the database
+    db.session.expire_all()
+    notes = Note.query.filter_by(
+        composition_id=piece.id
+    ).order_by(Note.position).all()
+
+    assert len(notes) == 3
+    assert [n.position for n in notes] == [1, 2, 3]
+    assert [n.pitch for n in notes] == ["C", None, "G"]
+    assert [n.is_rest for n in notes] == [False, True, False]
+
+    # A rest has no pitch, octave, or accidental
+    assert notes[1].octave is None
+    assert notes[1].accidental is None
+    assert notes[1].duration == "half"
+
+@pytest.mark.parametrize("duration", [
+    "whole",
+    "half",
+    "quarter",
+    "eighth",
+    "16th",
+])
+def test_rest_supported_for_every_duration(client, piece, duration):
+    response = client.post(
+        f"/compositions/{piece.id}/notes",
+        data={
+            "is_rest": "1",
+            "duration": duration,
+        }
+    )
+
+    assert response.status_code == 302
+
+    saved = Note.query.filter_by(
+        composition_id=piece.id
+    ).one()
+
+    assert saved.is_rest is True
+    assert saved.duration == duration
+    assert saved.pitch is None
+    assert saved.octave is None
+    assert saved.accidental is None

@@ -42,10 +42,10 @@ def test_note_list_still_shown_under_the_music(app):
     assert 'class="note-list"' in staff_area(html)
 
 
-def test_empty_piece_has_no_svg_yet(app):
+def test_empty_piece_shows_empty_staff_and_hint(app):
     html = render(app, piece([]))
     area = staff_area(html)
-    assert "<svg" not in area
+    assert '<div class="staff-svg staff-svg-empty">' in area
     assert "No notes yet." in area
 
 

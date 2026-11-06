@@ -356,3 +356,6 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 calc(var(--space) * .75); }
 .note-selected, .note-select-hint { margin: 0; font-size: .9rem; color: var(--ink-soft); }
 .staff-svg [data-note-id] { cursor: pointer; }
 .staff-svg g.is-selected, .staff-svg g.is-selected * { fill: var(--accent); }
+
+/* NTT-55: under the real empty staff, the hint doesn't need the drawn lines */
+.staff-svg-empty + .staff-empty { min-height: 0; background: none; }

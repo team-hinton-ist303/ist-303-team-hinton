@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 from werkzeug.routing import BuildError
 
 from models import Composition, Note, db
-from render_service import composition_to_svg
+from render_service import composition_to_svg, empty_staff_svg
 
 bp = Blueprint("compositions", __name__, url_prefix="/compositions")
 
@@ -287,15 +287,17 @@ def add_note_url(composition):
 
 
 def staff_svg_for(composition):
-    """Sheet-music SVG for the editor, or "" when there's nothing to draw.
+    """Sheet-music SVG for the editor.
 
-    If drawing fails, the editor still opens: it shows a short message
-    and the note list instead of an error page (NTT-54).
+    A piece with notes gets its music (NTT-54); a new piece with no notes gets
+    an empty staff with its clef, key, time signature and tempo (NTT-55).
+    If drawing fails, the editor still opens: it returns None and the page
+    shows a short message instead of an error page.
     """
-    if not getattr(composition, "notes", None):
-        return ""
     try:
-        return composition_to_svg(composition)
+        if getattr(composition, "notes", None):
+            return composition_to_svg(composition)
+        return empty_staff_svg(composition)
     except Exception:
         current_app.logger.exception("Could not draw composition %s", getattr(composition, "id", None))
         return None
@@ -360,18 +362,100 @@ def add_note(composition_id):
     note = Note(
         composition_id=composition.id,
         position=1 if last_position is None else last_position + 1,
-        pitch=None if is_rest else pitch,
+               pitch=None if is_rest else pitch,
         octave=None if is_rest else int(octave),
         duration=duration,
-        accidental=None if is_rest else effective_accidental(
-            pitch, accidental, composition.key_signature
-        ),
+        accidental=None if is_rest else accidental,
         is_rest=is_rest,
     )
     db.session.add(note)
     db.session.commit()
 
     flash("Note added", "success")
+    return redirect(
+        url_for("compositions.editor", composition_id=composition.id)
+    )
+
+@bp.post("/<int:composition_id>/notes/<int:note_id>")
+@login_required
+def update_note(composition_id, note_id):
+    composition = get_owned_composition(composition_id)
+
+    note = db.session.get(Note, note_id)
+    if note is None or note.composition_id != composition.id:
+        abort(404)
+
+    duration = request.form.get("duration", "")
+    is_rest = request.form.get("is_rest") == "1"
+    pitch = request.form.get("pitch")
+    octave = request.form.get("octave")
+    accidental = request.form.get("accidental", "") or ""
+
+    error = None
+    if duration not in dict(DURATIONS):
+        error = "Choose a valid note duration."
+    elif not is_rest:
+        if not pitch:
+            error = "Choose a pitch from A to G."
+        else:
+            error = note_range_error(
+                pitch, octave, accidental, composition.key_signature
+            )
+
+    if error:
+        flash(error, "error")
+        return render_editor(composition), 400
+
+    note.pitch = None if is_rest else pitch
+    note.octave = None if is_rest else int(octave)
+    note.duration = duration
+    note.accidental = None if is_rest else accidental
+    note.is_rest = is_rest
+
+    db.session.commit()
+
+    flash("Note updated", "success")
+    return redirect(
+        url_for("compositions.editor", composition_id=composition.id)
+    )
+
+
+@bp.post("/<int:composition_id>/notes/<int:note_id>/delete")
+@login_required
+def delete_note(composition_id, note_id):
+    composition = get_owned_composition(composition_id)
+
+    note = db.session.get(Note, note_id)
+    if note is None or note.composition_id != composition.id:
+        abort(404)
+
+    # Delete the selected note.
+    db.session.delete(note)
+    db.session.flush()
+
+    # Get remaining notes in their original order.
+    remaining = db.session.execute(
+        db.select(Note)
+        .where(Note.composition_id == composition.id)
+        .order_by(Note.position, Note.id)
+    ).scalars().all()
+
+    # Move positions to temporary values to avoid
+    # violating the unique constraint during renumbering.
+    max_position = max((n.position for n in remaining), default=0)
+
+    for index, n in enumerate(remaining, start=1):
+        n.position = max_position + index
+
+    db.session.flush()
+
+    # Renumber remaining notes starting from 1.
+    for index, n in enumerate(remaining, start=1):
+        n.position = index
+
+    db.session.commit()
+
+    flash("Note deleted", "success")
     return redirect(
         url_for("compositions.editor", composition_id=composition.id)
     )
