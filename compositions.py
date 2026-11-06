@@ -210,7 +210,24 @@ def new():
 @login_required
 def editor(composition_id):
     composition = get_owned_composition(composition_id)
-    return render_editor(composition)
+    selected = selected_note_for(composition, request.args.get("note"))
+    return render_editor(composition, selected_note=selected)
+
+
+def selected_note_for(composition, note_id):
+    """The note picked with ?note=<id> (NTT-62), or None.
+
+    Only notes in this composition can be selected, so a missing, bad or
+    someone else's note id just shows the editor with nothing selected.
+    """
+    try:
+        note_id = int(note_id)
+    except (TypeError, ValueError):
+        return None
+    for note in getattr(composition, "notes", None) or []:
+        if getattr(note, "id", None) == note_id:
+            return note
+    return None
 
 
 def get_owned_composition(composition_id):
@@ -286,10 +303,54 @@ def staff_svg_for(composition):
         return None
 
 
-def render_editor(composition, preview=False):
+# Palette starting values when nothing is selected.
+DEFAULT_PALETTE = {"pitch": "C", "octave": 4, "duration": "quarter", "accidental": "", "is_rest": False}
+
+
+def palette_values(selected_note, key_signature):
+    """What the palette starts with: the selected note's values (NTT-63), or the defaults.
+
+    An accidental that the key signature already gives (F sharp in G major) shows as
+    "Key", so editing a note doesn't turn it into an explicit sharp.
+    """
+    if selected_note is None:
+        return dict(DEFAULT_PALETTE)
+    if selected_note.is_rest:
+        return {**DEFAULT_PALETTE, "duration": selected_note.duration, "is_rest": True}
+
+    accidental = selected_note.accidental or ""
+    if accidental == key_accidentals(key_signature).get(selected_note.pitch, ""):
+        accidental = ""
+    return {
+        "pitch": selected_note.pitch,
+        "octave": selected_note.octave,
+        "duration": selected_note.duration,
+        "accidental": accidental,
+        "is_rest": False,
+    }
+
+
+def update_note_url(composition, note):
+    """URL the edit form saves to, or None until the update route (NTT-64) exists.
+
+    Edit contract: POST /compositions/<id>/notes/<note_id>, endpoint
+    ``compositions.update_note``. Until it is registered, Save changes stays disabled.
+    """
+    if note is None or getattr(composition, "id", None) is None:
+        return None
+    try:
+        return url_for("compositions.update_note", composition_id=composition.id, note_id=note.id)
+    except BuildError:
+        return None
+
+
+def render_editor(composition, preview=False, selected_note=None):
     return render_template(
         "compositions/editor.html",
         composition=composition,
+        selected_note=selected_note,
+        palette=palette_values(selected_note, getattr(composition, "key_signature", None)),
+        update_note_url=None if preview else update_note_url(composition, selected_note),
         staff_svg=staff_svg_for(composition),
         pitches=PITCHES,
         octaves=OCTAVES,
