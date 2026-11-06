@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 from werkzeug.routing import BuildError
 
 from models import Composition, Note, db
-from render_service import composition_to_svg
+from render_service import composition_to_svg, empty_staff_svg
 
 bp = Blueprint("compositions", __name__, url_prefix="/compositions")
 
@@ -270,15 +270,17 @@ def add_note_url(composition):
 
 
 def staff_svg_for(composition):
-    """Sheet-music SVG for the editor, or "" when there's nothing to draw.
+    """Sheet-music SVG for the editor.
 
-    If drawing fails, the editor still opens: it shows a short message
-    and the note list instead of an error page (NTT-54).
+    A piece with notes gets its music (NTT-54); a new piece with no notes gets
+    an empty staff with its clef, key, time signature and tempo (NTT-55).
+    If drawing fails, the editor still opens: it returns None and the page
+    shows a short message instead of an error page.
     """
-    if not getattr(composition, "notes", None):
-        return ""
     try:
-        return composition_to_svg(composition)
+        if getattr(composition, "notes", None):
+            return composition_to_svg(composition)
+        return empty_staff_svg(composition)
     except Exception:
         current_app.logger.exception("Could not draw composition %s", getattr(composition, "id", None))
         return None
