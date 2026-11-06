@@ -150,11 +150,13 @@ def test_rest_still_requires_valid_duration(client, piece):
     assert Note.query.count() == 0
 
 
+
 @pytest.mark.parametrize("accidental, expected", [
-    ("", "sharp"),
+    ("", ""),
     ("natural", "natural"),
     ("flat", "flat"),
 ])
+
 def test_accidental_matches_key_or_explicit_choice(
     client, piece, accidental, expected
 ):

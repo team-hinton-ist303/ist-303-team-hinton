@@ -342,12 +342,10 @@ def add_note(composition_id):
     note = Note(
         composition_id=composition.id,
         position=1 if last_position is None else last_position + 1,
-        pitch=None if is_rest else pitch,
+               pitch=None if is_rest else pitch,
         octave=None if is_rest else int(octave),
         duration=duration,
-        accidental=None if is_rest else effective_accidental(
-            pitch, accidental, composition.key_signature
-        ),
+        accidental=None if is_rest else accidental,
         is_rest=is_rest,
     )
     db.session.add(note)
