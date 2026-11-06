@@ -151,3 +151,42 @@ def test_real_database_composition(app):
         assert notes[1].pitch.nameWithOctave == "G4"
         assert notes[0].duration.quarterLength == 1
         assert notes[1].duration.quarterLength == 2
+
+def test_key_signature_change_updates_notes():
+    # Create an F note with the default Key option
+    composition = SimpleNamespace(
+        key_signature="G major",
+        time_signature="4/4",
+        tempo=100,
+        notes=[
+            make_note(1, "F", 4, "quarter", accidental="")
+        ]
+    )
+
+    # In G major, F becomes F sharp
+    result = composition_to_stream(composition)
+    assert list(result.notesAndRests)[0].pitch.nameWithOctave == "F#4"
+
+    # Change the key to C major
+    composition.key_signature = "C major"
+
+    # The same saved note should now become F natural
+    result = composition_to_stream(composition)
+    assert list(result.notesAndRests)[0].pitch.nameWithOctave == "F4"
+
+
+def test_explicit_natural_overrides_key():
+    composition = SimpleNamespace(
+        key_signature="G major",
+        time_signature="4/4",
+        tempo=100,
+        notes=[
+            make_note(1, "F", 4, "quarter", accidental="natural")
+        ]
+    )
+
+    result = composition_to_stream(composition)
+    converted = list(result.notesAndRests)[0]
+
+    assert converted.pitch.nameWithOctave == "F4"
+    assert converted.pitch.accidental.name == "natural"

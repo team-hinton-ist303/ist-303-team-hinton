@@ -360,3 +360,6 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 calc(var(--space) * .75); }
 /* NTT-63: editing the selected note */
 .note-entry.is-editing { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
 .note-entry-title { margin: 0 0 .75rem; font-size: 1.05rem; }
+
+/* NTT-55: under the real empty staff, the hint doesn't need the drawn lines */
+.staff-svg-empty + .staff-empty { min-height: 0; background: none; }
