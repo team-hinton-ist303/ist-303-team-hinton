@@ -355,3 +355,46 @@ def add_note(composition_id):
     return redirect(
         url_for("compositions.editor", composition_id=composition.id)
     )
+
+@bp.post("/<int:composition_id>/notes/<int:note_id>")
+@login_required
+def update_note(composition_id, note_id):
+    composition = get_owned_composition(composition_id)
+
+    note = db.session.get(Note, note_id)
+    if note is None or note.composition_id != composition.id:
+        abort(404)
+
+    duration = request.form.get("duration", "")
+    is_rest = request.form.get("is_rest") == "1"
+    pitch = request.form.get("pitch")
+    octave = request.form.get("octave")
+    accidental = request.form.get("accidental", "") or ""
+
+    error = None
+    if duration not in dict(DURATIONS):
+        error = "Choose a valid note duration."
+    elif not is_rest:
+        if not pitch:
+            error = "Choose a pitch from A to G."
+        else:
+            error = note_range_error(
+                pitch, octave, accidental, composition.key_signature
+            )
+
+    if error:
+        flash(error, "error")
+        return render_editor(composition), 400
+
+    note.pitch = None if is_rest else pitch
+    note.octave = None if is_rest else int(octave)
+    note.duration = duration
+    note.accidental = None if is_rest else accidental
+    note.is_rest = is_rest
+
+    db.session.commit()
+
+    flash("Note updated", "success")
+    return redirect(
+        url_for("compositions.editor", composition_id=composition.id)
+    )
