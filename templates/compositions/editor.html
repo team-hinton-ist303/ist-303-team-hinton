@@ -141,6 +141,14 @@
         {% endif %}
       </div>
     </form>
+    {% if selected_note and not preview %}
+      <form id="delete-note-form" method="post"
+            action="{{ url_for('compositions.delete_note', composition_id=composition.id, note_id=selected_note.id) }}"
+            onsubmit="return confirm('Delete this note? This cannot be undone.');">
+        <button class="btn" type="submit"
+                aria-label="Delete note {{ selected_note.position }}">Delete note</button>
+      </form>
+    {% endif %}
   </section>
 
 </div>
