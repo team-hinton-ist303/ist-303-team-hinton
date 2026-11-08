@@ -12,9 +12,11 @@
         Key: {{ composition.key_signature }}
         · Time: {{ composition.time_signature }}
         · Tempo: {{ composition.tempo }} BPM
+        · Last edited: {{ composition.updated_at.strftime('%Y-%m-%d %H:%M') }}
     </p>
 </article>
 {% else %}
-<p>You have no compositions yet.</p>
+<p>No compositions yet</p>
+<a class="btn btn-primary" href="/compositions/new">New composition</a>
 {% endfor %}
 {% endblock %}

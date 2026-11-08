@@ -78,3 +78,34 @@ def register_db_commands(app):
     """Register database commands with the Flask app."""
     app.cli.add_command(init_db_command)
     app.cli.add_command(seed_demo_command)
+    app.cli.add_command(upgrade_library_db_command)
+
+
+@click.command("upgrade-library-db")
+@with_appcontext
+def upgrade_library_db_command():
+    """Add the library timestamp to an existing SQLite database."""
+    from datetime import datetime, timezone
+    from sqlalchemy import inspect, text
+    from models import db
+
+    if db.engine.dialect.name != "sqlite":
+        raise click.ClickException("This upgrade command supports SQLite only.")
+
+    with db.engine.begin() as connection:
+        inspector = inspect(connection)
+        if not inspector.has_table("compositions"):
+            raise click.ClickException("Run init-db first.")
+
+        columns = inspector.get_columns("compositions")
+        if any(column["name"] == "updated_at" for column in columns):
+            click.echo("Library database is already up to date.")
+            return
+
+        timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+        connection.execute(text(
+            "ALTER TABLE compositions ADD COLUMN updated_at "
+            f"DATETIME NOT NULL DEFAULT '{timestamp}'"
+        ))
+
+    click.echo("Library timestamp added; existing compositions preserved.")
