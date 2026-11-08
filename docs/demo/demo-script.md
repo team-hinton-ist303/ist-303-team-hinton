@@ -1,18 +1,39 @@
-# Part C demo script (Milestone 1.0)
+# Part C presentation script (Milestone 1.0)
 
-When: Thursday Nov 12, in class. The whole talk is 20 minutes; the live demo is Daniel's and Jae's parts, about 8 minutes together.
-Laptop: Varuzhan's (Daniel's as backup, set up the same way).
-Before class: run the [fresh-clone checklist](fresh-clone-checklist.md) on the latest `main`, then `flask --app app seed-demo` to reset the demo data.
+**When**: Thursday Nov 12, in class. The whole talk is 20 minutes, about 4 minutes each. The live demo is Daniel's and Jae's parts.
+
+**Laptop**: VS's
+
+**Before** class: run the [fresh-clone checklist](fresh-clone-checklist.md) on the latest **`main`**,
+then **`flask --app app seed-demo`** to reset the demo data.
 
 Have open before we start:
 
-1. The slides (`Part C/` folder)
-2. http://127.0.0.1:5001, logged out
-3. A terminal in the project folder with the venv on (for Ryan's part if he wants to run `pytest` live)
+1. http://127.0.0.1:5001, logged out
+2. A terminal in the project folder with the venv on (for Ryan's part if he wants to run `pytest` live)
 
 Demo login: `demo` / `noted-demo-2026`
 
-Who drives the laptop: decide at the dry run. Either Daniel and Jae click through their own parts, or Varuzhan clicks while they talk.
+## Full talk
+
+| Time | Presenter | Part | Slides | Key points |
+|---|---|---|---|---|
+| 0:00 – 4:00 | Varuzhan | Intro, how we worked, burndown | 1–5 | The problem and what Noted! does; two 3-week sprints, Jira, weekly stand-ups, one PR per task with a reviewer; what we changed after the Sprint 1 retro; burndown for both sprints and the scope changes |
+| 4:00 – 8:00 | Daniel | Live demo part 1 | 6 | See below |
+| 8:00 – 12:00 | Jae | Live demo part 2 | 7–8 | See below |
+| 12:00 – 16:00 | Ryan | How we tested | 9 | About 500 tests and 98% app coverage; pytest with shared fixtures and an in-memory database; tests written from each story's acceptance criteria; tests run on every PR before merge; one bug a test caught |
+| 16:00 – 20:00 | Aaron | Went well and didn't, lessons, Milestone 2.0 | 10–12 | Two or three points each from the retro answers; our three lessons (same as the README); Milestone 2.0 is 9 weeks in 3 iterations, and transcription is the biggest risk |
+| 20:00 | Varuzhan | Thank you, questions | 13 | Whole team answers questions about their own work |
+
+Handoffs (one line each, so the talk flows):
+
+- Varuzhan → Daniel: "Daniel will show you the app."
+- Daniel → Jae: "Jae will show what you can do with the notes."
+- Jae → Ryan: "Ryan will tell you how we know it works."
+- Ryan → Aaron: "Aaron will cover what we learned and what's next."
+- Aaron → Varuzhan: "Thanks. We're happy to take questions."
+
+If Aaron can't present, Varuzhan takes the lessons-learned slides and Aaron keeps Milestone 2.0 (it can be short).
 
 ## Daniel: live demo part 1 (about 4 minutes)
 
@@ -22,7 +43,7 @@ Who drives the laptop: decide at the dry run. Either Daniel and Jae click throug
 | 0:30 – 1:00 | My Library: 3 pieces, newest edit first | "My Library lists only your pieces, most recently edited first." |
 | 1:00 – 1:45 | New piece → leave the title blank → error, choices kept → fix: "Class Demo", G major, 4/4, 100 → Create | "We check the form on the server. A new piece opens with an empty staff showing its clef, key signature and time signature." |
 | 1:45 – 3:15 | Add notes with the palette: G4, A4, B4, C5 (quarters), then tick "Rest instead of a note" and add a half rest | "Pick pitch, octave, length and accidental. The preview shows what you'll get. Pitches outside the treble range are greyed out. Each note is saved and the sheet music redraws right away." |
-| 3:15 – 4:00 | Point at the staff and the note list under it | "That covers US-01 to US-05 and US-10. Jae will show what you can do with the notes." |
+| 3:15 – 4:00 | Point at the staff and the note list under it | "That covers `US-01` to `US-05` and `US-10`. Jae will show what you can do with the notes." |
 
 ## Jae: live demo part 2 (about 4 minutes)
 
@@ -45,13 +66,13 @@ Continue in the same "Class Demo" piece.
 | My Library shows an error | `flask --app app upgrade-library-db`, then reload |
 | "Address already in use" | `flask --app app run --port 5002` |
 | "Class Demo" already exists from the dry run | Run `seed-demo` again, or call the new piece "Class Demo 2" |
-| Driver's laptop dies | Daniel's laptop takes over (same setup from the checklist) |
+
 | Running long | Jae skips Ode to Joy (2:30 – 3:00) |
 
 ## Don't click
 
-- Edit details in the editor header. Renaming a piece (US-09) isn't in Milestone 1.0, so the button does nothing. [Remove this line if US-09 is merged before the demo.]
+- `Edit details` in the editor header. Renaming a piece (`US-09`) isn't in Milestone 1.0, so the button does nothing. [Remove this line if `US-09` is merged before the demo.]
 
 ## Not in this demo (say so if asked)
 
-- Renaming or deleting a whole piece (US-09), searching the library (US-11), playback (US-13) and PDF export (US-14). These are in our [Milestone 2.0 plan](../milestone-2.0.md).
+- Renaming or deleting a whole piece (`US-09`), searching the library (`US-11`), playback (`US-13`) and PDF export (`US-14`). These are in our [Milestone 2.0 plan](../milestone-2.0.md).
