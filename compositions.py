@@ -210,7 +210,24 @@ def new():
 @login_required
 def editor(composition_id):
     composition = get_owned_composition(composition_id)
-    return render_editor(composition)
+    selected = selected_note_for(composition, request.args.get("note"))
+    return render_editor(composition, selected_note=selected)
+
+
+def selected_note_for(composition, note_id):
+    """The note picked with ?note=<id> (NTT-62), or None.
+
+    Only notes in this composition can be selected, so a missing, bad or
+    someone else's note id just shows the editor with nothing selected.
+    """
+    try:
+        note_id = int(note_id)
+    except (TypeError, ValueError):
+        return None
+    for note in getattr(composition, "notes", None) or []:
+        if getattr(note, "id", None) == note_id:
+            return note
+    return None
 
 
 def get_owned_composition(composition_id):
@@ -286,10 +303,11 @@ def staff_svg_for(composition):
         return None
 
 
-def render_editor(composition, preview=False):
+def render_editor(composition, preview=False, selected_note=None):
     return render_template(
         "compositions/editor.html",
         composition=composition,
+        selected_note=selected_note,
         staff_svg=staff_svg_for(composition),
         pitches=PITCHES,
         octaves=OCTAVES,

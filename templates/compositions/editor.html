@@ -23,7 +23,10 @@
   </header>
 
   {# ---- Staff area: sheet music drawn by Verovio (NTT-54) ----------- #}
-  <section class="staff-area card" id="staff-area" aria-label="Sheet music">
+  {# Click a note on the staff to select it (NTT-62); Verovio notes carry data-note-id (NTT-53). #}
+  <section class="staff-area card" id="staff-area" aria-label="Sheet music"
+           {%- if composition.id %} data-select-url="{{ url_for('compositions.editor', composition_id=composition.id) }}"{% endif %}
+           {%- if selected_note %} data-selected-note="{{ selected_note.id }}"{% endif %}>
     {% if composition.notes %}
       {% if staff_svg %}
         {# Generated on the server from validated notes, so it is safe to insert. #}
@@ -33,7 +36,8 @@
       {% endif %}
       <ol class="note-list" aria-label="Notes in order">
         {% for n in composition.notes %}
-          <li class="note-chip">
+          {%- set is_selected = selected_note is not none and n.id == selected_note.id -%}
+          {%- set label -%}
             {%- if n.is_rest -%}
               Rest
             {%- else -%}
@@ -41,9 +45,26 @@
               {{ n.pitch }}{% if acc == 'sharp' %}&#9839;{% elif acc == 'flat' %}&#9837;{% elif acc == 'natural' %}&#9838;{% endif %}{{ n.octave }}
             {%- endif %}
             <span class="note-chip-duration">{{ n.duration }}</span>
+          {%- endset %}
+          <li class="note-chip{% if is_selected %} is-selected{% endif %}">
+            {%- if composition.id and n.id -%}
+              {# Selecting a note: ?note=<id> (NTT-62). The edit form (NTT-63) fills from it. #}
+              <a class="note-chip-link" href="{{ url_for('compositions.editor', composition_id=composition.id, note=n.id) }}"
+                 {% if is_selected %}aria-current="true"{% endif %}>{{ label }}</a>
+            {%- else -%}
+              {{ label }}
+            {%- endif -%}
           </li>
         {% endfor %}
       </ol>
+      {% if selected_note %}
+        <p class="note-selected" aria-live="polite">
+          Selected: note {{ selected_note.position }}.
+          <a href="{{ url_for('compositions.editor', composition_id=composition.id) }}">Clear selection</a>
+        </p>
+      {% else %}
+        <p class="note-select-hint">Click a note to select it.</p>
+      {% endif %}
     {% else %}
       {# Empty staff with the piece's clef, key, time signature and tempo (NTT-55) #}
       {% if staff_svg %}
@@ -114,4 +135,5 @@
 
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/note_palette.js') }}"></script>
+<script src="{{ url_for('static', filename='js/note_select.js') }}"></script>
 {% endblock %}
