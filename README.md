@@ -858,3 +858,115 @@ The rewritten US-06 tasks for the Verovio approach replace the original ones in 
 | US-06-T3 | Show the SVG in the editor and refresh it after each change | 1 |
 | US-06-T4 | Placeholder staff for a piece with no notes | 1 |
 | US-06-T5 | Tests: one SVG note element per note, rests, key and time signature | 3 |
+
+---
+
+# Part C
+
+Part C covers iteration 2 (Sprint 2, Oct 22 – Nov 11) and Milestone 1.0. Our plan for what comes next is in [docs/milestone-2.0.md](docs/milestone-2.0.md).
+
+## 11. Iteration 2 Results
+
+> [Final numbers on Wed Nov 11 when Sprint 2 closes. Everything below is as of Nov 8.]
+
+Sprint 2 goal: a user can write a piece note by note, see it as real sheet music, fix mistakes, and reopen it from their library, with every page private to its owner. All of that is merged to `main`.
+
+### Stories
+
+| ID | Story | Estimate (hrs) | Done (hrs) | Status |
+|---|---|---|---|---|
+| | Carry-over from Sprint 1 (NTT-38, NTT-111) | 3 | 3 | Done, so US-02 and US-03 are finished |
+| US-04 | Add notes one at a time | 19 | 19 | Done |
+| US-05 | Add rests | 6 | 6 | Done |
+| US-06 | See the sheet music | 10 | 10 | Done |
+| US-10 | My Library: list and open | 5 | 5 | Done |
+| US-07 | Edit a note | 8 | 8 | Done |
+| US-08 | Delete a note | 5 | 3 | Tests (NTT-68) left |
+| US-12 | Keep my compositions private | 4 | 2 | Tests (NTT-79) left |
+| US-09 | Rename or delete a composition | 7 | 0 | Added Nov 8, due Nov 10 |
+| | Demo prep, wrap-up and Part C tasks | 15 | 0 | Added Nov 5 and Nov 8 |
+| | Total | 82 | 56 | [final on Nov 11] |
+
+US-04 and US-05 are an hour higher than planned because notes now follow the key signature (see below).
+
+### Scope changes
+
+We added work four times during the sprint. Each one was agreed by the team and added to Jira the same day, so the burndown shows it.
+
+| Date | What was added | Hours | Why |
+|---|---|---|---|
+| Oct 28 | One hour each on NTT-41 (add-note route) and NTT-50 (converter) | +2 | At the Oct 28 stand-up we decided notes follow the key signature (F in G major is F♯), which changed both tasks |
+| Nov 5 | NTT-112 demo prep, NTT-113 sprint wrap-up | +9 | This work wasn't in Jira, so it didn't show in the burndown |
+| Nov 8 | NTT-114 to NTT-118, the Part C deliverables | +6 | Milestone 2.0 doc, README updates, final burndown, Part C folder and submission |
+| Nov 8 | US-09 rename or delete a composition | +7 | The features were done early, and Jae and Daniel had time. It makes "Edit details" in the editor work |
+
+### Burndown
+
+[Chart goes here on Nov 11 (NTT-117).]
+
+Hours left at the end of each day. A task counts as done on the day its PR was merged.
+
+| Date | Oct 22 | 26 | 28 | 29 | Nov 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Scope | 58 | 58 | 60 | 60 | 60 | 60 | 60 | 69 | 69 | 69 | 82 | | | |
+| Hours left | 58 | 55 | 55 | 44 | 42 | 39 | 37 | 46 | 27 | 21 | 26 | | | |
+
+Days that aren't shown had no change.
+
+What the chart shows:
+
+- The first week was slow. Most of the early tasks depended on the add-note route and the render service, and Aaron was out sick from Oct 29, so his tasks were handed over (NTT-41 to Daniel, NTT-48 and NTT-49 to Jae, NTT-111 to Varuzhan).
+- The line goes up on Nov 5 and Nov 8 because we added work, not because work was undone.
+- Most of the drop came on Nov 6 to Nov 8, when we merged 16 PRs in three days. Many of them had been finished earlier and were waiting for review or for another PR to merge first.
+
+### Velocity
+
+| | |
+|---|---|
+| Hours available (50 h/week × 3 weeks) | 150 |
+| Velocity we planned with | 0.42 (from Sprint 1) |
+| Ideal hours finished | [final on Nov 11] |
+| Measured velocity | [final on Nov 11] |
+
+### Working code and tests
+
+Merged to `main` in Sprint 2:
+
+- Note palette: pitch, octave, length, accidental (Key, ♮, ♯, ♭), rests, treble range A3 to C6, and a live preview
+- Add-note route that saves notes in order
+- Sheet music drawn by Verovio (music21 → MusicXML → SVG), with an empty staff for a new piece
+- Notes follow the key signature, and ♮ cancels it
+- Select a note on the staff or in the list, edit it, or delete it (the rest renumber)
+- My Library sorted by last edited, with an empty-library message
+- Every page checks that the piece belongs to you (404 otherwise)
+- 496 tests passing, 98% coverage of the app code (see [How to Run, Test, and Check Coverage](#how-to-run-test-and-check-coverage))
+
+### Stand-up evidence
+
+- [Oct 28 stand-up](meetings/2026-10-28-standup.md): sprint status, due dates and "blocks / is blocked by" links in Jira, the key-signature decision, PR conventions.
+- [Nov 4 stand-up](meetings/2026-11-04-standup.md): status, PR descriptions, storing Key as `""`, reviews, final-week plan, demo planning.
+- [Nov 11 stand-up]: [sprint review and retro, added Nov 11]
+
+## 12. Retrospective (Sprint 2)
+
+### How the Sprint 1 changes went
+
+| What we said we'd change | What happened |
+|---|---|
+| Review within 24 hours | Partly. Some PRs still waited several days, then a lot were reviewed and merged together on Nov 6 to Nov 8. |
+| Make dependencies visible | Done. Jira tasks got due dates and "blocks / is blocked by" links, the PR template has a "Depends on" section, and we wrote down route names before building (for example the edit-note routes). Merge-order conflicts still happened, but we knew about them ahead of time. |
+| Run tests automatically on every PR | Tests were run on every PR, by the reviewer: each reviewer ran `pytest` before approving. We didn't automate it with a GitHub Action, so that is on our list for Milestone 2.0. |
+| Plan with the measured velocity | Done. We planned Sprint 2 at 0.42. |
+| Spread the critical path | Mostly. When Aaron was sick, his tasks were split between three people the same day. |
+
+### What went well
+
+[From the Sprint 2 retro answers, due Tue Nov 10]
+
+### What didn't go well
+
+[From the Sprint 2 retro answers, due Tue Nov 10]
+
+## 13. What We Learned
+
+[The three most important things we learned about software development (NTT-116), from the retro answers.]
