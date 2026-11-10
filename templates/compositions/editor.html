@@ -19,7 +19,23 @@
         <li>&#9833; = {{ composition.tempo }}</li>
       </ul>
     </div>
-    <a class="btn btn-small" href="#" aria-disabled="true">Edit details</a>
+  {% if composition.id is not none %}
+  <a class="btn btn-small"
+     href="{{ url_for('compositions.edit_settings', composition_id=composition.id) }}">
+    Edit details
+  </a>
+{% else %}
+  <a class="btn btn-small" href="#" aria-disabled="true">
+    Edit details
+  </a>
+{% endif %}
+    {% if composition.id is not none and not preview %}
+      <form id="delete-piece-form" method="post"
+            action="{{ url_for('compositions.delete_composition', composition_id=composition.id) }}"
+            onsubmit="return confirm('Delete this piece and all its notes? This cannot be undone.');">
+        <button class="btn btn-small" type="submit">Delete piece</button>
+      </form>
+    {% endif %}
   </header>
 
   {# ---- Staff area: sheet music drawn by Verovio (NTT-54) ----------- #}
