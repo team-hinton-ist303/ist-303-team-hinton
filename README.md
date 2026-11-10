@@ -867,9 +867,9 @@ Part C covers iteration 2 (Sprint 2, Oct 22 – Nov 11) and Milestone 1.0. Our p
 
 ## 11. Iteration 2 Results
 
-> [Final numbers on Wed Nov 11 when Sprint 2 closes. Everything below is as of Nov 8.]
+> [Numbers as of Tue Nov 10. Final numbers on Wed Nov 11 when Sprint 2 closes.]
 
-Sprint 2 goal: a user can write a piece note by note, see it as real sheet music, fix mistakes, and reopen it from their library, with every page private to its owner. All of that is merged to `main`.
+Sprint 2 goal: a user can write a piece note by note, see it as real sheet music, fix mistakes, and reopen it from their library, with every page private to its owner. All of that is merged to `main`, along with renaming and deleting a piece (US-09), which we pulled in on Nov 8.
 
 ### Stories
 
@@ -881,17 +881,18 @@ Sprint 2 goal: a user can write a piece note by note, see it as real sheet music
 | US-06 | See the sheet music | 10 | 10 | Done |
 | US-10 | My Library: list and open | 5 | 5 | Done |
 | US-07 | Edit a note | 8 | 8 | Done |
-| US-08 | Delete a note | 5 | 3 | Tests (NTT-68) left |
-| US-12 | Keep my compositions private | 4 | 2 | Tests (NTT-79) left |
-| US-09 | Rename or delete a composition | 7 | 0 | Added Nov 8, due Nov 10 |
-| | Demo prep, wrap-up and Part C tasks | 15 | 0 | Added Nov 5 and Nov 8 |
-| | Total | 82 | 56 | [final on Nov 11] |
+| US-08 | Delete a note | 5 | 5 | Done |
+| US-12 | Keep my compositions private | 4 | 4 | Done |
+| US-09 | Rename or delete a composition | 7 | 7 | Done (added Nov 8) |
+| | Run tests automatically on every PR (NTT-119) | 1 | 1 | Done (added Nov 8) |
+| | Demo prep, wrap-up and Part C tasks | 15 | 6 | Demo prep done; Part C write-ups due Nov 11 and 12 |
+| | Total | 83 | 74 | 9 h left, all Part C documents |
 
 US-04 and US-05 are an hour higher than planned because notes now follow the key signature (see below).
 
 ### Scope changes
 
-We added work four times during the sprint. Each one was agreed by the team and added to Jira the same day, so the burndown shows it.
+We added work five times during the sprint. Each one was agreed by the team and added to Jira the same day, so the burndown shows it.
 
 | Date | What was added | Hours | Why |
 |---|---|---|---|
@@ -899,17 +900,20 @@ We added work four times during the sprint. Each one was agreed by the team and 
 | Nov 5 | NTT-112 demo prep, NTT-113 sprint wrap-up | +9 | This work wasn't in Jira, so it didn't show in the burndown |
 | Nov 8 | NTT-114 to NTT-118, the Part C deliverables | +6 | Milestone 2.0 doc, README updates, final burndown, Part C folder and submission |
 | Nov 8 | US-09 rename or delete a composition | +7 | The features were done early, and Jae and Daniel had time. It makes "Edit details" in the editor work |
+| Nov 8 | NTT-119 run tests automatically on every PR | +1 | Until then reviewers ran `pytest` by hand. A GitHub Action now runs every test on every PR |
 
 ### Burndown
 
-[Chart goes here on Nov 11 (NTT-117).]
+![Sprint 2 burndown](docs/sprint2-burndown.png)
+
+Both iterations together: [docs/burndown-both-iterations.png](docs/burndown-both-iterations.png)
 
 Hours left at the end of each day. A task counts as done on the day its PR was merged.
 
 | Date | Oct 22 | 26 | 28 | 29 | Nov 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Scope | 58 | 58 | 60 | 60 | 60 | 60 | 60 | 69 | 69 | 69 | 82 | | | |
-| Hours left | 58 | 55 | 55 | 44 | 42 | 39 | 37 | 46 | 27 | 21 | 26 | | | |
+| Scope | 58 | 58 | 60 | 60 | 60 | 60 | 60 | 69 | 69 | 69 | 83 | 83 | 83 | |
+| Hours left | 58 | 55 | 55 | 44 | 42 | 39 | 37 | 46 | 27 | 21 | 25 | 17 | 9 | |
 
 Days that aren't shown had no change.
 
@@ -918,6 +922,7 @@ What the chart shows:
 - The first week was slow. Most of the early tasks depended on the add-note route and the render service, and Aaron was out sick from Oct 29, so his tasks were handed over (NTT-41 to Daniel, NTT-48 and NTT-49 to Jae, NTT-111 to Varuzhan).
 - The line goes up on Nov 5 and Nov 8 because we added work, not because work was undone.
 - Most of the drop came on Nov 6 to Nov 8, when we merged 16 PRs in three days. Many of them had been finished earlier and were waiting for review or for another PR to merge first.
+- On Nov 9 and 10 we merged US-09, the GitHub Action and the last test tasks. All the code was done by the Nov 10 code freeze. The 9 hours left are the Part C documents: the README write-ups, Milestone 2.0 and the final submission.
 
 ### Velocity
 
@@ -925,8 +930,8 @@ What the chart shows:
 |---|---|
 | Hours available (50 h/week × 3 weeks) | 150 |
 | Velocity we planned with | 0.42 (from Sprint 1) |
-| Ideal hours finished | [final on Nov 11] |
-| Measured velocity | [final on Nov 11] |
+| Ideal hours finished | 74 as of Nov 10 [final on Nov 11] |
+| Measured velocity | 0.49 as of Nov 10 (74 ÷ 150) [final on Nov 11] |
 
 ### Working code and tests
 
@@ -939,7 +944,9 @@ Merged to `main` in Sprint 2:
 - Select a note on the staff or in the list, edit it, or delete it (the rest renumber)
 - My Library sorted by last edited, with an empty-library message
 - Every page checks that the piece belongs to you (404 otherwise)
-- 496 tests passing, 98% coverage of the app code (see [How to Run, Test, and Check Coverage](#how-to-run-test-and-check-coverage))
+- Rename a piece or change its key, time signature or tempo, and delete a piece after a confirmation
+- A GitHub Action runs every test on every PR
+- 555 tests passing, 98% coverage of the app code (see [How to Run, Test, and Check Coverage](#how-to-run-test-and-check-coverage))
 
 ### Stand-up evidence
 
@@ -955,7 +962,7 @@ Merged to `main` in Sprint 2:
 |---|---|
 | Review within 24 hours | Partly. Some PRs still waited several days, then a lot were reviewed and merged together on Nov 6 to Nov 8. |
 | Make dependencies visible | Done. Jira tasks got due dates and "blocks / is blocked by" links, the PR template has a "Depends on" section, and we wrote down route names before building (for example the edit-note routes). Merge-order conflicts still happened, but we knew about them ahead of time. |
-| Run tests automatically on every PR | Tests were run on every PR, by the reviewer: each reviewer ran `pytest` before approving. We didn't automate it with a GitHub Action, so that is on our list for Milestone 2.0. |
+| Run tests automatically on every PR | Done. Until Nov 9 each reviewer ran `pytest` by hand before approving. On Nov 9 we added a GitHub Action (NTT-119) that runs every test on every PR and shows the result on the PR page. |
 | Plan with the measured velocity | Done. We planned Sprint 2 at 0.42. |
 | Spread the critical path | Mostly. When Aaron was sick, his tasks were split between three people the same day. |
 
