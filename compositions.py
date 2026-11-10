@@ -213,6 +213,59 @@ def editor(composition_id):
     selected = selected_note_for(composition, request.args.get("note"))
     return render_editor(composition, selected_note=selected)
 
+@bp.get("/<int:composition_id>/settings", endpoint="edit_settings")
+@bp.post("/<int:composition_id>/settings", endpoint="update_settings")
+@login_required
+def settings(composition_id):
+    composition = get_owned_composition(composition_id)
+
+    errors = {}
+    status = 200
+
+    if request.method == "POST":
+        values, errors = validate_new_composition(request.form)
+
+        if not errors:
+            composition.title = values["title"]
+            composition.key_signature = values["key_signature"]
+            composition.time_signature = values["time_signature"]
+            composition.tempo = values["tempo"]
+
+            
+
+            db.session.commit()
+
+            flash("Piece updated", "success")
+            return redirect(
+                url_for(
+                    "compositions.editor",
+                    composition_id=composition.id
+                )
+            )
+
+        status = 400
+        
+    else:
+        # Fill the form with the existing piece details
+        values = {
+            "title": composition.title,
+            "key_signature": composition.key_signature,
+            "time_signature": composition.time_signature,
+            "tempo": composition.tempo,
+        }
+
+    return render_template(
+        "compositions/settings.html",
+        composition=composition,
+        values=values,
+        errors=errors,
+        key_signatures=KEY_SIGNATURES,
+        time_signatures=TIME_SIGNATURES,
+        tempo_min=TEMPO_MIN,
+        tempo_max=TEMPO_MAX,
+        title_max=TITLE_MAX,
+    ), status
+
 
 def selected_note_for(composition, note_id):
     """The note picked with ?note=<id> (NTT-62), or None.
