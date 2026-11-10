@@ -50,6 +50,9 @@
        min="{{ tempo_min }}" max="{{ tempo_max }}" step="1"
        value="{{ values.tempo }}" required
        {% if errors.tempo %}aria-invalid="true" aria-describedby="tempo-error"{% endif %}>
+      {% if errors.tempo %}
+        <p class="field-error" id="tempo-error">{{ errors.tempo }}</p>
+      {% endif %}
     </div>
 
     <div class="form-actions">
