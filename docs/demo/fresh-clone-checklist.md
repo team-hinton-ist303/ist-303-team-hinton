@@ -56,9 +56,11 @@ Jae's part:
 - [ ] Change its pitch → Save changes → "Note updated", the staff redraws
 - [ ] Select another note → Delete note → confirm → it's gone and the notes renumber
 - [ ] Open Ode to Joy from My Library → full staff with bar lines
+- [ ] Edit details → change the title → Save → "Piece updated", new title in the header and in My Library
 
 Other checks:
 
+- [ ] Delete piece on a spare piece → confirm → "Piece deleted", gone from My Library (then run `seed-demo` to restore)
 - [ ] Log out, paste an editor URL → sent to the login page
 
 ## 5. Back-up material

@@ -54,7 +54,7 @@ Continue in the same "Class Demo" piece.
 | 0:00 – 0:45 | Add F4 with Key, then F4 with ♮ | "The piece is in G major, so F with Key follows the key signature and is drawn as F sharp with no sign. Pick ♮ and it shows a natural sign." |
 | 0:45 – 1:45 | Click a note on the staff → it turns blue, the palette fills in → change the pitch → Save changes | "Click any note, on the staff or in the list, to select it. The palette fills in with its values, and Save updates just that note." |
 | 1:45 – 2:30 | Select another note → Delete note → confirm | "Delete asks first. The remaining notes renumber so there are no gaps." |
-| 2:30 – 3:00 | Open Ode to Joy from My Library | "A longer piece, with bar lines where each measure fills up." |
+| 2:30 – 3:00 | Edit details → change the title to "Class Demo (final)" → Save | "You can also rename a piece or change its key, time signature or tempo. Notes added with Key follow the new key." |
 | 3:00 – 4:00 | Slide: how the sheet music is drawn | "Saved notes become a music21 stream, then MusicXML, and Verovio draws the SVG. We picked this in a Sprint 1 spike instead of drawing the staff ourselves." |
 
 ## If something breaks
@@ -66,13 +66,12 @@ Continue in the same "Class Demo" piece.
 | My Library shows an error | `flask --app app upgrade-library-db`, then reload |
 | "Address already in use" | `flask --app app run --port 5002` |
 | "Class Demo" already exists from the dry run | Run `seed-demo` again, or call the new piece "Class Demo 2" |
-
-| Running long | Jae skips Ode to Joy (2:30 – 3:00) |
+| Running long | Jae skips the rename step (2:30 – 3:00) |
 
 ## Don't click
 
-- `Edit details` in the editor header. Renaming a piece (`US-09`) isn't in Milestone 1.0, so the button does nothing. [Remove this line if `US-09` is merged before the demo.]
+- Delete piece on "Class Demo" or the seeded pieces during the demo, unless you mean to. It deletes the whole piece. (Running `seed-demo` brings the seeded pieces back.)
 
 ## Not in this demo (say so if asked)
 
-- Renaming or deleting a whole piece (`US-09`), searching the library (`US-11`), playback (`US-13`) and PDF export (`US-14`). These are in our [Milestone 2.0 plan](../milestone-2.0.md).
+- Searching the library (`US-11`), playback (`US-13`) and PDF export (`US-14`). These are in our [Milestone 2.0 plan](../milestone-2.0.md).
