@@ -555,3 +555,12 @@ def delete_note(composition_id, note_id):
     return redirect(
         url_for("compositions.editor", composition_id=composition.id)
     )
+
+@bp.post("/<int:composition_id>/delete")
+@login_required
+def delete_composition(composition_id):
+    composition = get_owned_composition(composition_id)
+    db.session.delete(composition)
+    db.session.commit()
+    flash("Piece deleted", "success")
+    return redirect(url_for("library.index"))
