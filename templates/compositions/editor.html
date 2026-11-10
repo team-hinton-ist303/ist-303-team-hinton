@@ -21,7 +21,7 @@
     </div>
   {% if composition.id is not none %}
   <a class="btn btn-small"
-     href="{{ url_for('compositions.edit_settings', composition_id=composition.id) }}"
+     href="{{ url_for('compositions.edit_settings', composition_id=composition.id) }}">
     Edit details
   </a>
 {% else %}
