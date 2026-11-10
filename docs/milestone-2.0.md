@@ -1,6 +1,6 @@
 # Milestone 2.0 Plan
 
-Milestone 1.0 lets you write a piece one note at a time, see it as sheet music, fix or delete notes, and come back to it from your library. Milestone 2.0 is about what we'd add next: finishing the library features, making the music easier to use outside the app (playback, PDF, sharing), and then the bigger audio features we listed as stretch goals in Part A.
+Milestone 1.0 lets you write a piece one note at a time, see it as sheet music, fix or delete notes, rename or delete a piece, and come back to it from your library. Milestone 2.0 is about what we'd add next: finishing the library features, making the music easier to use outside the app (playback, PDF, sharing), and then the bigger audio features we listed as stretch goals in Part A.
 
 ## How we sized it
 
@@ -19,7 +19,6 @@ These are the stories we didn't get to in Milestone 1.0, plus the stretch goals 
 
 | ID | Story | Hours | Notes |
 |---|---|---|---|
-| US-09 | Rename or delete a composition | 7 | Was a Must but didn't fit in Sprint 2. Makes "Edit details" in the editor work. |
 | US-11 | Search my library | 6 | |
 | US-14 | Export to PDF | 8 | Was 10. Verovio already gives us the SVG, so we only need SVG to PDF. |
 | US-15 | Use other clefs (bass, alto, tenor) | 10 | Was 14. Verovio draws the clefs, so we don't draw them ourselves. |
@@ -28,7 +27,7 @@ These are the stories we didn't get to in Milestone 1.0, plus the stretch goals 
 | US-17 | Transcribe a recording | 40 | Starts with a 6-hour spike on pitch detection. Riskiest story. |
 | US-18 | Practice mode | 36 | Needs US-17 first. |
 | | Follow-ups from Milestone 1.0 | 4 | Keep the note selected after a failed edit; test for the empty-piece staff; small cleanups. |
-| | Total | 137 | |
+| | Total | 130 | |
 
 ## Iterations
 
@@ -36,15 +35,14 @@ These are the stories we didn't get to in Milestone 1.0, plus the stretch goals 
 
 | Story | Hours |
 |---|---|
-| US-09 Rename or delete a composition | 7 |
 | US-11 Search my library | 6 |
 | US-14 Export to PDF | 8 |
 | US-15 Use other clefs | 10 |
 | US-16 Share a composition | 12 |
 | Follow-ups from Milestone 1.0 | 4 |
-| Total | 47 |
+| Total | 40 |
 
-Goal: you can organize and search your library, write for any common clef, and print or share a piece.
+Goal: you can search your library, write for any common clef, and print or share a piece.
 
 ### Iteration 4 (weeks 4–6): playback and start transcription
 
