@@ -21,7 +21,7 @@ Demo login: `demo` / `noted-demo-2026`
 | 0:00 – 4:00 | Varuzhan | Intro, how we worked, burndown | 1–5 | The problem and what Noted! does; two 3-week sprints, Jira, weekly stand-ups, one PR per task with a reviewer; what we changed after the Sprint 1 retro; burndown for both sprints and the scope changes |
 | 4:00 – 8:00 | Daniel | Live demo part 1 | 6 | See below |
 | 8:00 – 12:00 | Jae | Live demo part 2 | 7–8 | See below |
-| 12:00 – 16:00 | Ryan | How we tested | 9 | About 500 tests and 98% app coverage; pytest with shared fixtures and an in-memory database; tests written from each story's acceptance criteria; tests run on every PR before merge; one bug a test caught |
+| 12:00 – 16:00 | Ryan | How we tested | 9 | 555 tests and 98% app coverage; pytest with shared fixtures and an in-memory database; tests written from each story's acceptance criteria; tests run automatically on every PR (GitHub Actions); one bug a test caught |
 | 16:00 – 20:00 | Aaron | Went well and didn't, lessons, Milestone 2.0 | 10–12 | Two or three points each from the retro answers; our three lessons (same as the README); Milestone 2.0 is 9 weeks in 3 iterations, and transcription is the biggest risk |
 | 20:00 | Varuzhan | Thank you, questions | 13 | Whole team answers questions about their own work |
 
