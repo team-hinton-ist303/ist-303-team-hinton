@@ -30,6 +30,8 @@ Daniel, Varuzhan, Yalei, and Beijia each have about 10 hours a week for this pro
 | Iteration 2 (Sprint 2) | Thu Oct 22 – Wed Nov 11, 2026 | 3 weeks |
 | Milestone 1.0 demo | Thu Nov 12, 2026 | |
 
+Our plan for what comes next is in [docs/milestone-2.0.md](docs/milestone-2.0.md).
+
 ## How to Run, Test, and Check Coverage
 
 ### Setup
