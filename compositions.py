@@ -363,8 +363,8 @@ DEFAULT_PALETTE = {"pitch": "C", "octave": 4, "duration": "quarter", "accidental
 def palette_values(selected_note, key_signature):
     """What the palette starts with: the selected note's values (NTT-63), or the defaults.
 
-    An accidental that the key signature already gives (F sharp in G major) shows as
-    "Key", so editing a note doesn't turn it into an explicit sharp.
+    The accidental shows exactly what was saved: "" is Key, so an explicit sharp
+    stays a sharp if the piece's key changes later.
     """
     if selected_note is None:
         return dict(DEFAULT_PALETTE)
@@ -372,8 +372,6 @@ def palette_values(selected_note, key_signature):
         return {**DEFAULT_PALETTE, "duration": selected_note.duration, "is_rest": True}
 
     accidental = selected_note.accidental or ""
-    if accidental == key_accidentals(key_signature).get(selected_note.pitch, ""):
-        accidental = ""
     return {
         "pitch": selected_note.pitch,
         "octave": selected_note.octave,

@@ -86,10 +86,10 @@ def test_rest_fills_rest_box_and_duration(logged_in_client, piece):
     assert checked(html, "duration") == "whole"
 
 
-def test_key_signature_accidental_shows_as_key(logged_in_client, test_user):
-    """F saved as "sharp" in G major (the add-note route resolves Key) shows as Key, not ♯."""
+def test_explicit_sharp_in_key_stays_sharp(logged_in_client, test_user):
+    """F saved as "sharp" in G major was an explicit ♯ choice, so the form shows ♯, not Key."""
     g_major = make_piece(test_user, key="G major", notes=[("F", 4, "quarter", "sharp")])
-    assert checked(editor(logged_in_client, g_major, g_major.notes[0]), "accidental") == ""
+    assert checked(editor(logged_in_client, g_major, g_major.notes[0]), "accidental") == "sharp"
 
 
 def test_key_accidental_stored_as_blank_also_shows_as_key(logged_in_client, test_user):
