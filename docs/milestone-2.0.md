@@ -5,7 +5,7 @@ Milestone 1.0 lets you write a piece one note at a time, see it as sheet music, 
 ## How we sized it
 
 - Same team of five, about 10 hours a week each, so 50 hours a week.
-- Our measured velocity was 0.42 in Sprint 1 and about 0.4 across both sprints. We plan with 0.4.
+- Our measured velocity was 0.42 in Sprint 1 and about 0.5 in Sprint 2. We plan with 0.4, a little below that, because the audio features are the riskiest work.
 - That gives about 20 ideal hours a week, or 60 per 3-week iteration.
 - We plan each iteration at about 50 hours and keep the rest as buffer. In Milestone 1.0, reviews, merge conflicts, and people being sick took more time than we planned for.
 
