@@ -877,3 +877,152 @@ The rewritten US-06 tasks for the Verovio approach replace the original ones in 
 | US-06-T3 | Show the SVG in the editor and refresh it after each change | 1 |
 | US-06-T4 | Placeholder staff for a piece with no notes | 1 |
 | US-06-T5 | Tests: one SVG note element per note, rests, key and time signature | 3 |
+
+---
+
+# Part C
+
+Part C covers iteration 2 (Sprint 2, Oct 22 – Nov 11) and Milestone 1.0. Our plan for what comes next is in [docs/milestone-2.0.md](docs/milestone-2.0.md).
+
+## 11. Iteration 2 Results
+
+Sprint 2 goal: a user can write a piece note by note, see it as real sheet music, fix mistakes, and reopen it from their library, with every page private to its owner. All of that is merged to `main`, along with renaming and deleting a piece (US-09), which we pulled in on Nov 8.
+
+### Stories
+
+| ID | Story | Estimate (hrs) | Done (hrs) | Status |
+|---|---|---|---|---|
+| | Carry-over from Sprint 1 (NTT-38, NTT-111) | 3 | 3 | Done, so US-02 and US-03 are finished |
+| US-04 | Add notes one at a time | 19 | 19 | Done |
+| US-05 | Add rests | 6 | 6 | Done |
+| US-06 | See the sheet music | 10 | 10 | Done |
+| US-10 | My Library: list and open | 5 | 5 | Done |
+| US-07 | Edit a note | 8 | 8 | Done |
+| US-08 | Delete a note | 5 | 5 | Done |
+| US-12 | Keep my compositions private | 4 | 4 | Done |
+| US-09 | Rename or delete a composition | 7 | 7 | Done (added Nov 8) |
+| | Run tests automatically on every PR (NTT-119) | 1 | 1 | Done (added Nov 8) |
+| | Edit form keeps an explicit ♯ or ♭ (NTT-120, from Jae's review of #41) | 1 | 1 | Done (added Nov 10) |
+| | Demo prep, wrap-up and Part C tasks | 15 | 9 | Demo prep, Milestone 2.0 and the README run/test section done; this write-up, lessons, final burndown and submission finished Nov 12 |
+| | Total | 84 | 78 | 6 h left when the sprint closed, all Part C documents |
+
+US-04 and US-05 are an hour higher than planned because notes now follow the key signature (see below).
+
+### Scope changes
+
+We added work six times during the sprint. Each one was agreed by the team and added to Jira the same day, so the burndown shows it.
+
+| Date | What was added | Hours | Why |
+|---|---|---|---|
+| Oct 28 | One hour each on NTT-41 (add-note route) and NTT-50 (converter) | +2 | At the Oct 28 stand-up we decided notes follow the key signature (F in G major is F♯), which changed both tasks |
+| Nov 5 | NTT-112 demo prep, NTT-113 sprint wrap-up | +9 | This work wasn't in Jira, so it didn't show in the burndown |
+| Nov 8 | NTT-114 to NTT-118, the Part C deliverables | +6 | Milestone 2.0 doc, README updates, final burndown, Part C folder and submission |
+| Nov 8 | US-09 rename or delete a composition | +7 | The features were done early, and Jae and Daniel had time. It makes "Edit details" in the editor work |
+| Nov 8 | NTT-119 run tests automatically on every PR | +1 | Until then reviewers ran `pytest` by hand. A GitHub Action now runs every test on every PR |
+| Nov 10 | NTT-120 edit form keeps an explicit ♯ or ♭ | +1 | Jae had asked for this change in her review of #41, but #41 was merged without it. Since US-09 lets you change a piece's key, it could change a note's pitch |
+
+### Burndown
+
+![Sprint 2 burndown](docs/sprint2-burndown.png)
+
+Both iterations together: [docs/burndown-both-iterations.png](docs/burndown-both-iterations.png)
+
+Hours left at the end of each day. A task counts as done on the day its PR was merged.
+
+| Date | Oct 22 | 26 | 28 | 29 | Nov 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Scope | 58 | 58 | 60 | 60 | 60 | 60 | 60 | 69 | 69 | 69 | 83 | 83 | 84 | 84 |
+| Hours left | 58 | 55 | 55 | 44 | 42 | 39 | 37 | 46 | 27 | 21 | 25 | 17 | 7 | 6 |
+
+Days that aren't shown had no change.
+
+What the chart shows:
+
+- The first week was slow. Most of the early tasks depended on the add-note route and the render service, and Aaron was out sick from Oct 29, so his tasks were handed over (NTT-41 to Daniel, NTT-48 and NTT-49 to Jae, NTT-111 to Varuzhan).
+- The line goes up on Nov 5 and Nov 8 because we added work, not because work was undone.
+- Most of the drop came on Nov 6 to Nov 8, when we merged 16 PRs in three days. Many of them had been finished earlier and were waiting for review or for another PR to merge first.
+- On Nov 9 and 10 we merged US-09, the GitHub Action, the last test tasks, Milestone 2.0 and the README run/test section. All the code was done by the Nov 10 code freeze, except the small NTT-120 fix merged on Nov 11.
+- The line ends at 6 hours: this write-up, the lessons learned, the final burndown and the submission. They depended on the sprint being over, so we finished them on Nov 12, before the Part C deadline.
+
+### Velocity
+
+| | |
+|---|---|
+| Hours available (50 h/week × 3 weeks) | 150 |
+| Velocity we planned with | 0.42 (from Sprint 1) |
+| Ideal hours finished | 78 |
+| **Measured velocity** (78 ÷ 150) | **0.52** |
+
+We planned with 0.42 and measured 0.52, so we did a little better than planned and finished more than we committed to (58 hours planned, 78 done, including US-09). The gap to 0.7 is still the time between "code done" and "merged": reviews, merge order and conflicts.
+
+### Working code and tests
+
+Merged to `main` in Sprint 2:
+
+- Note palette: pitch, octave, length, accidental (Key, ♮, ♯, ♭), rests, treble range A3 to C6, and a live preview
+- Add-note route that saves notes in order
+- Sheet music drawn by Verovio (music21 → MusicXML → SVG), with an empty staff for a new piece
+- Notes follow the key signature, and ♮ cancels it
+- Select a note on the staff or in the list, edit it, or delete it (the rest renumber)
+- My Library sorted by last edited, with an empty-library message
+- Every page checks that the piece belongs to you (404 otherwise)
+- Rename a piece or change its key, time signature or tempo, and delete a piece after a confirmation
+- A GitHub Action runs every test on every PR
+- 555 tests passing, 98% coverage of the app code (see [How to Run, Test, and Check Coverage](#how-to-run-test-and-check-coverage))
+
+### Stand-up evidence
+
+- [Oct 28 stand-up](meetings/2026-10-28-standup.md): sprint status, due dates and "blocks / is blocked by" links in Jira, the key-signature decision, PR conventions.
+- [Nov 4 stand-up](meetings/2026-11-04-standup.md): status, PR descriptions, storing Key as `""`, reviews, final-week plan, demo planning.
+- [Nov 11 stand-up](meetings/2026-11-11-standup.md): sprint review, lessons learned, #55 reviewer, presentation walkthrough and demo setup.
+- [Sprint 2 retro responses](meetings/sprint-2-retro-responses.md): each team member's answers to the three retro questions.
+
+## 12. Retrospective (Sprint 2)
+
+### How the Sprint 1 changes went
+
+| What we said we'd change | What happened |
+|---|---|
+| Review within 24 hours | Partly. Some PRs still waited several days, especially doc-only ones, then a lot were reviewed and merged together on Nov 6 to Nov 8. |
+| Make dependencies visible | Done. Jira tasks got due dates and "blocks / is blocked by" links, the PR template has a "Depends on" section, and we wrote down route names before building (for example the edit-note routes). Merge-order conflicts still happened, but we knew about them ahead of time. |
+| Run tests automatically on every PR | Done, but late. Until Nov 9, reviewers ran `pytest` by hand before approving. On Nov 9 we added a GitHub Action (NTT-119) that runs every test on every PR and shows the result on the PR page. |
+| Plan with the measured velocity | Done. We planned Sprint 2 at 0.42 and measured 0.52. |
+| Spread the critical path | Mostly. When Aaron was sick, his tasks were split between three people the same day. |
+
+### What went well
+
+All five of us answered the three retro questions. The full answers are in [meetings/sprint-2-retro-responses.md](meetings/sprint-2-retro-responses.md).
+
+- **We delivered the whole sprint goal, plus US-09.** Note entry, rests, sheet music, editing and deleting notes, piece settings and privacy are all on `main`.
+- **Teamwork held up.** When tasks had to be reassigned (Aaron was out sick for a week), others picked them up the same day. People helped each other through code reviews.
+- **Testing caught real bugs.** Tests grew from about 110 to 555, with 98% coverage of the app code. GitHub now runs every test on every pull request, which sped up reviews.
+- **The early rendering spike paid off.** Choosing music21 and Verovio in Sprint 1 meant the sheet-music work went smoothly.
+- **The demo script and setup checklist** made the presentation easier to prepare.
+
+### What didn't go well
+
+- **Reviews were still slow.** Some PRs waited days for a review, especially doc-only ones. #41 was merged on one approval while Jae's "changes requested" review was still open, so her fix came later in #61 (NTT-120).
+- **Dependencies caused delays and conflicts.** Many tasks needed another PR merged first. Daniel couldn't finish the edit tests until the selection and edit form were merged, and PRs piled up waiting on merge order and conflicted with each other.
+- **It was hard to track status.** It wasn't always clear what was pushed, waiting for review or merged, and a few tasks finished late or were reassigned back and forth.
+- **Some requirements needed clarifying mid-sprint,** which led to extra changes (for example how "Key" is saved).
+- **Scope grew near the end.** Demo prep, the Part C tasks and US-09 weren't in the sprint at the start, which shows as jumps in the burndown.
+- **Not every PR has a recorded review.** 9 PRs, mostly from Sprint 1 and none after Nov 2, were merged without a GitHub review.
+
+### What we could improve
+
+- **Review within 24 hours, and review first what unblocks a teammate.** Assign the reviewer when the PR is opened, so reviews start right away.
+- **Agree on shared pieces before coding:** route names, fixtures, and requirements like how a value is saved.
+- **Keep PRs small and merge them in order.**
+- **Keep Jira current,** with the PR link and status on each task.
+- **Automate early.** Set up tests on every PR at the start of a project, and block merging while any review still requests changes.
+- **Put all the planned work in the sprint at the start,** including demo prep and write-ups, and plan with our measured velocity.
+
+## 13. What We Learned
+
+The three most important things we learned about software development, agreed at the [Nov 11 stand-up](meetings/2026-11-11-standup.md):
+
+1. **Test risky ideas early.** Our Sprint 1 rendering spike tried several ways to draw sheet music before we built anything, and we picked music21 and Verovio. That cut the sheet-music story from 17 to 10 hours, and US-06 went smoothly in Sprint 2.
+
+2. **Review PRs quickly and communicate clearly.** Our biggest delays came from PRs waiting days for review, and from branches that went out of date and conflicted. When #41 was merged with a teammate's change request still open, the fix had to come later in its own PR (#61). Small PRs, quick reviews and clear "depends on" notes keep the whole team moving.
+
+3. **Testing makes teamwork more reliable.** With five people changing the same app, tests let us change code without breaking each other's work. Daniel's US-09 test caught a missing tempo error message before it shipped, and the GitHub Action now runs all 555 tests on every PR.

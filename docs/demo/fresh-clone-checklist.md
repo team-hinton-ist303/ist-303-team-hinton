@@ -4,8 +4,8 @@ Do this before the dry run on Tue Nov 10, and again on Thu Nov 12 before class. 
 
 ## 1. Set up
 
-- [ ] Every PR we want in the demo is merged to `main` (check that the open PRs list is empty or only has docs)
-- [ ] Clone into a new folder, outside Dropbox:
+- [ ] Every PR we want in the demo is merged to `main`
+- [ ] Clone into a new folder:
   ```bash
   cd ~/Desktop
   rm -rf noted-demo          # only if an old copy is there
@@ -65,13 +65,5 @@ Other checks:
 
 ## 5. Back-up material
 
-- [ ] Take screenshots of the main steps → put them on Daniel's and Jae's demo slides
-- [ ] Second laptop (Daniel) runs steps 1–4 too
 - [ ] Before class: `flask --app app seed-demo` again to reset the demo data (it also removes "Class Demo")
 - [ ] Turn on Do Not Disturb and close other apps
-
-## Anything that failed
-
-| Step | What happened | Fixed? |
-|---|---|---|
-| | | |

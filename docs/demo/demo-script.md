@@ -21,7 +21,7 @@ Demo login: `demo` / `noted-demo-2026`
 | 0:00 – 4:00 | Varuzhan | Intro, how we worked, burndown | 1–5 | The problem and what Noted! does; two 3-week sprints, Jira, weekly stand-ups, one PR per task with a reviewer; what we changed after the Sprint 1 retro; burndown for both sprints and the scope changes |
 | 4:00 – 8:00 | Daniel | Live demo part 1 | 6 | See below |
 | 8:00 – 12:00 | Jae | Live demo part 2 | 7–8 | See below |
-| 12:00 – 16:00 | Ryan | How we tested | 9 | About 500 tests and 98% app coverage; pytest with shared fixtures and an in-memory database; tests written from each story's acceptance criteria; tests run on every PR before merge; one bug a test caught |
+| 12:00 – 16:00 | Ryan | How we tested | 9 | 555 tests and 98% app coverage; pytest with shared fixtures and an in-memory database; tests written from each story's acceptance criteria; tests run automatically on every PR (GitHub Actions); one bug a test caught |
 | 16:00 – 20:00 | Aaron | Went well and didn't, lessons, Milestone 2.0 | 10–12 | Two or three points each from the retro answers; our three lessons (same as the README); Milestone 2.0 is 9 weeks in 3 iterations, and transcription is the biggest risk |
 | 20:00 | Varuzhan | Thank you, questions | 13 | Whole team answers questions about their own work |
 
@@ -51,11 +51,28 @@ Continue in the same "Class Demo" piece.
 
 | Time | What to show | What to say (roughly) |
 |---|---|---|
-| 0:00 – 0:45 | Add F4 with Key, then F4 with ♮ | "The piece is in G major, so F with Key follows the key signature and is drawn as F sharp with no sign. Pick ♮ and it shows a natural sign." |
+| 0:00 – 0:20 | Slide 7 (on Varuzhan's screen) | "Here's what I'll show: the sheet music, selecting and editing a note, deleting a note, and renaming a piece." Then share your screen with the app. |
+| 0:20 – 0:45 | Add F4 with Key, then F4 with ♮ | "The piece is in G major, so F with Key follows the key signature and is drawn as F sharp with no sign. Pick ♮ and it shows a natural sign." |
 | 0:45 – 1:45 | Click a note on the staff → it turns blue, the palette fills in → change the pitch → Save changes | "Click any note, on the staff or in the list, to select it. The palette fills in with its values, and Save updates just that note." |
 | 1:45 – 2:30 | Select another note → Delete note → confirm | "Delete asks first. The remaining notes renumber so there are no gaps." |
 | 2:30 – 3:00 | Edit details → change the title to "Class Demo (final)" → Save | "You can also rename a piece or change its key, time signature or tempo. Notes added with Key follow the new key." |
-| 3:00 – 4:00 | Slide: how the sheet music is drawn | "Saved notes become a music21 stream, then MusicXML, and Verovio draws the SVG. We picked this in a Sprint 1 spike instead of drawing the staff ourselves." |
+| 3:00 – 4:00 | Stop sharing; slide 8 (on Varuzhan's screen) | "Saved notes become a music21 stream, then MusicXML, and Verovio draws the SVG. We picked this in a Sprint 1 spike instead of drawing the staff ourselves." |
+
+## Screen sharing
+
+We present remotely, so keep switches quick: have your screen ready before your turn (app open, or terminal in the project folder with the venv on) and turn on Do Not Disturb.
+
+| Part | Who shares |
+|---|---|
+| Slides 1–5 | Varuzhan |
+| Daniel's demo | Daniel |
+| Slide 7 (Jae introduces her demo) | Varuzhan |
+| Jae's demo | Jae |
+| Slide 8 (Jae explains), then slide 9 (Ryan) | Varuzhan |
+| Ryan runs `pytest` (optional) | Ryan |
+| Slides 10–13 | Varuzhan |
+
+While Daniel is finishing, Varuzhan has the deck open on slide 7, so the switch is quick.
 
 ## If something breaks
 
